@@ -153,7 +153,7 @@ namespace HarmonicPatternsBase.Data
         //        {
         //            return;   // DB has been seeded
         //        }
-
+        //
         //        context.Intervals.AddRange
         //        (
         //            new Interval
