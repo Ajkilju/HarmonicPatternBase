@@ -1,0 +1,113 @@
+@model HarmonicPatternsBase.Models.HarmonicPattern
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>HarmonicPattern</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="AddDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AddDate" class="form-control" />
+                <span asp-validation-for="AddDate" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AvaragePrecisionRating" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AvaragePrecisionRating" class="form-control" />
+                <span asp-validation-for="AvaragePrecisionRating" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AvarageReactionRating" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AvarageReactionRating" class="form-control" />
+                <span asp-validation-for="AvarageReactionRating" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Date" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Discription" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Discription" class="form-control" />
+                <span asp-validation-for="Discription" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Image" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Instrument" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Instrument" class="form-control" />
+                <span asp-validation-for="Instrument" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IntervalId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="IntervalId" class="form-control" asp-items="ViewBag.IntervalId"></select>
+                <span asp-validation-for="IntervalId" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="NumberOfPrecisionRatings" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="NumberOfPrecisionRatings" class="form-control" />
+                <span asp-validation-for="NumberOfPrecisionRatings" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="NumgerOfReactionRatings" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="NumgerOfReactionRatings" class="form-control" />
+                <span asp-validation-for="NumgerOfReactionRatings" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PatternTypeId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="PatternTypeId" class="form-control" asp-items="ViewBag.PatternTypeId"></select>
+                <span asp-validation-for="PatternTypeId" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="UserId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                <span asp-validation-for="UserId" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
