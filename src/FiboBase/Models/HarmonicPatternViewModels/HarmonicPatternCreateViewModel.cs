@@ -13,13 +13,13 @@ namespace HarmonicPatternsBase.Models.HarmonicPatternViewModels
         public int Hour { get; set; }
         public int Minute { get; set; }
 
-        public string Instrument { get; set; }
         public string Discription { get; set; }
         public int ReactionRating { get; set; }
         public int PrecisionRating { get; set; }
 
         public int PatternTypeId { get; set; }
         public int IntervalId { get; set; }
+        public int InstrumentId { get; set; }
 
     }
 }

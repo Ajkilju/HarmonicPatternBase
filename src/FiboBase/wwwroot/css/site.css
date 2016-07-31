@@ -55,15 +55,39 @@ textarea {
 
 .masonry { /* Masonry container */
     column-count: 4;
-    column-gap: 1em;
+    column-gap: 2em;
 }
 
 .item { /* Masonry bricks or child elements */
     background-color: #fff;
     display: inline-block;
-    margin: 0 0 1em;
+    margin: 0 0 2em;
     padding: 15px;
     width: 100%;
+}
+
+.masonry2 { /* Masonry container */
+    column-count: 3;
+    column-gap: 2em;
+}
+
+.content { 
+    background-color: #fff;
+    margin-top: 1em;
+    margin-right: 1em;
+    padding: 15px;
+}
+
+/*text*/
+
+.text {
+    font-family:Verdana; 
+    font-size:18px; 
+    color:#666666;
+}
+
+.text-blue {
+    color:#167aa3;
 }
 
 /* buttons */
@@ -119,4 +143,55 @@ textarea {
     margin-right:5px;
 }
 
+.button-blueframe {
+	background-color:#d6d9dc;
+    border:2px solid #167aa3;
+	border-radius:2px;
+	cursor:pointer;
+	color:#167aa3;
+	font-family:Verdana;
+	font-size:15px;
+	padding:3px 10px;
+	text-decoration:solid;
+}
 
+.button-blueframe:hover {
+    color:#606060;
+    border:2px solid #606060;
+}
+
+.button-blueframe-whitebck {
+	background-color:#fff;
+    border:2px solid #167aa3;
+	border-radius:2px;
+	cursor:pointer;
+	color:#167aa3;
+	font-family:Verdana;
+	font-size:15px;
+	padding:3px 10px;
+	text-decoration:solid;
+}
+
+.button-blueframe-whitebck:hover {
+    color:#606060;
+    border:2px solid #606060;
+}
+
+.button-navframe {
+	background-color:#36424a;
+    border:2px solid #eee;
+	border-radius:2px;
+	cursor:pointer;
+	color:#eee;
+	font-family:Verdana;
+	font-size:15px;
+	padding:8px 13px;
+	text-decoration:solid;
+}
+
+.button-navframe:hover {
+    background-color:#167aa3;
+    color:#fff;
+    border:2px solid #167aa3;
+    border-radius:10px;
+}

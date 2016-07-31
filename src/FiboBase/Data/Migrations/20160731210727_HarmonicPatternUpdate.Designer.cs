@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using HarmonicPatternsBase.Data;
 
-namespace HarmonicPatternsBase.Data.Migrations
+namespace HarmonicPatternsBase.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160730132209_Init")]
-    partial class Init
+    [Migration("20160731210727_HarmonicPatternUpdate")]
+    partial class HarmonicPatternUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,9 +75,9 @@ namespace HarmonicPatternsBase.Data.Migrations
 
                     b.Property<DateTime>("AddDate");
 
-                    b.Property<int>("AvaragePrecisionRating");
+                    b.Property<double>("AvaragePrecisionRating");
 
-                    b.Property<int>("AvarageReactionRating");
+                    b.Property<double>("AvarageReactionRating");
 
                     b.Property<DateTime>("Date");
 
@@ -85,7 +85,7 @@ namespace HarmonicPatternsBase.Data.Migrations
 
                     b.Property<byte[]>("Image");
 
-                    b.Property<string>("Instrument");
+                    b.Property<int>("InstrumentId");
 
                     b.Property<int>("IntervalId");
 
@@ -99,6 +99,8 @@ namespace HarmonicPatternsBase.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("InstrumentId");
+
                     b.HasIndex("IntervalId");
 
                     b.HasIndex("PatternTypeId");
@@ -106,6 +108,22 @@ namespace HarmonicPatternsBase.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("HarmonicPatterns");
+                });
+
+            modelBuilder.Entity("HarmonicPatternsBase.Models.Instrument", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AvaragePrecisionRating");
+
+                    b.Property<int>("AvarageReactionRating");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Instruments");
                 });
 
             modelBuilder.Entity("HarmonicPatternsBase.Models.Interval", b =>
@@ -136,6 +154,8 @@ namespace HarmonicPatternsBase.Data.Migrations
                     b.Property<string>("Description");
 
                     b.Property<byte[]>("Image");
+
+                    b.Property<string>("ImageString");
 
                     b.Property<string>("Name");
 
@@ -253,6 +273,11 @@ namespace HarmonicPatternsBase.Data.Migrations
 
             modelBuilder.Entity("HarmonicPatternsBase.Models.HarmonicPattern", b =>
                 {
+                    b.HasOne("HarmonicPatternsBase.Models.Instrument", "Instrument")
+                        .WithMany("HarmonicPatterns")
+                        .HasForeignKey("InstrumentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("HarmonicPatternsBase.Models.Interval", "Interval")
                         .WithMany("HarmonicPatterns")
                         .HasForeignKey("IntervalId")

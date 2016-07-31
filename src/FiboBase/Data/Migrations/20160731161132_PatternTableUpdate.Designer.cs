@@ -8,9 +8,10 @@ using HarmonicPatternsBase.Data;
 namespace HarmonicPatternsBase.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160731161132_PatternTableUpdate")]
+    partial class PatternTableUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
@@ -74,9 +75,9 @@ namespace HarmonicPatternsBase.Migrations
 
                     b.Property<DateTime>("AddDate");
 
-                    b.Property<double>("AvaragePrecisionRating");
+                    b.Property<int>("AvaragePrecisionRating");
 
-                    b.Property<double>("AvarageReactionRating");
+                    b.Property<int>("AvarageReactionRating");
 
                     b.Property<DateTime>("Date");
 

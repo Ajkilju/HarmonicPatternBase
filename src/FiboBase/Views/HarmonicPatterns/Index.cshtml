@@ -2,118 +2,48 @@
 
 @{
     ViewData["Title"] = "Index";
+    Random r = new Random();
 }
 
 
-@*
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.AddDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AvaragePrecisionRating)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AvarageReactionRating)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Discription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Instrument)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumberOfPrecisionRatings)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumgerOfReactionRatings)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvaragePrecisionRating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvarageReactionRating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Instrument)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfPrecisionRatings)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumgerOfReactionRatings)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-*@
-
-<div style="margin-bottom:20px; background-color:#36424a">
+<div style="background-color:#36424a">
     <div class="container" style="padding:20px;">
-
-        @*<a asp-action="Create">Create New</a>*@
 
         <div class="dropdown" style="display:inline-block;">
             <button class="btn button-purple dropdown-toggle button-nav" type="button" id="dropdownMenu"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                @*
-                @if (Model.AktualnaKategoria == null)
+
+                @if (Model.SelectedInstrument == null)
                 {
-                    <span>Wszystkie kategorie</span>
+                    <span>Instrument</span>
                 }
                 else
                 {
-                    @Model.AktualnaKategoria
+                    @Model.SelectedInstrument.Name
                 }
-                *@
-
-                Instrument
 
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
 
-                @foreach (var item in Model.PatternTypes)
+                <li>
+                    <a asp-action="Index"
+                       asp-route-intervalid="@Model.SelectedIntervalId" 
+                       asp-route-patterntypeid="@Model.SelectedPatternId"
+                       asp-route-instrumentid="@null">
+                    Wszystkie instrumenty</a>
+                </li>
+
+                <li class="divider"></li>
+
+                @foreach (var item in Model.Instruments)
                 {
                     <li>
-                        <a asp-action="Index">@item.Name</a>
+                        <a asp-action="Index" 
+                           asp-route-intervalid="@Model.SelectedIntervalId" 
+                           asp-route-patterntypeid="@Model.SelectedPatternId"
+                           asp-route-instrumentid="@item.Id">
+                        @item.Name</a>
                     </li>
                 }
             </ul>
@@ -122,27 +52,38 @@
             <div class="dropdown" style="display:inline-block;">
                 <button class="btn button-blue dropdown-toggle button-nav" type="button" id="dropdownMenu"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    @*
-                    @if (Model.AktualnaKategoria == null)
+
+                    @if (Model.SelectedPattern == null)
                     {
-                        <span>Wszystkie kategorie</span>
+                        <span>Uklad</span>
                     }
                     else
                     {
-                        @Model.AktualnaKategoria
+                        @Model.SelectedPattern.Name
                     }
-                    *@
-
-                    Uklad
 
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
 
+                    <li>
+                        <a asp-action="Index" 
+                           asp-route-intervalid="@Model.SelectedIntervalId" 
+                           asp-route-instrumentid="@Model.SelectedInstrumentId"
+                           asp-route-patterntypeid="@null">
+                        Wszystkie uklady</a>
+                    </li>
+
+                    <li class="divider"></li>
+
                     @foreach (var item in Model.PatternTypes)
                     {
                         <li>
-                            <a asp-action="Index">@item.Name</a>
+                            <a asp-action="Index" 
+                               asp-route-intervalid="@Model.SelectedIntervalId" 
+                               asp-route-instrumentid="@Model.SelectedInstrumentId"
+                               asp-route-patterntypeid="@item.Id">
+                            @item.Name</a>
                         </li>
                     }
                 </ul>
@@ -151,39 +92,110 @@
             <div class="dropdown" style="display:inline-block;">
                 <button class="btn button-green dropdown-toggle button-nav"  type="button" id="dropdownMenu"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    @*
-                    @if (Model.AktualnaKategoria == null)
+
+                    @if (Model.SelectedInterval == null)
                     {
-                        <span>Wszystkie kategorie</span>
+                        <span>Interwal</span>
                     }
                     else
                     {
-                        @Model.AktualnaKategoria
+                        @Model.SelectedInterval.Value
                     }
-                    *@
-
-                    Interwal
 
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
 
+                    <li>
+                        <a asp-action="Index" 
+                           asp-route-patterntypeid="@Model.SelectedPatternId"
+                           asp-route-instrumentid="@Model.SelectedInstrumentId" 
+                           asp-route-intervalid="@null">
+                        Wszystkie interwaly</a>
+                    </li>
+
+                    <li class="divider"></li>
+
                     @foreach(var item in Model.Intervals)
                     {
                         <li>
-                            <a asp-action="Index">@item.Value</a>
+                            <a asp-action="Index" 
+                               asp-route-patterntypeid="@Model.SelectedPatternId" 
+                               asp-route-instrumentid="@Model.SelectedInstrumentId"
+                               asp-route-intervalid="@item.Id">
+                            @item.Value</a>
                         </li>
                     }
                 </ul>
             </div>
 
-
-
+        <div class="navbar-right" style="display:inline-block;">
+            <a asp-area="" asp-controller="HarmonicPatterns" asp-action="Create" class="btn button-navframe">Dodaj</a>
+        </div>
 
     </div> 
 </div>
 
-<div class="container">
+
+    <div style="height:200px; padding:30px; background-color:#d6d9dc">
+
+        <div class="text text-blue container">
+            <div class="col-md-6">
+                <p>
+                    <span style="color:#920063"> @Model.HarmonicPatterns.Count </span>
+                    ukladow
+                    @if (Model.SelectedInstrumentId != null)
+                    {
+                        <span><a asp-action="Edit" class="btn button-purple">@Model.SelectedInstrument.Name</a></span>
+                    }
+                    @if (Model.SelectedPatternId != null)
+                    {
+                        <a asp-controller="Patterns" asp-action="Details" asp-route-id="@Model.SelectedPattern.Id" class="btn button-blue">@Model.SelectedPattern.Name</a>
+                    }
+                    @if (Model.SelectedIntervalId != null)
+                    {
+                        <a asp-action="Edit" class="btn button-green">@Model.SelectedInterval.Value</a>
+                    }
+
+                    w bazie danych
+                </p>
+
+                @{
+                    double avarageReaction = 0;
+                    double avaragePrecision = 0;
+
+                    foreach (var item in Model.HarmonicPatterns)
+                    {
+                        avaragePrecision += item.AvaragePrecisionRating;
+                        avarageReaction += item.AvarageReactionRating;
+                    }
+
+                    avaragePrecision = avaragePrecision / Model.HarmonicPatterns.Count;
+                    avarageReaction = avarageReaction / Model.HarmonicPatterns.Count;
+                }
+
+                <p>
+                    <span style="color:#920063"> @avarageReaction.ToString("#.##") </span>
+                    srednia ocena reakcji ukladu
+                </p>
+                <p>
+                    <span style="color:#920063"> @avaragePrecision.ToString("#.##") </span>
+                    srednia ocena precyzji ukladu
+                </p>
+                <p>
+                    <a asp-action="Edit" class="btn button-blueframe">Wiecej statystyk</a>
+                </p>
+            </div>
+
+            <div class="col-md-6">
+               
+            </div>
+
+        </div>
+    </div>
+
+
+<div class="container" style="margin-top:30px">
 
     
 
@@ -191,7 +203,29 @@
 
         @foreach (var item in Model.HarmonicPatterns)
         {
-            var imageContent = "~/images/DefaultPhoto1.png";
+            string imageContent = "";
+
+            var i = r.Next(0, 5);
+            if(i == 0)
+            {
+                imageContent = "~/images/patterns/uklad1.png";
+            }
+            else if (i == 1)
+            {
+                imageContent = "~/images/patterns/uklad2.png";
+            }
+            else if (i == 2)
+            {
+                imageContent = "~/images/patterns/uklad3.png";
+            }
+            else if (i == 3)
+            {
+                imageContent = "~/images/patterns/uklad4.png";
+            }
+            else
+            {
+                imageContent = "~/images/patterns/uklad5.png";
+            }
 
             <div class="item">
 
@@ -201,24 +235,62 @@
                     imageContent = String.Format("data:image/gif;base64,{0}", base64);
                 }
 
+                <div style="margin-bottom:10px;">
+                    <a asp-action="Edit" class="btn button-purple">@item.Instrument.Name</a>
+                    <a asp-action="Edit" class="btn button-green">@item.Interval.Value</a>
+                    <a asp-controller="Patterns" asp-action="Details" asp-route-id="@item.PatternType.Id" class="btn button-blue">@item.PatternType.Name</a>
+                </div>
+
+                <div style="margin-bottom:10px;">
+                    @if(item.User == null)
+                    {
+                       <img src='~/images/DefaultUserPhoto.png' class="img-circle" style="height:50px; width:50px; display:inline-block;" />
+                    }
+                    else
+                    {
+
+                    }
+
+                        @if (item.User == null)
+                        {
+                            <a asp-action="Edit" class="text text-blue" style="margin-left:5px; display:inline-block; font-size:12px;">NIEZNANY UZYTKOWNIK</a>
+                        }
+                        else
+                        {
+
+                        }
+                   
+                     
+                </div>
+
                 <a asp-action="Details" asp-route-id="@item.Id">
                     <div style="text-align:center">
-                        <img src='@imageContent' class="img-rounded" style="max-width:245px;" asp-append-version="true" />
+                        <img src='@imageContent' class="img-rounded" style="max-width:230px;" asp-append-version="true" />
                     </div>
                 </a>
 
-                <div style="margin-top:10px;">
-
-                    <a asp-action="Edit" class="btn button-purple">@item.Instrument</a>
-                    <a asp-action="Edit" class="btn button-green">@item.Interval.Value</a>
-                    <a asp-action="Edit" class="btn button-blue">@item.PatternType.Name</a>
+                <div class="text row" style="margin-top:10px; font-size:12px;">
+                    <div class="col-md-5">
+                        <p>
+                            NA RYNKU:
+                        </p>
+                        <p>
+                            DODANO:
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </p>
+                        <p>
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                            @Html.DisplayFor(modelItem => item.AddDate)
+                        </p>
+                    </div>
 
                 </div>
 
-                <div style="margin-top:10px;">
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </div>
             </div>
         }
     </div>

@@ -1,23 +1,166 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using HarmonicPatternsBase.Data;
 
-namespace HarmonicPatternsBase.Data.Migrations
+namespace HarmonicPatternsBase.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("00000000000000_CreateIdentitySchema")]
-    partial class CreateIdentitySchema
+    [Migration("20160731114841_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.0-rc3")
+                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("HarmonicPatternsBase.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<byte[]>("Avatar");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Email")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("HarmonicPatternsBase.Models.HarmonicPattern", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("AddDate");
+
+                    b.Property<int>("AvaragePrecisionRating");
+
+                    b.Property<int>("AvarageReactionRating");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Discription");
+
+                    b.Property<byte[]>("Image");
+
+                    b.Property<int>("InstrumentId");
+
+                    b.Property<int>("IntervalId");
+
+                    b.Property<int>("NumberOfPrecisionRatings");
+
+                    b.Property<int>("NumgerOfReactionRatings");
+
+                    b.Property<int>("PatternTypeId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InstrumentId");
+
+                    b.HasIndex("IntervalId");
+
+                    b.HasIndex("PatternTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("HarmonicPatterns");
+                });
+
+            modelBuilder.Entity("HarmonicPatternsBase.Models.Instrument", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AvaragePrecisionRating");
+
+                    b.Property<int>("AvarageReactionRating");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Instruments");
+                });
+
+            modelBuilder.Entity("HarmonicPatternsBase.Models.Interval", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AvaragePrecisionRating");
+
+                    b.Property<int>("AvarageReactionRating");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Intervals");
+                });
+
+            modelBuilder.Entity("HarmonicPatternsBase.Models.Pattern", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AvaragePrecisionRating");
+
+                    b.Property<int>("AvarageReactionRating");
+
+                    b.Property<string>("Description");
+
+                    b.Property<byte[]>("Image");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Patterns");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
@@ -126,53 +269,26 @@ namespace HarmonicPatternsBase.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("HarmonicPatternsBase.Models.ApplicationUser", b =>
+            modelBuilder.Entity("HarmonicPatternsBase.Models.HarmonicPattern", b =>
                 {
-                    b.Property<string>("Id");
+                    b.HasOne("HarmonicPatternsBase.Models.Instrument", "Instrument")
+                        .WithMany("HarmonicPatterns")
+                        .HasForeignKey("InstrumentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Property<int>("AccessFailedCount");
+                    b.HasOne("HarmonicPatternsBase.Models.Interval", "Interval")
+                        .WithMany("HarmonicPatterns")
+                        .HasForeignKey("IntervalId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                    b.HasOne("HarmonicPatternsBase.Models.Pattern", "PatternType")
+                        .WithMany("HarmonicPatterns")
+                        .HasForeignKey("PatternTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Property<string>("Email")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex");
-
-                    b.ToTable("AspNetUsers");
+                    b.HasOne("HarmonicPatternsBase.Models.ApplicationUser", "User")
+                        .WithMany("HarmonicPatterns")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

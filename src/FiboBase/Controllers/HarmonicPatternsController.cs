@@ -25,13 +25,25 @@ namespace HarmonicPatternsBase.Controllers
         }
 
         // GET: HarmonicPatterns
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? intervalId = null, int? patternTypeId = null, int? instrumentId = null)
         {
             var model = new HarmonicPatternIndexViewModel
             {
-                HarmonicPatterns = await _harmonicPatternsRepo.GetHarmonicPatternsAsync(GetHarmonicPatternsMode.FullDataAsNoTracking),
+                HarmonicPatterns = await _harmonicPatternsRepo
+                      .GetHarmonicPatternsAsync(GetHarmonicPatternsMode.AsNoTracking, intervalId, patternTypeId, instrumentId),
                 Intervals = await _harmonicPatternsRepo.GetIntervalsAsync(GetIntervalsMode.AsNoTracking),
-                PatternTypes = await _harmonicPatternsRepo.GetPatternTypesAsync(GetPatternTypesMode.AsNoTracking)
+                PatternTypes = await _harmonicPatternsRepo.GetPatternTypesAsync(GetPatternTypesMode.AsNoTracking),
+                Instruments = await _harmonicPatternsRepo.GetInstrumentsAsync(GetInstrumentTypesMode.AsNoTracking),
+
+                SelectedInterval = await _harmonicPatternsRepo.GetIntervalAsync(GetIntervalsMode.AsNoTracking, intervalId),
+                SelectedPattern = await _harmonicPatternsRepo.GetPatternTypeAsync(GetPatternTypesMode.AsNoTracking, patternTypeId),
+                SelectedInstrument = await _harmonicPatternsRepo.GetInstrumentAsync(GetInstrumentTypesMode.AsNoTracking, instrumentId),
+
+                
+                SelectedPatternId = patternTypeId,
+                SelectedIntervalId = intervalId,
+                SelectedInstrumentId = instrumentId
+                
             };
            
             return View(model);
@@ -47,13 +59,12 @@ namespace HarmonicPatternsBase.Controllers
                 return NotFound();
             }
 
-            var harmonicPattern = await _context.HarmonicPatterns.SingleOrDefaultAsync(m => m.Id == id);
-            if (harmonicPattern == null)
+            var model = new HarmonicPatternDetailsViewModel
             {
-                return NotFound();
-            }
+                HarmonicPattern = await _harmonicPatternsRepo.GetHarmonicPatternAsync(GetHarmonicPatternsMode.Tracking, id)
+            };
 
-            return View(harmonicPattern);
+            return View(model);
         }
 
         // GET: HarmonicPatterns/Create
@@ -61,6 +72,7 @@ namespace HarmonicPatternsBase.Controllers
         {
             ViewData["IntervalId"] = new SelectList(_context.Intervals, "Id", "Value");
             ViewData["PatternTypeId"] = new SelectList(_context.Patterns, "Id", "Name");
+            ViewData["InstrumentId"] = new SelectList(_context.Instruments, "Id", "Name");
 
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
 
@@ -88,7 +100,6 @@ namespace HarmonicPatternsBase.Controllers
                 var harmonicPattern = new HarmonicPattern
                 {
                     Date = new DateTime(model.Year, model.Month, model.Day, model.Hour, model.Minute, 0),
-                    Instrument = model.Instrument,
                     AddDate = DateTime.Now,
                     Discription = model.Discription,
                     AvaragePrecisionRating = model.PrecisionRating,
@@ -97,7 +108,8 @@ namespace HarmonicPatternsBase.Controllers
                     NumgerOfReactionRatings = 1,
                     Image = new byte[1],
                     PatternTypeId = model.PatternTypeId,
-                    IntervalId = model.IntervalId
+                    IntervalId = model.IntervalId,
+                    InstrumentId = model.InstrumentId
                 };
                 _context.Add(harmonicPattern);
                 await _context.SaveChangesAsync();

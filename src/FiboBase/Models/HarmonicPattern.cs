@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,13 +10,14 @@ namespace HarmonicPatternsBase.Models
     public class HarmonicPattern
     {
         public int Id { get; set; }
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
-        public string Instrument { get; set; }
+        [DataType(DataType.Date)]
         public DateTime AddDate { get; set; }
         public string Discription { get; set; }
-        public int AvarageReactionRating { get; set; }
+        public double AvarageReactionRating { get; set; }
         public int NumgerOfReactionRatings { get; set; }
-        public int AvaragePrecisionRating { get; set; }
+        public double AvaragePrecisionRating { get; set; }
         public int NumberOfPrecisionRatings { get; set; }
         public byte[] Image { get; set; }
 
@@ -30,5 +32,10 @@ namespace HarmonicPatternsBase.Models
         public int IntervalId { get; set; }
         [ForeignKey("IntervalId")]
         public Interval Interval { get; set; }
+
+        public int InstrumentId { get; set; }
+        [ForeignKey("InstrumentId")]
+        public Instrument Instrument { get; set; }
+
     }
 }

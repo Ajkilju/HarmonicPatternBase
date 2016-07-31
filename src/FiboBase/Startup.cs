@@ -99,6 +99,10 @@ namespace HarmonicPatternsBase
 
             SeedData.IntervalsInit(app.ApplicationServices);
             SeedData.PatternsInit(app.ApplicationServices);
+            SeedData.InstrumentsInit(app.ApplicationServices);
+            SeedData.HarmonicPatternsInit(app.ApplicationServices);
+
+            //SeedData.AddHarmonicPatterns(app.ApplicationServices, 480);
         }
     }
 }
