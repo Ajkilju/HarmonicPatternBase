@@ -27,5 +27,8 @@ namespace HarmonicPatternsBase.Data
         public DbSet<Pattern> Patterns { get; set; }
         public DbSet<Interval> Intervals { get; set; }
         public DbSet<Instrument> Instruments { get; set; }
+        public DbSet<PatternDirect> PatternDirects { get; set; }
+        public DbSet<ReactionLvl> ReactionLvls { get; set; }
+
     }
 }

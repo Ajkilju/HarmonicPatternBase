@@ -99,7 +99,7 @@
                     }
                     else
                     {
-                        @Model.SelectedInterval.Value
+                        @Model.SelectedInterval.Name
                     }
 
                     <span class="caret"></span>
@@ -123,7 +123,7 @@
                                asp-route-patterntypeid="@Model.SelectedPatternId" 
                                asp-route-instrumentid="@Model.SelectedInstrumentId"
                                asp-route-intervalid="@item.Id">
-                            @item.Value</a>
+                            @item.Name</a>
                         </li>
                     }
                 </ul>
@@ -154,34 +154,12 @@
                     }
                     @if (Model.SelectedIntervalId != null)
                     {
-                        <a asp-action="Edit" class="btn button-green">@Model.SelectedInterval.Value</a>
+                        <a asp-action="Edit" class="btn button-green">@Model.SelectedInterval.Name</a>
                     }
 
                     w bazie danych
                 </p>
 
-                @{
-                    double avarageReaction = 0;
-                    double avaragePrecision = 0;
-
-                    foreach (var item in Model.HarmonicPatterns)
-                    {
-                        avaragePrecision += item.AvaragePrecisionRating;
-                        avarageReaction += item.AvarageReactionRating;
-                    }
-
-                    avaragePrecision = avaragePrecision / Model.HarmonicPatterns.Count;
-                    avarageReaction = avarageReaction / Model.HarmonicPatterns.Count;
-                }
-
-                <p>
-                    <span style="color:#920063"> @avarageReaction.ToString("#.##") </span>
-                    srednia ocena reakcji ukladu
-                </p>
-                <p>
-                    <span style="color:#920063"> @avaragePrecision.ToString("#.##") </span>
-                    srednia ocena precyzji ukladu
-                </p>
                 <p>
                     <a asp-action="Edit" class="btn button-blueframe">Wiecej statystyk</a>
                 </p>
@@ -237,7 +215,7 @@
 
                 <div style="margin-bottom:10px;">
                     <a asp-action="Edit" class="btn button-purple">@item.Instrument.Name</a>
-                    <a asp-action="Edit" class="btn button-green">@item.Interval.Value</a>
+                    <a asp-action="Edit" class="btn button-green">@item.Interval.Name</a>
                     <a asp-controller="Patterns" asp-action="Details" asp-route-id="@item.PatternType.Id" class="btn button-blue">@item.PatternType.Name</a>
                 </div>
 

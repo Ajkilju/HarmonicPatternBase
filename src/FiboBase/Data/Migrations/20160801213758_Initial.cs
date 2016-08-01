@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace HarmonicPatternsBase.Migrations
+namespace FiboBase.Migrations
 {
     public partial class Initial : Migration
     {
@@ -41,8 +41,6 @@ namespace HarmonicPatternsBase.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AvaragePrecisionRating = table.Column<int>(nullable: false),
-                    AvarageReactionRating = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -56,9 +54,7 @@ namespace HarmonicPatternsBase.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AvaragePrecisionRating = table.Column<int>(nullable: false),
-                    AvarageReactionRating = table.Column<int>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,15 +67,46 @@ namespace HarmonicPatternsBase.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AvaragePrecisionRating = table.Column<int>(nullable: false),
-                    AvarageReactionRating = table.Column<int>(nullable: false),
+                    ABtoXAratio = table.Column<double>(nullable: false),
+                    ADtoXAratio = table.Column<double>(nullable: false),
+                    BCtoABratio = table.Column<double>(nullable: false),
+                    CDtoABratio = table.Column<double>(nullable: false),
+                    CDtoBCratio = table.Column<double>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Image = table.Column<byte[]>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    ImageString = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    NumberOfWaves = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Patterns", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PatternDirects",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PatternDirects", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReactionLvls",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReactionLvls", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,17 +184,21 @@ namespace HarmonicPatternsBase.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ABtoXAratio = table.Column<double>(nullable: false),
+                    ADtoXAratio = table.Column<double>(nullable: false),
                     AddDate = table.Column<DateTime>(nullable: false),
-                    AvaragePrecisionRating = table.Column<int>(nullable: false),
-                    AvarageReactionRating = table.Column<int>(nullable: false),
+                    BCtoABratio = table.Column<double>(nullable: false),
+                    CDtoABratio = table.Column<double>(nullable: false),
+                    CDtoBCratio = table.Column<double>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     Discription = table.Column<string>(nullable: true),
                     Image = table.Column<byte[]>(nullable: true),
                     InstrumentId = table.Column<int>(nullable: false),
                     IntervalId = table.Column<int>(nullable: false),
-                    NumberOfPrecisionRatings = table.Column<int>(nullable: false),
-                    NumgerOfReactionRatings = table.Column<int>(nullable: false),
+                    NumberOfWaves = table.Column<int>(nullable: false),
+                    PatternDirectId = table.Column<int>(nullable: false),
                     PatternTypeId = table.Column<int>(nullable: false),
+                    ReactionAfter5CandlesId = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -186,9 +217,21 @@ namespace HarmonicPatternsBase.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_HarmonicPatterns_PatternDirects_PatternDirectId",
+                        column: x => x.PatternDirectId,
+                        principalTable: "PatternDirects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_HarmonicPatterns_Patterns_PatternTypeId",
                         column: x => x.PatternTypeId,
                         principalTable: "Patterns",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HarmonicPatterns_ReactionLvls_ReactionAfter5CandlesId",
+                        column: x => x.ReactionAfter5CandlesId,
+                        principalTable: "ReactionLvls",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -266,9 +309,19 @@ namespace HarmonicPatternsBase.Migrations
                 column: "IntervalId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HarmonicPatterns_PatternDirectId",
+                table: "HarmonicPatterns",
+                column: "PatternDirectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_HarmonicPatterns_PatternTypeId",
                 table: "HarmonicPatterns",
                 column: "PatternTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HarmonicPatterns_ReactionAfter5CandlesId",
+                table: "HarmonicPatterns",
+                column: "ReactionAfter5CandlesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HarmonicPatterns_UserId",
@@ -333,7 +386,13 @@ namespace HarmonicPatternsBase.Migrations
                 name: "Intervals");
 
             migrationBuilder.DropTable(
+                name: "PatternDirects");
+
+            migrationBuilder.DropTable(
                 name: "Patterns");
+
+            migrationBuilder.DropTable(
+                name: "ReactionLvls");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

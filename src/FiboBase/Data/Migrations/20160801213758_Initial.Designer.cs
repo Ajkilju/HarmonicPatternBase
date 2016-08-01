@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using HarmonicPatternsBase.Data;
 
-namespace HarmonicPatternsBase.Migrations
+namespace FiboBase.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160731114841_Initial")]
+    [Migration("20160801213758_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,11 +73,17 @@ namespace HarmonicPatternsBase.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<double>("ABtoXAratio");
+
+                    b.Property<double>("ADtoXAratio");
+
                     b.Property<DateTime>("AddDate");
 
-                    b.Property<int>("AvaragePrecisionRating");
+                    b.Property<double>("BCtoABratio");
 
-                    b.Property<int>("AvarageReactionRating");
+                    b.Property<double>("CDtoABratio");
+
+                    b.Property<double>("CDtoBCratio");
 
                     b.Property<DateTime>("Date");
 
@@ -89,11 +95,13 @@ namespace HarmonicPatternsBase.Migrations
 
                     b.Property<int>("IntervalId");
 
-                    b.Property<int>("NumberOfPrecisionRatings");
+                    b.Property<int>("NumberOfWaves");
 
-                    b.Property<int>("NumgerOfReactionRatings");
+                    b.Property<int>("PatternDirectId");
 
                     b.Property<int>("PatternTypeId");
+
+                    b.Property<int>("ReactionAfter5CandlesId");
 
                     b.Property<string>("UserId");
 
@@ -103,7 +111,11 @@ namespace HarmonicPatternsBase.Migrations
 
                     b.HasIndex("IntervalId");
 
+                    b.HasIndex("PatternDirectId");
+
                     b.HasIndex("PatternTypeId");
+
+                    b.HasIndex("ReactionAfter5CandlesId");
 
                     b.HasIndex("UserId");
 
@@ -114,10 +126,6 @@ namespace HarmonicPatternsBase.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AvaragePrecisionRating");
-
-                    b.Property<int>("AvarageReactionRating");
 
                     b.Property<string>("Name");
 
@@ -131,11 +139,7 @@ namespace HarmonicPatternsBase.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AvaragePrecisionRating");
-
-                    b.Property<int>("AvarageReactionRating");
-
-                    b.Property<string>("Value");
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -147,19 +151,53 @@ namespace HarmonicPatternsBase.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AvaragePrecisionRating");
+                    b.Property<double>("ABtoXAratio");
 
-                    b.Property<int>("AvarageReactionRating");
+                    b.Property<double>("ADtoXAratio");
+
+                    b.Property<double>("BCtoABratio");
+
+                    b.Property<double>("CDtoABratio");
+
+                    b.Property<double>("CDtoBCratio");
 
                     b.Property<string>("Description");
 
                     b.Property<byte[]>("Image");
 
+                    b.Property<string>("ImageString");
+
                     b.Property<string>("Name");
+
+                    b.Property<int>("NumberOfWaves");
 
                     b.HasKey("Id");
 
                     b.ToTable("Patterns");
+                });
+
+            modelBuilder.Entity("HarmonicPatternsBase.Models.PatternDirect", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PatternDirects");
+                });
+
+            modelBuilder.Entity("HarmonicPatternsBase.Models.ReactionLvl", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReactionLvls");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -281,9 +319,19 @@ namespace HarmonicPatternsBase.Migrations
                         .HasForeignKey("IntervalId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("HarmonicPatternsBase.Models.PatternDirect", "PatternDirect")
+                        .WithMany("HarmonicPatterns")
+                        .HasForeignKey("PatternDirectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("HarmonicPatternsBase.Models.Pattern", "PatternType")
                         .WithMany("HarmonicPatterns")
                         .HasForeignKey("PatternTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HarmonicPatternsBase.Models.ReactionLvl", "ReactionAfter5Candles")
+                        .WithMany("PatternReaction5Candles")
+                        .HasForeignKey("ReactionAfter5CandlesId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HarmonicPatternsBase.Models.ApplicationUser", "User")

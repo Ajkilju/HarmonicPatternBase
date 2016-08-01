@@ -24,50 +24,36 @@ namespace HarmonicPatternsBase.Data
                 (
                      new Instrument
                      {
-                         AvaragePrecisionRating = 0,
-                         AvarageReactionRating = 0,
                          HarmonicPatterns = new List<HarmonicPattern>(),
                          Name = "EUR/USD"
                      },
                      new Instrument
                      {
-                         AvaragePrecisionRating = 0,
-                         AvarageReactionRating = 0,
                          HarmonicPatterns = new List<HarmonicPattern>(),
                          Name = "GBP/USD"
                      },
                      new Instrument
                      {
-                         AvaragePrecisionRating = 0,
-                         AvarageReactionRating = 0,
                          HarmonicPatterns = new List<HarmonicPattern>(),
                          Name = "USD/JPN"
                      },
                      new Instrument
                      {
-                         AvaragePrecisionRating = 0,
-                         AvarageReactionRating = 0,
                          HarmonicPatterns = new List<HarmonicPattern>(),
                          Name = "USD/CHF"
                      },
                      new Instrument
                      {
-                         AvaragePrecisionRating = 0,
-                         AvarageReactionRating = 0,
                          HarmonicPatterns = new List<HarmonicPattern>(),
                          Name = "Zloto"
                      },
                      new Instrument
                      {
-                         AvaragePrecisionRating = 0,
-                         AvarageReactionRating = 0,
                          HarmonicPatterns = new List<HarmonicPattern>(),
                          Name = "Ropa"
                      },
                      new Instrument
                      {
-                         AvaragePrecisionRating = 0,
-                         AvarageReactionRating = 0,
                          HarmonicPatterns = new List<HarmonicPattern>(),
                          Name = "SP500"
                      }
@@ -91,66 +77,48 @@ namespace HarmonicPatternsBase.Data
                 (
                     new Interval
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         HarmonicPatterns = new List<HarmonicPattern>(),
-                        Value = "1m"
+                        Name = "1m"
                     },
                     new Interval
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         HarmonicPatterns = new List<HarmonicPattern>(),
-                        Value = "5m"
+                        Name = "5m"
                     },
                     new Interval
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         HarmonicPatterns = new List<HarmonicPattern>(),
-                        Value = "15m"
+                        Name = "15m"
                     },
                     new Interval
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         HarmonicPatterns = new List<HarmonicPattern>(),
-                        Value = "30m"
+                        Name = "30m"
                     },
                     new Interval
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         HarmonicPatterns = new List<HarmonicPattern>(),
-                        Value = "1h"
+                        Name = "1h"
                     },
                     new Interval
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         HarmonicPatterns = new List<HarmonicPattern>(),
-                        Value = "4h"
+                        Name = "4h"
                     },
                     new Interval
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         HarmonicPatterns = new List<HarmonicPattern>(),
-                        Value = "1d"
+                        Name = "1d"
                     },
                     new Interval
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         HarmonicPatterns = new List<HarmonicPattern>(),
-                        Value = "1w"
+                        Name = "1w"
                     },
                     new Interval
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         HarmonicPatterns = new List<HarmonicPattern>(),
-                        Value = "mn"
+                        Name = "mn"
                     }
                 );
 
@@ -172,8 +140,6 @@ namespace HarmonicPatternsBase.Data
                 (
                     new Pattern
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         Description = "Formacja motyla",
                         HarmonicPatterns = new List<HarmonicPattern>(),
                         Image = new byte[1],
@@ -182,8 +148,6 @@ namespace HarmonicPatternsBase.Data
                     },
                     new Pattern
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         Description = "Korekta prosta",
                         HarmonicPatterns = new List<HarmonicPattern>(),
                         Image = new byte[1],
@@ -192,8 +156,6 @@ namespace HarmonicPatternsBase.Data
                     },
                     new Pattern
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         Description = "Formacja gartleya",
                         HarmonicPatterns = new List<HarmonicPattern>(),
                         Image = new byte[1],
@@ -202,8 +164,6 @@ namespace HarmonicPatternsBase.Data
                     },
                     new Pattern
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         Description = "Formacja kraba",
                         HarmonicPatterns = new List<HarmonicPattern>(),
                         Image = new byte[1],
@@ -212,8 +172,6 @@ namespace HarmonicPatternsBase.Data
                     },
                     new Pattern
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         Description = "Formacja nietoperza",
                         HarmonicPatterns = new List<HarmonicPattern>(),
                         Image = new byte[1],
@@ -222,8 +180,6 @@ namespace HarmonicPatternsBase.Data
                     },
                     new Pattern
                     {
-                        AvaragePrecisionRating = 0,
-                        AvarageReactionRating = 0,
                         Description = "Inne formache harmoniczne",
                         HarmonicPatterns = new List<HarmonicPattern>(),
                         Image = new byte[1],
@@ -282,14 +238,22 @@ namespace HarmonicPatternsBase.Data
                     {
                         AddDate = new DateTime(r.Next(2014, 2016), r.Next(1, 13), r.Next(1, 27)),
                         Date = new DateTime(r.Next(2014, 2016), r.Next(1, 13), r.Next(1, 27), r.Next(0, 24), r.Next(0, 60), 0),
-                        AvaragePrecisionRating = r.Next(0, 11),
-                        AvarageReactionRating = r.Next(0, 11),
                         Image = new byte[1],
-                        NumberOfPrecisionRatings = r.Next(1, 100),
-                        NumgerOfReactionRatings = r.Next(1, 100),
                         InstrumentId = instrumentIdList[r.Next(0, instrumentIdList.Count)],
                         PatternTypeId = patternIdList[r.Next(0, patternIdList.Count)],
                         IntervalId = intervalIdList[r.Next(0, intervalIdList.Count)],
+
+                        /*
+                        ABtoXAratio = 1,
+                        ADtoXAratio = 1,
+                        BCtoABratio = 1,
+                        CDtoABratio = 1,
+                        CDtoBCratio = 1,
+                        NumberOfWaves = 4,
+                        ReactionAfter5CandlesId = 0,
+                        */
+                        
+                        
                     }
                     );
             }

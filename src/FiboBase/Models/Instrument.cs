@@ -10,7 +10,5 @@ namespace HarmonicPatternsBase.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public List<HarmonicPattern> HarmonicPatterns { get; set; }
-        public int AvarageReactionRating { get; set; }
-        public int AvaragePrecisionRating { get; set; }
     }
 }
