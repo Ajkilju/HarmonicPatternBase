@@ -70,7 +70,7 @@ namespace HarmonicPatternsBase.Controllers
         // GET: HarmonicPatterns/Create
         public IActionResult Create()
         {
-            ViewData["IntervalId"] = new SelectList(_context.Intervals, "Id", "Value");
+            ViewData["IntervalId"] = new SelectList(_context.Intervals, "Id", "Name");
             ViewData["PatternTypeId"] = new SelectList(_context.Patterns, "Id", "Name");
             ViewData["InstrumentId"] = new SelectList(_context.Instruments, "Id", "Name");
 

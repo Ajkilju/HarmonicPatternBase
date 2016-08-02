@@ -144,7 +144,14 @@ namespace HarmonicPatternsBase.Data
                         HarmonicPatterns = new List<HarmonicPattern>(),
                         Image = new byte[1],
                         ImageString = "~/images/harmonicPatterns/motyl.gif",
-                        Name = "Motyl"
+                        Name = "Motyl",
+                        NumberOfWaves = 4,
+                        ABtoXAratio = 0.786,
+                        ADtoXAratio = 1.272,
+                        //szeroki zakres. dac jako liste?
+                        BCtoABratio = 0,
+                        CDtoBCratio = 0,
+                        CDtoABratio = 0
                     },
                     new Pattern
                     {
@@ -152,7 +159,14 @@ namespace HarmonicPatternsBase.Data
                         HarmonicPatterns = new List<HarmonicPattern>(),
                         Image = new byte[1],
                         ImageString = "~/images/harmonicPatterns/abcd.gif",
-                        Name = "ABCD"
+                        Name = "ABCD",
+                        NumberOfWaves = 3,
+                        ABtoXAratio = 0,
+                        ADtoXAratio = 0,
+                        //szeroki zakres. dac jako liste?
+                        BCtoABratio = 0,
+                        CDtoBCratio = 0,
+                        CDtoABratio = 1
                     },
                     new Pattern
                     {
@@ -160,7 +174,14 @@ namespace HarmonicPatternsBase.Data
                         HarmonicPatterns = new List<HarmonicPattern>(),
                         Image = new byte[1],
                         ImageString = "~/images/harmonicPatterns/gartley.gif",
-                        Name = "Gartley"
+                        Name = "Gartley",
+                        NumberOfWaves = 4,
+                        ABtoXAratio = 0.618,
+                        ADtoXAratio = 0.786,
+                        //szeroki zakres. dac jako liste?
+                        BCtoABratio = 0,
+                        CDtoBCratio = 0,
+                        CDtoABratio = 0
                     },
                     new Pattern
                     {
@@ -168,7 +189,14 @@ namespace HarmonicPatternsBase.Data
                         HarmonicPatterns = new List<HarmonicPattern>(),
                         Image = new byte[1],
                         ImageString = "~/images/harmonicPatterns/krab.gif",
-                        Name = "Krab"
+                        Name = "Krab",
+                        NumberOfWaves = 4,
+                        ABtoXAratio = 0.382,
+                        ADtoXAratio = 1.618,
+                        //szeroki zakres. dac jako liste?
+                        BCtoABratio = 0,
+                        CDtoBCratio = 0,
+                        CDtoABratio = 0
                     },
                     new Pattern
                     {
@@ -176,7 +204,14 @@ namespace HarmonicPatternsBase.Data
                         HarmonicPatterns = new List<HarmonicPattern>(),
                         Image = new byte[1],
                         ImageString = "~/images/harmonicPatterns/nietoperz.gif",
-                        Name = "Nietoperz"
+                        Name = "Nietoperz",
+                        NumberOfWaves = 4,
+                        ABtoXAratio = 0.382,
+                        ADtoXAratio = 0.886,
+                        //szeroki zakres. dac jako liste?
+                        BCtoABratio = 0,
+                        CDtoBCratio = 0,
+                        CDtoABratio = 0
                     },
                     new Pattern
                     {
@@ -184,9 +219,81 @@ namespace HarmonicPatternsBase.Data
                         HarmonicPatterns = new List<HarmonicPattern>(),
                         Image = new byte[1],
                         ImageString = "~/images/harmonicPatterns/inny.gif",
-                        Name = "Inny"
+                        Name = "Inny",
+                        NumberOfWaves = 0,
+                        ABtoXAratio = 0,
+                        ADtoXAratio = 0,
+                        //szeroki zakres. dac jako liste?
+                        BCtoABratio = 0,
+                        CDtoBCratio = 0,
+                        CDtoABratio = 0
+
                     }
                 );
+                context.SaveChanges();
+            }
+        }
+
+        public static void PatternDirectInit(IServiceProvider serviceProvider)
+        {
+            using (var context = new ApplicationDbContext(
+                serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
+            {
+                if (context.PatternDirects.Any())
+                {
+                    return;   // DB has been seeded
+                }
+
+                context.PatternDirects.AddRange
+                (
+                     new PatternDirect
+                     {
+                         Name = "Spadkowy"
+                     },
+                     new PatternDirect
+                     {
+                         Name = "Wzrostowy"
+                     }
+                );
+
+                context.SaveChanges();
+            }
+        }
+
+        public static void ReactionLvlsInit(IServiceProvider serviceProvider)
+        {
+            using (var context = new ApplicationDbContext(
+                serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
+            {
+                if (context.ReactionLvls.Any())
+                {
+                    return;   // DB has been seeded
+                }
+
+                context.ReactionLvls.AddRange
+                (
+                     new ReactionLvl
+                     {
+                         Name = "-B"
+                     },
+                     new ReactionLvl
+                     {
+                         Name = "A"
+                     },
+                     new ReactionLvl
+                     {
+                         Name = "B"
+                     },
+                     new ReactionLvl
+                     {
+                         Name = "C"
+                     },
+                     new ReactionLvl
+                     {
+                         Name = "A+"
+                     }
+                );
+
                 context.SaveChanges();
             }
         }
@@ -204,7 +311,15 @@ namespace HarmonicPatternsBase.Data
                 var patternIdList = context.Patterns.Select(h => h.Id).ToList();
                 var intervalIdList = context.Intervals.Select(h => h.Id).ToList();
                 var instrumentIdList = context.Instruments.Select(h => h.Id).ToList();
-                var hpList = HarmonicPatternsGenerator(20, patternIdList, intervalIdList, instrumentIdList);
+                var reactionLvlsList = context.ReactionLvls.Select(h => h.Id).ToList();
+                List<double> waveRatioList = new List<double> { 0.382, 0.5, 0.618, 0.786, 0.886, 1.0, 1.13, 1.227, 1.618, 2.0 };
+                var hpList = HarmonicPatternsGenerator(
+                    20,
+                    patternIdList,
+                    intervalIdList,
+                    instrumentIdList,
+                    reactionLvlsList,
+                    waveRatioList);
                 context.HarmonicPatterns.AddRange(hpList);
                 context.SaveChanges();
             }
@@ -218,14 +333,27 @@ namespace HarmonicPatternsBase.Data
                 var patternIdList = context.Patterns.Select(h => h.Id).ToList();
                 var intervalIdList = context.Intervals.Select(h => h.Id).ToList();
                 var instrumentIdList = context.Instruments.Select(h => h.Id).ToList();
-                var hpList = HarmonicPatternsGenerator(howMany, patternIdList, intervalIdList, instrumentIdList);
+                var reactionLvlsList = context.ReactionLvls.Select(h => h.Id).ToList();
+                List<double> waveRatioList = new List<double> { 0.382, 0.5, 0.618, 0.786, 0.886, 1.0, 1.13, 1.227, 1.618, 2.0 };
+                var hpList = HarmonicPatternsGenerator(
+                    howMany, 
+                    patternIdList, 
+                    intervalIdList, 
+                    instrumentIdList,
+                    reactionLvlsList,
+                    waveRatioList);
                 context.HarmonicPatterns.AddRange(hpList);
                 context.SaveChanges();
             }              
         }
 
         private static List<HarmonicPattern> HarmonicPatternsGenerator(
-            int howMany, List<int> patternIdList, List<int> intervalIdList, List<int> instrumentIdList)
+            int howMany, 
+            List<int> patternIdList,
+            List<int> intervalIdList, 
+            List<int> instrumentIdList,
+            List<int> reactionLvlsList,
+            List<double> waveRatioList)
         {
             var hpList = new List<HarmonicPattern>();
             Random r = new Random();
@@ -242,18 +370,16 @@ namespace HarmonicPatternsBase.Data
                         InstrumentId = instrumentIdList[r.Next(0, instrumentIdList.Count)],
                         PatternTypeId = patternIdList[r.Next(0, patternIdList.Count)],
                         IntervalId = intervalIdList[r.Next(0, intervalIdList.Count)],
-
-                        /*
-                        ABtoXAratio = 1,
-                        ADtoXAratio = 1,
-                        BCtoABratio = 1,
-                        CDtoABratio = 1,
-                        CDtoBCratio = 1,
+                        ABtoXAratio = waveRatioList[r.Next(0, waveRatioList.Count)],
+                        ADtoXAratio = waveRatioList[r.Next(0, waveRatioList.Count)],
+                        BCtoABratio = waveRatioList[r.Next(0, waveRatioList.Count)],
+                        CDtoABratio = waveRatioList[r.Next(0, waveRatioList.Count)],
+                        CDtoBCratio = waveRatioList[r.Next(0, waveRatioList.Count)],
                         NumberOfWaves = 4,
-                        ReactionAfter5CandlesId = 0,
-                        */
-                        
-                        
+                        ReactionAfter5CandlesId = reactionLvlsList[r.Next(0, reactionLvlsList.Count)],
+                        ReactionAfter10CandlesId = reactionLvlsList[r.Next(0, reactionLvlsList.Count)],
+                        ReactionAfter20CandlesId = reactionLvlsList[r.Next(0, reactionLvlsList.Count)],
+                        PatternDirectId = r.Next(1, 2)
                     }
                     );
             }

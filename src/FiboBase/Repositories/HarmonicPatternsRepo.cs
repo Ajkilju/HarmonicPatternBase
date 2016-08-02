@@ -58,6 +58,10 @@ namespace HarmonicPatternsBase.Repositories
                     .Include(h => h.PatternType)
                     .Include(h => h.Instrument)
                     .Include(h => h.User)
+                    .Include(h => h.PatternDirect)
+                    .Include(h => h.ReactionAfter5Candles)
+                    .Include(h => h.ReactionAfter10Candles)
+                    .Include(h => h.ReactionAfter20Candles)
                     .AsNoTracking()
                     .SingleAsync(h => h.Id == Id);
             }
@@ -67,6 +71,10 @@ namespace HarmonicPatternsBase.Repositories
                     .Include(h => h.PatternType)
                     .Include(h => h.Instrument)
                     .Include(h => h.User)
+                    .Include(h => h.PatternDirect)
+                    .Include(h => h.ReactionAfter5Candles)
+                    .Include(h => h.ReactionAfter10Candles)
+                    .Include(h => h.ReactionAfter20Candles)
                     .SingleAsync(h => h.Id == Id);
         }
 
@@ -77,7 +85,11 @@ namespace HarmonicPatternsBase.Repositories
                 .Include(h => h.Interval)
                 .Include(h => h.PatternType)
                 .Include(h => h.Instrument)
-                .Include(h => h.User);
+                .Include(h => h.User)
+                .Include(h => h.PatternDirect)
+                .Include(h => h.ReactionAfter5Candles)
+                .Include(h => h.ReactionAfter10Candles)
+                .Include(h => h.ReactionAfter20Candles);
 
             if (IntervalId != null)
             {

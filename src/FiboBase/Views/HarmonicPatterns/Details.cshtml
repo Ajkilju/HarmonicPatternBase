@@ -5,79 +5,8 @@
     var ratingList = new SelectList(new List<int> { 1, 2, 3, 4, 5 });
 }
 
-@*
-<h2>Details</h2>
-
-<div>
-    <h4>HarmonicPattern</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.AddDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AddDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AvaragePrecisionRating)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AvaragePrecisionRating)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AvarageReactionRating)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AvarageReactionRating)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Discription)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Discription)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Instrument)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Instrument)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.NumberOfPrecisionRatings)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NumberOfPrecisionRatings)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.NumgerOfReactionRatings)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NumgerOfReactionRatings)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
-    <a asp-action="Index">Back to List</a>
-</div>
-    *@
-
-
 @{ 
-    var imageContent = "~/images/patterns/uklad1.png";
+    var imageContent = "~/images/patterns/uklad4.png";
 
     if (Model.HarmonicPattern.Image.Length > 5)
     {
@@ -86,45 +15,9 @@
     }
 }
 
-
-
 <div class="container">
 
-    <div class="col-md-7 col-md-offset-1" style="padding:0px">
-
-        <div class="content">
-
-            <div style="margin-bottom:10px;">
-                <a asp-action="Edit" class="btn button-purple">@Model.HarmonicPattern.Instrument.Name</a>
-                <a asp-action="Edit" class="btn button-green">@Model.HarmonicPattern.Interval.Value</a>
-                <a asp-controller="Patterns" asp-action="Details" asp-route-id="@Model.HarmonicPattern.PatternType.Id" class="btn button-blue">@Model.HarmonicPattern.PatternType.Name</a>
-                <span class="text" style="margin-top:10px; font-size:12px;">
-                    <span style="margin-left:20px">NA RYNKU:</span>
-                    <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
-                    @Html.DisplayFor(modelItem => Model.HarmonicPattern.Date)
-                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                    @Model.HarmonicPattern.Date.TimeOfDay
-
-                    <span style="margin-left:30px">DODANO:</span>
-                    <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
-                    @Html.DisplayFor(modelItem => Model.HarmonicPattern.AddDate)
-
-                </span>
-            </div>
-
-
-            <div style="text-align:center; margin-bottom:10px;">
-                <img src='@imageContent' class="img-rounded" style="max-width:550px;" asp-append-version="true" />
-            </div>
-
-            @if (Model.HarmonicPattern.Discription != null)
-            {
-                <div class="text" style="margin-bottom:10px;">
-                    @Model.HarmonicPattern.Discription
-                </div>
-            }
-
-        </div>
+    <div class="col-md-8 col-md-offset-2" style="padding:0px">
 
         <div class="content">
 
@@ -152,80 +45,190 @@
 
         </div>
 
-    </div>
+        <div class="content">
 
-        <div class="col-md-3" style="padding:0px">
+            <div style="margin-bottom:10px;">
+                <a asp-action="Edit" class="btn button-purple">@Model.HarmonicPattern.Instrument.Name</a>
+                <a asp-action="Edit" class="btn button-green">@Model.HarmonicPattern.Interval.Name</a>
+                <a asp-controller="Patterns" asp-action="Details" asp-route-id="@Model.HarmonicPattern.PatternType.Id" class="btn button-blue">@Model.HarmonicPattern.PatternType.Name</a>
+                <a asp-action="Edit" class="btn button-pink">@Model.HarmonicPattern.PatternDirect.Name</a>
+                <span class="text" style="margin-top:10px; font-size:12px;">
+                    <span style="margin-left:20px">NA RYNKU:</span>
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
+                    @Html.DisplayFor(modelItem => Model.HarmonicPattern.Date)
+                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                    @Model.HarmonicPattern.Date.TimeOfDay
 
-            <div class="content">
+                    <span style="margin-left:30px">DODANO:</span>
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
+                    @Html.DisplayFor(modelItem => Model.HarmonicPattern.AddDate)
 
-                <div class="row text" style="font-size:15px; margin-bottom:5px;">
-                    <div class="col-md-10">
-                        SREDNIA OCENA REAKCJ:
-                    </div>
-                    <span style="color:#920063; font-size:18px;"> <strong> @Model.HarmonicPattern.AvarageReactionRating </strong> </span>
+                </span>
+            </div>
+
+
+            <div style="text-align:center; margin-bottom:20px;">
+                <img src='@imageContent' class="img-rounded" style="max-width:700px;" asp-append-version="true" />
+            </div>
+
+            @if (Model.HarmonicPattern.Discription != null)
+            {
+                <div class="text" style="margin-bottom:20px;">
+                    @Model.HarmonicPattern.Discription
                 </div>
-                <div class="row text" style="font-size:12px; margin-bottom:5px;">
-                    <div class="col-md-10">
-                        LICZBA OCEN:
+            }
+
+            <div class="row text" style="margin-bottom:5px;">
+
+                <div class="col-md-5">
+                    <div class="col-md-9">
+                        REAKCJA PO 5 SWIECACH:
                     </div>
-                    <span style="color:#920063"> @Model.HarmonicPattern.NumgerOfReactionRatings </span>
+                    <div class="text-purple" style="font-size:15px; text-align:left">
+                        <strong> @Model.HarmonicPattern.ReactionAfter5Candles.Name </strong>
+                    </div>
+                    <div class="col-md-9">
+                        REAKCJA PO 10 SWIECACH:
+                    </div>
+                    <div class="text-purple" style="font-size:15px; text-align:left">
+                        <strong> @Model.HarmonicPattern.ReactionAfter10Candles.Name </strong>
+                    </div>
+                    <div class="col-md-9">
+                        REAKCJA PO 20 SWIECACH:
+                    </div>
+                    <div class="text-purple" style="font-size:15px; text-align:left">
+                        <strong> @Model.HarmonicPattern.ReactionAfter20Candles.Name </strong>
+                    </div>
+
+                    <div style="height:20px"> </div>
+
+                    <div class="col-md-9">
+                        LICZBA FAL:
+                    </div>
+                    <div class="text-blue" style="font-size:15px; text-align:left">
+                        <strong> @Model.HarmonicPattern.NumberOfWaves </strong>
+                    </div>
+                    <div class="col-md-9">
+                        STOSUNEK AB DO XA:
+                    </div>
+                    <div class="text-blue" style="font-size:15px; text-align:left">
+                        <strong> @Model.HarmonicPattern.ABtoXAratio </strong>
+                    </div>
+                    <div class="col-md-9">
+                        STOSUNEK Ad DO XA:
+                    </div>
+                    <div class="text-blue" style="font-size:15px; text-align:left">
+                        <strong> @Model.HarmonicPattern.ADtoXAratio </strong>
+                    </div>
+                    <div class="col-md-9">
+                        STOSUNEK BC DO AB:
+                    </div>
+                    <div class="text-blue" style="font-size:15px; text-align:left">
+                        <strong> @Model.HarmonicPattern.BCtoABratio </strong>
+                    </div>
+                    <div class="col-md-9">
+                        STOSUNEK CD DO BC:
+                    </div>
+                    <div class="text-blue" style="font-size:15px; text-align:left">
+                        <strong> @Model.HarmonicPattern.CDtoBCratio </strong>
+                    </div>
+                    <div class="col-md-9">
+                        STOSUNEK CD DO AB:
+                    </div>
+                    <div class="text-blue" style="font-size:15px; text-align:left">
+                        <strong> @Model.HarmonicPattern.CDtoABratio </strong>
+                    </div>
+
                 </div>
-                <div class="row text" style="font-size:12px; margin-bottom:30px;">
-                    <div class="col-md-10">
-                        <div class="dropdown">
-                            <button class="btn button-blueframe dropdown-toggle" style="background-color:#fff; font-size:12px;" type="button" id="dropdownMenu"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                DODAJ OCENE
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
 
-                                <li><a asp-action="Index">--</a></li>
-                                <li class="divider"></li>
-                                @for (int i = 0; i < 11; i++)
-                                {
-                                    <li><a asp-action="Index">@i.ToString()</a> </li>
-                                }
-                            </ul>
-                        </div>
+                <div class="col-md-1"></div>
+
+                <div class="col-md-5">
+                    <div class="row">
+                        <a asp-action="Edit" class="btn button-purple">@Model.HarmonicPattern.Instrument.Name</a>
+                        <a asp-action="Edit" class="btn button-green">@Model.HarmonicPattern.Interval.Name</a>
+                        <a asp-controller="Patterns" asp-action="Details" asp-route-id="@Model.HarmonicPattern.PatternType.Id" class="btn button-blue">@Model.HarmonicPattern.PatternType.Name</a>
+                        <a asp-action="Edit" class="btn button-pink">@Model.HarmonicPattern.PatternDirect.Name</a>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <span>NA RYNKU:</span>
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
+                        @Html.DisplayFor(modelItem => Model.HarmonicPattern.Date)
+                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                        @Model.HarmonicPattern.Date.TimeOfDay
+                    </div>
+                    <div class="row">
+                        <span>DODANO:</span>
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
+                        @Html.DisplayFor(modelItem => Model.HarmonicPattern.AddDate)
                     </div>
                 </div>
 
-                <div class="row text" style="font-size:15px; margin-bottom:5px;">
-                    <div class="col-md-10">
-                        SREDNIA OCENA PRECYZJI:
-                    </div>
-                    <span style="color:#920063; font-size:18px;"> <strong> @Model.HarmonicPattern.AvaragePrecisionRating </strong> </span>
-                </div>
-                <div class="row text" style="font-size:12px; margin-bottom:5px;">
-                    <div class="col-md-10">
-                        LICZBA OCEN:
-                    </div>
-                    <span style="color:#920063"> @Model.HarmonicPattern.NumberOfPrecisionRatings</span>
-                </div>
-                <div class="row text" style="font-size:12px;">
-                    <div class="col-md-10">
-                        <div class="dropdown">
-                            <button class="btn button-blueframe dropdown-toggle" style="background-color:#fff; font-size:12px;" type="button" id="dropdownMenu"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">                               
-                                DODAJ OCENE
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            </div>
+        
 
-                                <li><a asp-action="Index">--</a></li>
-                                <li class="divider"></li>
-                                @for (int i = 0; i < 11; i++)
-                                {
-                                    <li><a asp-action="Index">@i.ToString()</a> </li>
-                                }                              
-                            </ul>
-                        </div>
 
-                    </div>
 
-                </div>                                     
+
+
+  
+
+
 
             </div>
 
         </div>
+
+    </div>
+
+    
+
+    @*
+        <div class="col-md-3" style="padding:0px">
+
+            <div class="content">
+
+                <div class="row text" style="margin-bottom:5px;">
+                    <div class="col-md-9">
+                        REAKCJA PO 5 SWIECACH: 
+                    </div>
+                    <div class="text-purple" style="font-size:15px; text-align:center">
+                        <strong> @Model.HarmonicPattern.ReactionAfter5Candles.Name </strong> 
+                    </div>      
+                </div>
+
+                <div class="row text" style="margin-bottom:5px;">
+                    <div class="col-md-9">
+                        REAKCJA PO 10 SWIECACH:
+                    </div>
+                    <div class="text-green" style="font-size:15px; text-align:center">
+                        <strong> @Model.HarmonicPattern.ReactionAfter10Candles.Name </strong>
+                    </div>
+                </div>
+
+                <div class="row text" style="margin-bottom:25px;">
+                    <div class="col-md-9">
+                        REAKCJA PO 20 SWIECACH:
+                    </div>
+                    <div class="text-blue" style="font-size:15px; text-align:center">
+                        <strong> @Model.HarmonicPattern.ReactionAfter20Candles.Name </strong>
+                    </div>              
+                </div>
+
+                <div class="row text" style="margin-bottom:20px;">
+                    <div class="col-md-12">
+                            NA RYNKU:
+                    </div>
+                    <div style="text-align:right">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
+                        @Html.DisplayFor(modelItem => Model.HarmonicPattern.Date)
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+    *@
  
 </div>

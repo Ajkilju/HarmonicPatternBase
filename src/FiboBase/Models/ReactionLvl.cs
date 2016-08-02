@@ -16,13 +16,12 @@ namespace HarmonicPatternsBase.Models
         [InverseProperty("ReactionAfter5Candles")]
         public List<HarmonicPattern> PatternReaction5Candles { get; set; }
 
-        /*
         [InverseProperty("ReactionAfter10Candles")]
         public List<HarmonicPattern> PatternReaction10Candles { get; set; }
 
         [InverseProperty("ReactionAfter20Candles")]
         public List<HarmonicPattern> PatternReaction20Candles { get; set; }
-        */
+
 
     }
 }
