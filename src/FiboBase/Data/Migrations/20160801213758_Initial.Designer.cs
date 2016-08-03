@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using HarmonicPatternsBase.Data;
 
-namespace FiboBase.Migrations
+namespace HarmonicPatternsBase.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20160801213758_Initial")]

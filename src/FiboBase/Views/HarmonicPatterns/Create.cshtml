@@ -2,9 +2,6 @@
 
 @{
     ViewData["Title"] = "Create";
-
-    var dayList = new SelectList(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
-    var monthList = new SelectList(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
 }
 
 <div class="container">
@@ -19,38 +16,35 @@
                 <div class="form-group">
                     <label asp-for="Day" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <select asp-for="Day" class="form-control" asp-items="dayList"></select>
+                        <select asp-for="Day" class="form-control" asp-items="@Model.DayList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Month" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <select asp-for="Month" class="form-control" asp-items="monthList"></select>
+                        <select asp-for="Month" class="form-control" asp-items="@Model.MonthList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Year" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <input asp-for="Year" class="form-control" />
-                        <span asp-validation-for="Year" class="text-danger" />
+                        <select asp-for="Year" class="form-control" asp-items="@Model.YearList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Hour" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <input asp-for="Hour" class="form-control" />
-                        <span asp-validation-for="Hour" class="text-danger" />
+                        <select asp-for="Hour" class="form-control" asp-items="@Model.HourList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Minute" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <input asp-for="Minute" class="form-control" />
-                        <span asp-validation-for="Minute" class="text-danger" />
+                        <select asp-for="Minute" class="form-control" asp-items="@Model.MinuteList"></select>
                     </div>
                 </div>
 
@@ -65,21 +59,28 @@
                 <div class="form-group">
                     <label asp-for="InstrumentId" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <select asp-for="InstrumentId" class="form-control" asp-items="ViewBag.InstrumentId"></select>
+                        <select asp-for="InstrumentId" class="form-control" asp-items="@Model.InstrumentList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="IntervalId" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <select asp-for="IntervalId" class="form-control" asp-items="ViewBag.IntervalId"></select>
+                        <select asp-for="IntervalId" class="form-control" asp-items="@Model.IntervalList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="PatternTypeId" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <select asp-for="PatternTypeId" class="form-control" asp-items="ViewBag.PatternTypeId"></select>
+                        <select asp-for="PatternTypeId" class="form-control" asp-items="@Model.PatternTypeList"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PatternDirectId" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <select asp-for="PatternDirectId" class="form-control" asp-items="@Model.PatternDirectList"></select>
                     </div>
                 </div>
 

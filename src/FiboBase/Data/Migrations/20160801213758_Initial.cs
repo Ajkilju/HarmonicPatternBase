@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace FiboBase.Migrations
+namespace HarmonicPatternsBase.Migrations
 {
     public partial class Initial : Migration
     {

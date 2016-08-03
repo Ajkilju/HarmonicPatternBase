@@ -10,6 +10,7 @@ using HarmonicPatternsBase.Models;
 using HarmonicPatternsBase.Repositories.Abstract;
 using HarmonicPatternsBase.Models.HarmonicPatternViewModels;
 using HarmonicPatternsBase.Repositories;
+using HarmonicPatternsBase.Models.StatisticModels;
 
 namespace HarmonicPatternsBase.Controllers
 {
@@ -27,10 +28,12 @@ namespace HarmonicPatternsBase.Controllers
         // GET: HarmonicPatterns
         public async Task<IActionResult> Index(int? intervalId = null, int? patternTypeId = null, int? instrumentId = null)
         {
+            var statisticsData = await _harmonicPatternsRepo.GetHarmonicPatternStatAsync(intervalId, patternTypeId, instrumentId);
+
             var model = new HarmonicPatternIndexViewModel
             {
                 HarmonicPatterns = await _harmonicPatternsRepo
-                      .GetHarmonicPatternsAsync(GetHarmonicPatternsMode.AsNoTracking, intervalId, patternTypeId, instrumentId),
+                      .GetHarmonicPatternsAsync(GetHarmonicPatternsMode.AsNoTracking, intervalId, patternTypeId, instrumentId, 20),
                 Intervals = await _harmonicPatternsRepo.GetIntervalsAsync(GetIntervalsMode.AsNoTracking),
                 PatternTypes = await _harmonicPatternsRepo.GetPatternTypesAsync(GetPatternTypesMode.AsNoTracking),
                 Instruments = await _harmonicPatternsRepo.GetInstrumentsAsync(GetInstrumentTypesMode.AsNoTracking),
@@ -39,13 +42,14 @@ namespace HarmonicPatternsBase.Controllers
                 SelectedPattern = await _harmonicPatternsRepo.GetPatternTypeAsync(GetPatternTypesMode.AsNoTracking, patternTypeId),
                 SelectedInstrument = await _harmonicPatternsRepo.GetInstrumentAsync(GetInstrumentTypesMode.AsNoTracking, instrumentId),
 
-                
                 SelectedPatternId = patternTypeId,
                 SelectedIntervalId = intervalId,
-                SelectedInstrumentId = instrumentId
-                
+                SelectedInstrumentId = instrumentId,
+                Statistics = new HarmonicPatternsStatistic(statisticsData),
+                ReactionLevels = _context.ReactionLvls.ToList()         
             };
-           
+
+
             return View(model);
         }
 
@@ -69,12 +73,36 @@ namespace HarmonicPatternsBase.Controllers
 
         // GET: HarmonicPatterns/Create
         public IActionResult Create()
-        {
-            ViewData["IntervalId"] = new SelectList(_context.Intervals, "Id", "Name");
-            ViewData["PatternTypeId"] = new SelectList(_context.Patterns, "Id", "Name");
-            ViewData["InstrumentId"] = new SelectList(_context.Instruments, "Id", "Name");
+        {          
+            var dayList = new List<int>();
+            for(int i=1; i<32; i++)
+            {
+                dayList.Add(i);
+            }
 
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            var monthList = new List<int>();
+            for(int i=1; i<13; i++)
+            {
+                monthList.Add(i);
+            }
+
+            var yearList = new List<int>();
+            for (int i = 2000; i < DateTime.Now.Year + 1; i++)
+            {
+                yearList.Add(i);
+            }
+
+            var hourList = new List<int>();
+            for (int i = 0; i < 24; i++)
+            {
+                hourList.Add(i);
+            }
+
+            var minuteList = new List<int>();
+            for (int i = 0; i < 60; i++)
+            {
+                minuteList.Add(i);
+            }
 
             var model = new HarmonicPatternCreateViewModel
             {
@@ -82,15 +110,23 @@ namespace HarmonicPatternsBase.Controllers
                 Month = DateTime.Now.Month,
                 Year = DateTime.Now.Year,
                 Hour = DateTime.Now.Hour,
-                Minute = DateTime.Now.Minute
+                Minute = DateTime.Now.Minute,
+
+                DayList = new SelectList(dayList),
+                MonthList = new SelectList(monthList),
+                YearList = new SelectList(yearList),
+                HourList = new SelectList(hourList),
+                MinuteList = new SelectList(minuteList),
+                IntervalList = new SelectList(_context.Intervals, "Id", "Name"),
+                PatternTypeList = new SelectList(_context.Patterns, "Id", "Name"),
+                InstrumentList = new SelectList(_context.Instruments, "Id", "Name"),
+                PatternDirectList = new SelectList(_context.PatternDirects, "Id", "Name"),
             };
 
             return View(model);
         }
 
         // POST: HarmonicPatterns/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(HarmonicPatternCreateViewModel model)
@@ -105,14 +141,14 @@ namespace HarmonicPatternsBase.Controllers
                     Image = new byte[1],
                     PatternTypeId = model.PatternTypeId,
                     IntervalId = model.IntervalId,
-                    InstrumentId = model.InstrumentId
+                    InstrumentId = model.InstrumentId,
+                    PatternDirectId = model.PatternDirectId                 
                 };
                 _context.Add(harmonicPattern);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["IntervalId"] = new SelectList(_context.Intervals, "Id", "Id", model.IntervalId);
-            ViewData["PatternTypeId"] = new SelectList(_context.Patterns, "Id", "Id", model.PatternTypeId);
+
             return View(model);
         }
 

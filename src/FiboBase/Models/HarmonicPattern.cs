@@ -48,8 +48,7 @@ namespace HarmonicPatternsBase.Models
         public int? ReactionAfter5CandlesId { get; set; }
         [ForeignKey("ReactionAfter5CandlesId")]
         public ReactionLvl ReactionAfter5Candles { get; set; }
-
-        
+      
         public int? ReactionAfter10CandlesId { get; set; }
         [ForeignKey("ReactionAfter10CandlesId")]
         public ReactionLvl ReactionAfter10Candles { get; set; }

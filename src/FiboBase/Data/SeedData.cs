@@ -379,7 +379,7 @@ namespace HarmonicPatternsBase.Data
                         ReactionAfter5CandlesId = reactionLvlsList[r.Next(0, reactionLvlsList.Count)],
                         ReactionAfter10CandlesId = reactionLvlsList[r.Next(0, reactionLvlsList.Count)],
                         ReactionAfter20CandlesId = reactionLvlsList[r.Next(0, reactionLvlsList.Count)],
-                        PatternDirectId = r.Next(1, 2)
+                        PatternDirectId = r.Next(1, 3)
                     }
                     );
             }

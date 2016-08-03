@@ -137,16 +137,16 @@
 </div>
 
 
-    <div style="height:200px; padding:30px; background-color:#d6d9dc">
+    <div style="padding:30px; background-color:#d6d9dc">
 
-        <div class="text text-blue container">
-            <div class="col-md-6">
-                <p>
-                    <span style="color:#920063"> @Model.HarmonicPatterns.Count </span>
+        <div class="text container">
+
+                <div class="text-blue" style="font-size:15px">
+                    <span style="color:#920063"><strong> @Model.Statistics.Count </strong></span>
                     ukladow
                     @if (Model.SelectedInstrumentId != null)
                     {
-                        <span><a asp-action="Edit" class="btn button-purple">@Model.SelectedInstrument.Name</a></span>
+                        <span><a asp-action="Edit" class="btn button-purple"> @Model.SelectedInstrument.Name</a></span>
                     }
                     @if (Model.SelectedPatternId != null)
                     {
@@ -158,16 +158,82 @@
                     }
 
                     w bazie danych
-                </p>
+                </div>
 
-                <p>
-                    <a asp-action="Edit" class="btn button-blueframe">Wiecej statystyk</a>
-                </p>
+                <div class="row" style="margin-top:30px;">
+
+                    <div class="col-md-4">
+                        <div style="margin-bottom:15px;">
+                            POZIOM REAKCJI OSIAGNIETE PO 5 SWIECACH
+                        </div>
+                        @foreach (var item in Model.Statistics.ReactionAfter5Candles)
+                        {
+                            double i = (double)item.ReactionCon / (double)Model.Statistics.Count * 100.0;
+                            
+
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-md-2">
+                                    <span style="color:#920063;"><strong>@i.ToString("#")%</strong> </span>
+                                </div>
+                                <div class="col-md-6">
+                                    ukladow osiagnelo poziom
+                                </div>
+                                <div class="col-md-2" style="text-align:center">
+                                    <span style="color:#920063"> @Model.ReactionLevels.Find(h => h.Id == item.ReactionId).Name </span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <div style="margin-bottom:15px;">
+                            POZIOM REAKCJI OSIAGNIETE PO 10 SWIECACH
+                        </div>
+                        @foreach (var item in Model.Statistics.ReactionAfter10Candles)
+                        {
+                            double i = (double)item.ReactionCon / (double)Model.Statistics.Count * 100.0;
+
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-md-2">
+                                    <span style="color:#920063;"><strong>@i.ToString("#")%</strong> </span>
+                                </div>
+                                <div class="col-md-6">
+                                    ukladow osiagnelo poziom
+                                </div>
+                                <div class="col-md-2" style="text-align:center">
+                                    <span style="color:#920063"> @Model.ReactionLevels.Find(h => h.Id == item.ReactionId).Name </span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <div style="margin-bottom:15px;">
+                            POZIOM REAKCJI OSIAGNIETE PO 20 SWIECACH
+                        </div>
+                        @foreach (var item in Model.Statistics.ReactionAfter20Candles)
+                        {
+                            double i = (double)item.ReactionCon / (double)Model.Statistics.Count * 100.0;
+
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-md-2">
+                                    <span style="color:#920063;"><strong>@i.ToString("#")%</strong> </span>
+                                </div>
+                                <div class="col-md-6">
+                                    ukladow osiagnelo poziom
+                                </div>
+                                <div class="col-md-2" style="text-align:center">
+                                    <span style="color:#920063"> @Model.ReactionLevels.Find(h => h.Id == item.ReactionId).Name </span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+
+            <div style="margin-top:40px;">
+                <a asp-action="Edit" class="btn button-blueframe">Wiecej statystyk</a>
             </div>
 
-            <div class="col-md-6">
-               
-            </div>
+
 
         </div>
     </div>
@@ -181,6 +247,7 @@
 
         @foreach (var item in Model.HarmonicPatterns)
         {
+
             string imageContent = "";
 
             var i = r.Next(0, 5);

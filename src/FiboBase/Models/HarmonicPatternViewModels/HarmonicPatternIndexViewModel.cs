@@ -1,4 +1,5 @@
 ﻿using HarmonicPatternsBase.Models;
+using HarmonicPatternsBase.Models.StatisticModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +21,10 @@ namespace HarmonicPatternsBase.Models.HarmonicPatternViewModels
         public int? SelectedPatternId { get; set; }
         public int? SelectedIntervalId { get; set; }
         public int? SelectedInstrumentId { get; set; }
+        
+        public HarmonicPatternsStatistic Statistics { get; set; }
+
+        public List<ReactionLvl> ReactionLevels { get; set; }
+
     }
 }

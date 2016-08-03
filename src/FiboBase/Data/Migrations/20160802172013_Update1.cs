@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FiboBase.Migrations
+namespace HarmonicPatternsBase.Migrations
 {
     public partial class Update1 : Migration
     {

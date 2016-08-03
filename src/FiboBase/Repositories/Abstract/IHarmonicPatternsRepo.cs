@@ -1,4 +1,5 @@
 ﻿using HarmonicPatternsBase.Models;
+using HarmonicPatternsBase.Models.StatisticModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace HarmonicPatternsBase.Repositories.Abstract
         Task<HarmonicPattern> GetHarmonicPatternAsync(GetHarmonicPatternsMode mode, int? Id);
         Task<List<HarmonicPattern>> GetHarmonicPatternsAsync(
             GetHarmonicPatternsMode mode, int? IntervalId = null, int? PatternTypeId = null, int? InstrumentId = null, int? HowMany = null);
+        Task<List<HarmonicPatternStat>> GetHarmonicPatternStatAsync(
+            int? IntervalId = null, int? PatternTypeId = null, int? InstrumentId = null, int? HowMany = null);
         Task<Interval> GetIntervalAsync(GetIntervalsMode mode, int? Id);
         Task<List<Interval>> GetIntervalsAsync(GetIntervalsMode mode);
         Task<Pattern> GetPatternTypeAsync(GetPatternTypesMode mode, int? Id);
