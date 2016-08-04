@@ -8,11 +8,7 @@ namespace HarmonicPatternsBase.Models.StatisticModels
 {
     public class HarmonicPatternsStatistic
     {
-        /*
-         * ile procent po 5 swiecach osiaga poziom 1, ile osiaga poziom 2 itd...
-         */ 
-
-        public HarmonicPatternsStatistic(List<HarmonicPatternStat> data)
+        public HarmonicPatternsStatistic(List<HarmonicPatternStatistic> data)
         {
             NumberOfWaves = 0;
             ABtoXAratio = 0;
@@ -21,9 +17,9 @@ namespace HarmonicPatternsBase.Models.StatisticModels
             CDtoBCratio = 0;
             CDtoABratio = 0;
 
-            ReactionAfter5Candles = new List<ReactionStat>();
-            ReactionAfter10Candles = new List<ReactionStat>();
-            ReactionAfter20Candles = new List<ReactionStat>();
+            ReactionAfter5Candles = new List<ReactionStatistic>();
+            ReactionAfter10Candles = new List<ReactionStatistic>();
+            ReactionAfter20Candles = new List<ReactionStatistic>();
 
             foreach (var item in data)
             {
@@ -67,15 +63,15 @@ namespace HarmonicPatternsBase.Models.StatisticModels
 
                 if(ReactionAfter5Found == false)
                 {
-                    ReactionAfter5Candles.Add(new ReactionStat { ReactionId = (int)item.ReactionAfter5CandlesId, ReactionCon = 1 });
+                    ReactionAfter5Candles.Add(new ReactionStatistic { ReactionId = (int)item.ReactionAfter5CandlesId, ReactionCon = 1 });
                 }
                 if (ReactionAfter10Found == false)
                 {
-                    ReactionAfter10Candles.Add(new ReactionStat { ReactionId = (int)item.ReactionAfter10CandlesId, ReactionCon = 1 });
+                    ReactionAfter10Candles.Add(new ReactionStatistic { ReactionId = (int)item.ReactionAfter10CandlesId, ReactionCon = 1 });
                 }
                 if (ReactionAfter20Found == false)
                 {
-                    ReactionAfter20Candles.Add(new ReactionStat { ReactionId = (int)item.ReactionAfter20CandlesId, ReactionCon = 1 });
+                    ReactionAfter20Candles.Add(new ReactionStatistic { ReactionId = (int)item.ReactionAfter20CandlesId, ReactionCon = 1 });
                 }
             }
 
@@ -100,16 +96,16 @@ namespace HarmonicPatternsBase.Models.StatisticModels
         public double? CDtoBCratio { get; set; }
         public double? CDtoABratio { get; set; }
 
-        public List<ReactionStat> ReactionAfter5Candles { get; set; }
-        public List<ReactionStat> ReactionAfter10Candles { get; set; }
-        public List<ReactionStat> ReactionAfter20Candles { get; set; }
+        public List<ReactionStatistic> ReactionAfter5Candles { get; set; }
+        public List<ReactionStatistic> ReactionAfter10Candles { get; set; }
+        public List<ReactionStatistic> ReactionAfter20Candles { get; set; }
 
         private bool ReactionAfter5Found;
         private bool ReactionAfter10Found;
         private bool ReactionAfter20Found;
     }
 
-    public class ReactionStat
+    public class ReactionStatistic
     {
         public int ReactionId { get; set; }
         public int ReactionCon { get; set; }

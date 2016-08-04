@@ -36,6 +36,12 @@ namespace HarmonicPatternsBase.Repositories
         Tracking
     }
 
+    public enum GetPatternDirectsMode
+    {
+        AsNoTracking,
+        Tracking
+    }
+
     public class HarmonicPatternsRepo : IHarmonicPatternsRepo
     {
         private ApplicationDbContext _context;
@@ -80,7 +86,12 @@ namespace HarmonicPatternsBase.Repositories
         }
 
         public async Task<List<HarmonicPattern>> GetHarmonicPatternsAsync (
-            GetHarmonicPatternsMode mode, int? IntervalId = null, int? PatternTypeId = null, int? InstrumentId = null, int? HowMany = null)
+            GetHarmonicPatternsMode mode, 
+            int? IntervalId = null, 
+            int? PatternTypeId = null, 
+            int? InstrumentId = null, 
+            int? PatternDirectId = null,
+            int? HowMany = null)
         {
             var data = (IQueryable<HarmonicPattern>)_context.HarmonicPatterns
                 .Include(h => h.Interval)
@@ -107,6 +118,11 @@ namespace HarmonicPatternsBase.Repositories
                 data = data.Where(h => h.InstrumentId == InstrumentId);
             }
 
+            if(PatternDirectId != null)
+            {
+                data = data.Where(h => h.PatternDirectId == PatternDirectId);
+            }
+
             if(HowMany != null)
             {
                 data = data.Take((int)HowMany);
@@ -118,55 +134,6 @@ namespace HarmonicPatternsBase.Repositories
             }
 
             return await data.ToListAsync();
-        }
-
-        public async Task<List<HarmonicPatternStat>> GetHarmonicPatternStatAsync(
-            int? IntervalId = null, int? PatternTypeId = null, int? InstrumentId = null, int? HowMany = null)
-        {
-            var data = (IQueryable<HarmonicPattern>)_context.HarmonicPatterns
-                .Include(h => h.Interval)
-                .Include(h => h.PatternType)
-                .Include(h => h.Instrument)
-                .Include(h => h.User)
-                .Include(h => h.PatternDirect)
-                .Include(h => h.ReactionAfter5Candles)
-                .Include(h => h.ReactionAfter10Candles)
-                .Include(h => h.ReactionAfter20Candles);            
-
-            if (IntervalId != null)
-            {
-                data = data.Where(h => h.IntervalId == IntervalId);
-            }
-
-            if (PatternTypeId != null)
-            {
-                data = data.Where(h => h.PatternTypeId == PatternTypeId);
-            }
-
-            if (InstrumentId != null)
-            {
-                data = data.Where(h => h.InstrumentId == InstrumentId);
-            }
-
-            if (HowMany != null)
-            {
-                data = data.Take((int)HowMany);
-            }
-
-            var statisticsData = data.Select(h => new HarmonicPatternStat
-            {
-                ABtoXAratio = h.ABtoXAratio,
-                ADtoXAratio = h.ADtoXAratio,
-                BCtoABratio = h.BCtoABratio,
-                CDtoABratio = h.CDtoABratio,
-                CDtoBCratio = h.CDtoBCratio,
-                NumberOfWaves = h.NumberOfWaves,
-                ReactionAfter5CandlesId = h.ReactionAfter5CandlesId,
-                ReactionAfter10CandlesId = h.ReactionAfter10CandlesId,
-                ReactionAfter20CandlesId = h.ReactionAfter20CandlesId,               
-            });
-
-            return await statisticsData.ToListAsync();
         }
 
         public async Task<Interval> GetIntervalAsync(GetIntervalsMode mode, int? Id)
@@ -242,6 +209,31 @@ namespace HarmonicPatternsBase.Repositories
             }
 
             return await _context.Instruments.ToListAsync();
+        }
+
+        public async Task<PatternDirect> GetPatternDirect(GetPatternDirectsMode mode, int? Id)
+        {
+            if (Id == null)
+            {
+                return null;
+            }
+
+            if (mode ==  GetPatternDirectsMode.AsNoTracking)
+            {
+                return await _context.PatternDirects.AsNoTracking().SingleAsync(h => h.Id == Id);
+            }
+
+            return await _context.PatternDirects.SingleAsync(h => h.Id == Id);
+        }
+
+        public async Task<List<PatternDirect>> GetPatternDirects(GetPatternDirectsMode mode)
+        {
+            if (mode == GetPatternDirectsMode.AsNoTracking)
+            {
+                return await _context.PatternDirects.AsNoTracking().ToListAsync();
+            }
+
+            return await _context.PatternDirects.ToListAsync();
         }
     }
 }

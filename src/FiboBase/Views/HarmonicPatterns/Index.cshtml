@@ -30,6 +30,7 @@
                     <a asp-action="Index"
                        asp-route-intervalid="@Model.SelectedIntervalId" 
                        asp-route-patterntypeid="@Model.SelectedPatternId"
+                       asp-route-patterndirectid="@Model.SelectedDirectId"
                        asp-route-instrumentid="@null">
                     Wszystkie instrumenty</a>
                 </li>
@@ -42,6 +43,7 @@
                         <a asp-action="Index" 
                            asp-route-intervalid="@Model.SelectedIntervalId" 
                            asp-route-patterntypeid="@Model.SelectedPatternId"
+                           asp-route-patterndirectid="@Model.SelectedDirectId"
                            asp-route-instrumentid="@item.Id">
                         @item.Name</a>
                     </li>
@@ -70,6 +72,7 @@
                         <a asp-action="Index" 
                            asp-route-intervalid="@Model.SelectedIntervalId" 
                            asp-route-instrumentid="@Model.SelectedInstrumentId"
+                           asp-route-patterndirectid="@Model.SelectedDirectId"
                            asp-route-patterntypeid="@null">
                         Wszystkie uklady</a>
                     </li>
@@ -82,6 +85,7 @@
                             <a asp-action="Index" 
                                asp-route-intervalid="@Model.SelectedIntervalId" 
                                asp-route-instrumentid="@Model.SelectedInstrumentId"
+                               asp-route-patterndirectid="@Model.SelectedDirectId"
                                asp-route-patterntypeid="@item.Id">
                             @item.Name</a>
                         </li>
@@ -110,6 +114,7 @@
                         <a asp-action="Index" 
                            asp-route-patterntypeid="@Model.SelectedPatternId"
                            asp-route-instrumentid="@Model.SelectedInstrumentId" 
+                           asp-route-patterndirectid="@Model.SelectedDirectId"
                            asp-route-intervalid="@null">
                         Wszystkie interwaly</a>
                     </li>
@@ -122,12 +127,57 @@
                             <a asp-action="Index" 
                                asp-route-patterntypeid="@Model.SelectedPatternId" 
                                asp-route-instrumentid="@Model.SelectedInstrumentId"
+                               asp-route-patterndirectid="@Model.SelectedDirectId"
                                asp-route-intervalid="@item.Id">
                             @item.Name</a>
                         </li>
                     }
                 </ul>
             </div>
+
+        <div class="dropdown" style="display:inline-block;">
+            <button class="btn button-pink dropdown-toggle button-nav" type="button" id="dropdownMenu"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                @if (Model.SelectedDirect == null)
+                {
+                    <span>Kierunek</span>
+                }
+                else
+                {
+                    @Model.SelectedDirect.Name
+                }
+
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+
+                <li>
+                    <a asp-action="Index"
+                       asp-route-intervalid="@Model.SelectedIntervalId"
+                       asp-route-patterntypeid="@Model.SelectedPatternId"
+                       asp-route-instrumentid="@Model.SelectedInstrumentId"
+                       asp-route-patterndirectid="@null">
+                        Wszystkie kierunki
+                    </a>
+                </li>
+
+                <li class="divider"></li>
+
+                @foreach (var item in Model.PatternDirects)
+                {
+                    <li>
+                        <a asp-action="Index"
+                           asp-route-intervalid="@Model.SelectedIntervalId"
+                           asp-route-patterntypeid="@Model.SelectedPatternId"
+                           asp-route-instrumentid="@Model.SelectedInstrumentId"
+                           asp-route-patterndirectid="@item.Id">
+                            @item.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
 
         <div class="navbar-right" style="display:inline-block;">
             <a asp-area="" asp-controller="HarmonicPatterns" asp-action="Create" class="btn button-navframe">Dodaj</a>
@@ -155,6 +205,10 @@
                     @if (Model.SelectedIntervalId != null)
                     {
                         <a asp-action="Edit" class="btn button-green">@Model.SelectedInterval.Name</a>
+                    }
+                    @if (Model.SelectedDirectId != null)
+                    {
+                        <a asp-action="Edit" class="btn button-pink">@Model.SelectedDirect.Name</a>
                     }
 
                     w bazie danych
@@ -230,7 +284,9 @@
 
 
             <div style="margin-top:40px;">
-                <a asp-action="Edit" class="btn button-blueframe">Wiecej statystyk</a>
+                <a asp-controller="Statistics" asp-action="Index" class="btn button-blueframe">Wiecej statystyk</a>
+                <a asp-controller="Info" asp-action="Patterns" class="btn button-blueframe" style="margin-left:10px;">O ukladach harmonicznych</a>
+                <a asp-controller="Info" asp-action="Reactions" class="btn button-blueframe" style="margin-left:10px;">O poziomach reakcji</a>
             </div>
 
 

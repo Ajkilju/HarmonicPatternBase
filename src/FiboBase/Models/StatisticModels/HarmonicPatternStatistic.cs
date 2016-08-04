@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HarmonicPatternsBase.Models.StatisticModels
 {
-    public class HarmonicPatternStat
+    public class HarmonicPatternStatistic
     {
         public int? NumberOfWaves { get; set; }
         public double? ABtoXAratio { get; set; }

@@ -61,6 +61,7 @@ namespace HarmonicPatternsBase
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
             services.AddScoped<IHarmonicPatternsRepo, HarmonicPatternsRepo>();
+            services.AddScoped<IStatisticsRepo, StatisticsRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

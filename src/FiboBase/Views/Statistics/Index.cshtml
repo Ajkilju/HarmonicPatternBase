@@ -1,0 +1,257 @@
+﻿@model HarmonicPatternsBase.Models.StatisticsViewModels.StatisticsIndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div style="background-color:#36424a">
+    <div class="container" style="padding:20px;">
+
+        <div class="dropdown" style="display:inline-block;">
+            <button class="btn button-purple dropdown-toggle button-nav" type="button" id="dropdownMenu"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                @if (Model.SelectedInstrument == null)
+                {
+                    <span>Instrument</span>
+                }
+                else
+                {
+                    @Model.SelectedInstrument.Name
+                }
+
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+
+                <li>
+                    <a asp-action="Index"
+                       asp-route-intervalid="@Model.SelectedIntervalId"
+                       asp-route-patterntypeid="@Model.SelectedPatternId"
+                       asp-route-instrumentid="@null">
+                        Wszystkie instrumenty
+                    </a>
+                </li>
+
+                <li class="divider"></li>
+
+                @foreach (var item in Model.Instruments)
+                {
+                    <li>
+                        <a asp-action="Index"
+                           asp-route-intervalid="@Model.SelectedIntervalId"
+                           asp-route-patterntypeid="@Model.SelectedPatternId"
+                           asp-route-instrumentid="@item.Id">
+                            @item.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="dropdown" style="display:inline-block;">
+            <button class="btn button-blue dropdown-toggle button-nav" type="button" id="dropdownMenu"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                @if (Model.SelectedPattern == null)
+                {
+                    <span>Uklad</span>
+                }
+                else
+                {
+                    @Model.SelectedPattern.Name
+                }
+
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+
+                <li>
+                    <a asp-action="Index"
+                       asp-route-intervalid="@Model.SelectedIntervalId"
+                       asp-route-instrumentid="@Model.SelectedInstrumentId"
+                       asp-route-patterntypeid="@null">
+                        Wszystkie uklady
+                    </a>
+                </li>
+
+                <li class="divider"></li>
+
+                @foreach (var item in Model.PatternTypes)
+                {
+                    <li>
+                        <a asp-action="Index"
+                           asp-route-intervalid="@Model.SelectedIntervalId"
+                           asp-route-instrumentid="@Model.SelectedInstrumentId"
+                           asp-route-patterntypeid="@item.Id">
+                            @item.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="dropdown" style="display:inline-block;">
+            <button class="btn button-green dropdown-toggle button-nav" type="button" id="dropdownMenu"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                @if (Model.SelectedInterval == null)
+                {
+                    <span>Interwal</span>
+                }
+                else
+                {
+                    @Model.SelectedInterval.Name
+                }
+
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+
+                <li>
+                    <a asp-action="Index"
+                       asp-route-patterntypeid="@Model.SelectedPatternId"
+                       asp-route-instrumentid="@Model.SelectedInstrumentId"
+                       asp-route-intervalid="@null">
+                        Wszystkie interwaly
+                    </a>
+                </li>
+
+                <li class="divider"></li>
+
+                @foreach (var item in Model.Intervals)
+                {
+                    <li>
+                        <a asp-action="Index"
+                           asp-route-patterntypeid="@Model.SelectedPatternId"
+                           asp-route-instrumentid="@Model.SelectedInstrumentId"
+                           asp-route-intervalid="@item.Id">
+                            @item.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="navbar-right" style="display:inline-block;">
+            <a asp-area="" asp-controller="HarmonicPatterns" asp-action="Create" class="btn button-navframe">Dodaj</a>
+        </div>
+
+    </div>
+</div>
+
+@for (int k = 0; k < 3; k++)
+{
+
+
+<div style="padding:30px; background-color:#d6d9dc">
+
+    <div class="text container">
+
+        <div class="text-blue" style="font-size:15px">
+            <span style="color:#920063"><strong> @Model.Statistics.Count </strong></span>
+            ukladow
+            @if (Model.SelectedInstrumentId != null)
+            {
+                <span><a asp-action="Edit" class="btn button-purple"> @Model.SelectedInstrument.Name</a></span>
+            }
+            @if (Model.SelectedPatternId != null)
+            {
+                <a asp-controller="Patterns" asp-action="Details" asp-route-id="@Model.SelectedPattern.Id" class="btn button-blue">@Model.SelectedPattern.Name</a>
+            }
+            @if (Model.SelectedIntervalId != null)
+            {
+                <a asp-action="Edit" class="btn button-green">@Model.SelectedInterval.Name</a>
+            }
+
+            w bazie danych
+        </div>
+
+        <div class="row" style="margin-top:30px; margin-bottom:40px;">
+
+            <div class="col-md-4">
+                <div style="margin-bottom:15px;">
+                    POZIOM REAKCJI OSIAGNIETE PO 5 SWIECACH
+                </div>
+                @foreach (var item in Model.Statistics.ReactionAfter5Candles)
+                {
+                    double i = (double)item.ReactionCon / (double)Model.Statistics.Count * 100.0;
+
+
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-md-2">
+                            <span style="color:#920063;"><strong>@i.ToString("#")%</strong> </span>
+                        </div>
+                        <div class="col-md-6">
+                            ukladow osiagnelo poziom
+                        </div>
+                        <div class="col-md-2" style="text-align:center">
+                            <span style="color:#920063"> @Model.ReactionLevels.Find(h => h.Id == item.ReactionId).Name </span>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-4">
+                <div style="margin-bottom:15px;">
+                    POZIOM REAKCJI OSIAGNIETE PO 10 SWIECACH
+                </div>
+                @foreach (var item in Model.Statistics.ReactionAfter10Candles)
+                {
+                    double i = (double)item.ReactionCon / (double)Model.Statistics.Count * 100.0;
+
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-md-2">
+                            <span style="color:#920063;"><strong>@i.ToString("#")%</strong> </span>
+                        </div>
+                        <div class="col-md-6">
+                            ukladow osiagnelo poziom
+                        </div>
+                        <div class="col-md-2" style="text-align:center">
+                            <span style="color:#920063"> @Model.ReactionLevels.Find(h => h.Id == item.ReactionId).Name </span>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-4">
+                <div style="margin-bottom:15px;">
+                    POZIOM REAKCJI OSIAGNIETE PO 20 SWIECACH
+                </div>
+                @foreach (var item in Model.Statistics.ReactionAfter20Candles)
+                {
+                    double i = (double)item.ReactionCon / (double)Model.Statistics.Count * 100.0;
+
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-md-2">
+                            <span style="color:#920063;"><strong>@i.ToString("#")%</strong> </span>
+                        </div>
+                        <div class="col-md-6">
+                            ukladow osiagnelo poziom
+                        </div>
+                        <div class="col-md-2" style="text-align:center">
+                            <span style="color:#920063"> @Model.ReactionLevels.Find(h => h.Id == item.ReactionId).Name </span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div style="margin-top:50px; margin-bottom:50px; margin-left:0px; margin-right:30px; height:500px; background-color:#ffffff"></div>
+        </div>
+        <div class="col-md-4">
+            <div style="margin-top:50px; margin-bottom:50px; margin-left:0px; margin-right:0px; height:500px; background-color:#ffffff"></div>
+        </div>
+        <div class="col-md-4">
+            <div style="margin-top:50px; margin-bottom:50px; margin-left:30px; margin-right:0px; height:500px; background-color:#ffffff"></div>
+        </div>
+    </div>
+
+</div>
+}

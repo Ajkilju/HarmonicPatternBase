@@ -11,14 +11,19 @@ namespace HarmonicPatternsBase.Repositories.Abstract
     {
         Task<HarmonicPattern> GetHarmonicPatternAsync(GetHarmonicPatternsMode mode, int? Id);
         Task<List<HarmonicPattern>> GetHarmonicPatternsAsync(
-            GetHarmonicPatternsMode mode, int? IntervalId = null, int? PatternTypeId = null, int? InstrumentId = null, int? HowMany = null);
-        Task<List<HarmonicPatternStat>> GetHarmonicPatternStatAsync(
-            int? IntervalId = null, int? PatternTypeId = null, int? InstrumentId = null, int? HowMany = null);
+             GetHarmonicPatternsMode mode,
+             int? IntervalId = null,
+             int? PatternTypeId = null,
+             int? InstrumentId = null,
+             int? PatternDirectId = null,
+             int? HowMany = null);
         Task<Interval> GetIntervalAsync(GetIntervalsMode mode, int? Id);
         Task<List<Interval>> GetIntervalsAsync(GetIntervalsMode mode);
         Task<Pattern> GetPatternTypeAsync(GetPatternTypesMode mode, int? Id);
         Task<List<Pattern>> GetPatternTypesAsync(GetPatternTypesMode mode);
         Task<Instrument> GetInstrumentAsync(GetInstrumentTypesMode mode, int? Id);
         Task<List<Instrument>> GetInstrumentsAsync(GetInstrumentTypesMode mode);
+        Task<PatternDirect> GetPatternDirect(GetPatternDirectsMode mode, int? Id);
+        Task<List<PatternDirect>> GetPatternDirects(GetPatternDirectsMode mode);
     }
 }
