@@ -24,7 +24,10 @@ namespace HarmonicPatternsBase.Repositories
             int? PatternTypeId = null, 
             int? InstrumentId = null,
             int? PatternDirectId = null,
-            int? HowMany = null)
+            DateTime? dateSince = null,
+            DateTime? dateTo = null,
+            DateTime? addDateSince = null,
+            DateTime? addDateTo = null)
         {
             var data = (IQueryable<HarmonicPattern>)_context.HarmonicPatterns
                 .Include(h => h.Interval)
@@ -56,9 +59,24 @@ namespace HarmonicPatternsBase.Repositories
                 data = data.Where(h => h.PatternDirectId == PatternDirectId);
             }
 
-            if (HowMany != null)
+            if (dateSince != null)
             {
-                data = data.Take((int)HowMany);
+                data = data.Where(h => h.Date >= dateSince);
+            }
+
+            if (dateTo != null)
+            {
+                data = data.Where(h => h.Date <= dateTo);
+            }
+
+            if (addDateSince != null)
+            {
+                data = data.Where(h => h.AddDate >= addDateSince);
+            }
+
+            if (addDateTo != null)
+            {
+                data = data.Where(h => h.AddDate <= addDateTo);
             }
 
             var statisticsData = data.Select(h => new HarmonicPatternStatistic

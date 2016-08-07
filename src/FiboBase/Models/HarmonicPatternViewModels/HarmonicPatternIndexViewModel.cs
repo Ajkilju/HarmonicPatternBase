@@ -1,5 +1,6 @@
 ﻿using HarmonicPatternsBase.Models;
 using HarmonicPatternsBase.Models.StatisticModels;
+using Sakura.AspNetCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace HarmonicPatternsBase.Models.HarmonicPatternViewModels
 {
     public class HarmonicPatternIndexViewModel
     {
-        public List<HarmonicPattern> HarmonicPatterns { get; set; }
+        public IPagedList<HarmonicPattern> HarmonicPatterns { get; set; }
         public List<Interval> Intervals { get; set; }
         public List<Pattern> PatternTypes { get; set; }
         public List<Instrument> Instruments { get; set; }
@@ -29,5 +30,17 @@ namespace HarmonicPatternsBase.Models.HarmonicPatternViewModels
 
         public List<ReactionLvl> ReactionLevels { get; set; }
 
+        public string DateSinceString { get; set; }
+        public string DateToString { get; set; }
+        public string AddDateSinceString { get; set; }
+        public string AddDateToString { get; set; }
+
+        public DateTime? DateSince { get; set; }
+        public DateTime? DateTo { get; set; }
+        public DateTime? AddDateSince { get; set; }
+        public DateTime? AddDateTo { get; set; }
+
+        public int SortOrder { get; set; }
+        public List<string> SortOrdersList { get; set; }
     }
 }

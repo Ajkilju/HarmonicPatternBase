@@ -22,7 +22,7 @@ namespace HarmonicPatternsBase.Controllers
         {
             var model = new PatternsIndexViewModel
             {
-                Patterns = await _harmonicPatternsRepo.GetPatternTypesAsync(GetPatternTypesMode.AsNoTracking)
+                Patterns = await _harmonicPatternsRepo.GetPatternTypesAsync()
             };
             return View(model);
         }
@@ -31,7 +31,7 @@ namespace HarmonicPatternsBase.Controllers
         {
             var model = new PatternsDetailsViewModel
             {
-                Pattern = await _harmonicPatternsRepo.GetPatternTypeAsync(GetPatternTypesMode.Tracking, Id)
+                Pattern = await _harmonicPatternsRepo.GetPatternTypeAsync(Id)
             };
             return View(model);
         }

@@ -27,25 +27,29 @@ namespace HarmonicPatternsBase.Controllers
             _statisticsRepo = statisticsRepo;
         }
 
-        public async Task<IActionResult> Index(int? intervalId = null, int? patternTypeId = null, int? instrumentId = null)
+        public async Task<IActionResult> Index(
+            int? intervalId = null, int? patternTypeId = null, int? instrumentId = null, int? patternDirectId = null)
         {
-            var statisticsData = await _statisticsRepo.GetHarmonicPatternStatisticisticDataAsync(intervalId, patternTypeId, instrumentId);
+            var statisticsData = await _statisticsRepo.GetHarmonicPatternStatisticisticDataAsync(
+                intervalId, patternTypeId, instrumentId, patternDirectId);
 
             var model = new StatisticsIndexViewModel
             {
-                HarmonicPatterns = await _harmonicPatternsRepo
-                      .GetHarmonicPatternsAsync(GetHarmonicPatternsMode.AsNoTracking, intervalId, patternTypeId, instrumentId, 20),
-                Intervals = await _harmonicPatternsRepo.GetIntervalsAsync(GetIntervalsMode.AsNoTracking),
-                PatternTypes = await _harmonicPatternsRepo.GetPatternTypesAsync(GetPatternTypesMode.AsNoTracking),
-                Instruments = await _harmonicPatternsRepo.GetInstrumentsAsync(GetInstrumentTypesMode.AsNoTracking),
+                Intervals = await _harmonicPatternsRepo.GetIntervalsAsync(),
+                PatternTypes = await _harmonicPatternsRepo.GetPatternTypesAsync(),
+                Instruments = await _harmonicPatternsRepo.GetInstrumentsAsync(),
+                PatternDirects = await _harmonicPatternsRepo.GetPatternDirectsAsync(),
 
-                SelectedInterval = await _harmonicPatternsRepo.GetIntervalAsync(GetIntervalsMode.AsNoTracking, intervalId),
-                SelectedPattern = await _harmonicPatternsRepo.GetPatternTypeAsync(GetPatternTypesMode.AsNoTracking, patternTypeId),
-                SelectedInstrument = await _harmonicPatternsRepo.GetInstrumentAsync(GetInstrumentTypesMode.AsNoTracking, instrumentId),
+                SelectedInterval = await _harmonicPatternsRepo.GetIntervalAsync(intervalId),
+                SelectedPattern = await _harmonicPatternsRepo.GetPatternTypeAsync(patternTypeId),
+                SelectedInstrument = await _harmonicPatternsRepo.GetInstrumentAsync(instrumentId),
+                SelectedDirect = await _harmonicPatternsRepo.GetPatternDirectAsync(patternDirectId),
 
                 SelectedPatternId = patternTypeId,
                 SelectedIntervalId = intervalId,
                 SelectedInstrumentId = instrumentId,
+                SelectedDirectId = patternDirectId,
+
                 Statistics = new HarmonicPatternsStatistic(statisticsData),
                 ReactionLevels = _context.ReactionLvls.ToList()
             };

@@ -334,7 +334,7 @@ namespace HarmonicPatternsBase.Data
                 var intervalIdList = context.Intervals.Select(h => h.Id).ToList();
                 var instrumentIdList = context.Instruments.Select(h => h.Id).ToList();
                 var reactionLvlsList = context.ReactionLvls.Select(h => h.Id).ToList();
-                List<double> waveRatioList = new List<double> { 0.382, 0.5, 0.618, 0.786, 0.886, 1.0, 1.13, 1.227, 1.618, 2.0 };
+                List<double> waveRatioList = new List<double> {0.000, 0.382, 0.500, 0.618, 0.786, 0.886, 1.000, 1.13, 1.227, 1.618, 2.000 };
                 var hpList = HarmonicPatternsGenerator(
                     howMany, 
                     patternIdList, 
@@ -364,8 +364,8 @@ namespace HarmonicPatternsBase.Data
                 hpList.Add(
                     new HarmonicPattern
                     {
-                        AddDate = new DateTime(r.Next(2014, 2016), r.Next(1, 13), r.Next(1, 27)),
-                        Date = new DateTime(r.Next(2014, 2016), r.Next(1, 13), r.Next(1, 27), r.Next(0, 24), r.Next(0, 60), 0),
+                        AddDate = new DateTime(r.Next(2014, 2017), r.Next(1, 13), r.Next(1, 27)),
+                        Date = new DateTime(r.Next(2014, 2017), r.Next(1, 13), r.Next(1, 27), r.Next(0, 24), r.Next(0, 60), 0),
                         Image = new byte[1],
                         InstrumentId = instrumentIdList[r.Next(0, instrumentIdList.Count)],
                         PatternTypeId = patternIdList[r.Next(0, patternIdList.Count)],

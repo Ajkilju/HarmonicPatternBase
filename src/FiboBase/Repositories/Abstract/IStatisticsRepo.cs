@@ -9,10 +9,13 @@ namespace HarmonicPatternsBase.Repositories.Abstract
     public interface IStatisticsRepo
     {
         Task<List<HarmonicPatternStatistic>> GetHarmonicPatternStatisticisticDataAsync(
-            int? IntervalId = null, 
-            int? PatternTypeId = null, 
-            int? InstrumentId = null, 
+            int? IntervalId = null,
+            int? PatternTypeId = null,
+            int? InstrumentId = null,
             int? PatternDirectId = null,
-            int? HowMany = null);
+            DateTime? dateSince = null,
+            DateTime? dateTo = null,
+            DateTime? addDateSince = null,
+            DateTime? addDateTo = null);
     }
 }

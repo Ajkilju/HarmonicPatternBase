@@ -29,6 +29,7 @@
                     <a asp-action="Index"
                        asp-route-intervalid="@Model.SelectedIntervalId"
                        asp-route-patterntypeid="@Model.SelectedPatternId"
+                       asp-route-patterndirectid="@Model.SelectedDirectId"
                        asp-route-instrumentid="@null">
                         Wszystkie instrumenty
                     </a>
@@ -42,6 +43,7 @@
                         <a asp-action="Index"
                            asp-route-intervalid="@Model.SelectedIntervalId"
                            asp-route-patterntypeid="@Model.SelectedPatternId"
+                           asp-route-patterndirectid="@Model.SelectedDirectId"
                            asp-route-instrumentid="@item.Id">
                             @item.Name
                         </a>
@@ -71,6 +73,7 @@
                     <a asp-action="Index"
                        asp-route-intervalid="@Model.SelectedIntervalId"
                        asp-route-instrumentid="@Model.SelectedInstrumentId"
+                       asp-route-patterndirectid="@Model.SelectedDirectId"
                        asp-route-patterntypeid="@null">
                         Wszystkie uklady
                     </a>
@@ -84,6 +87,7 @@
                         <a asp-action="Index"
                            asp-route-intervalid="@Model.SelectedIntervalId"
                            asp-route-instrumentid="@Model.SelectedInstrumentId"
+                           asp-route-patterndirectid="@Model.SelectedDirectId"
                            asp-route-patterntypeid="@item.Id">
                             @item.Name
                         </a>
@@ -113,6 +117,7 @@
                     <a asp-action="Index"
                        asp-route-patterntypeid="@Model.SelectedPatternId"
                        asp-route-instrumentid="@Model.SelectedInstrumentId"
+                       asp-route-patterndirectid="@Model.SelectedDirectId"
                        asp-route-intervalid="@null">
                         Wszystkie interwaly
                     </a>
@@ -126,7 +131,52 @@
                         <a asp-action="Index"
                            asp-route-patterntypeid="@Model.SelectedPatternId"
                            asp-route-instrumentid="@Model.SelectedInstrumentId"
+                           asp-route-patterndirectid="@Model.SelectedDirectId"
                            asp-route-intervalid="@item.Id">
+                            @item.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="dropdown" style="display:inline-block;">
+            <button class="btn button-pink dropdown-toggle button-nav" type="button" id="dropdownMenu"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                @if (Model.SelectedDirect == null)
+                {
+                    <span>Kierunek</span>
+                }
+                else
+                {
+                    @Model.SelectedDirect.Name
+                }
+
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+
+                <li>
+                    <a asp-action="Index"
+                       asp-route-intervalid="@Model.SelectedIntervalId"
+                       asp-route-patterntypeid="@Model.SelectedPatternId"
+                       asp-route-instrumentid="@Model.SelectedInstrumentId"
+                       asp-route-patterndirectid="@null">
+                        Wszystkie kierunki
+                    </a>
+                </li>
+
+                <li class="divider"></li>
+
+                @foreach (var item in Model.PatternDirects)
+                {
+                    <li>
+                        <a asp-action="Index"
+                           asp-route-intervalid="@Model.SelectedIntervalId"
+                           asp-route-patterntypeid="@Model.SelectedPatternId"
+                           asp-route-instrumentid="@Model.SelectedInstrumentId"
+                           asp-route-patterndirectid="@item.Id">
                             @item.Name
                         </a>
                     </li>
@@ -141,8 +191,7 @@
     </div>
 </div>
 
-@for (int k = 0; k < 3; k++)
-{
+
 
 
 <div style="padding:30px; background-color:#d6d9dc">
@@ -163,6 +212,10 @@
             @if (Model.SelectedIntervalId != null)
             {
                 <a asp-action="Edit" class="btn button-green">@Model.SelectedInterval.Name</a>
+            }
+            @if (Model.SelectedDirectId != null)
+            {
+                <a asp-action="Edit" class="btn button-pink">@Model.SelectedDirect.Name</a>
             }
 
             w bazie danych
@@ -242,16 +295,15 @@
 <div class="container">
     
     <div class="row">
-        <div class="col-md-4">
-            <div style="margin-top:50px; margin-bottom:50px; margin-left:0px; margin-right:30px; height:500px; background-color:#ffffff"></div>
-        </div>
-        <div class="col-md-4">
-            <div style="margin-top:50px; margin-bottom:50px; margin-left:0px; margin-right:0px; height:500px; background-color:#ffffff"></div>
-        </div>
-        <div class="col-md-4">
-            <div style="margin-top:50px; margin-bottom:50px; margin-left:30px; margin-right:0px; height:500px; background-color:#ffffff"></div>
+        <div class="row admin-panel">
+            <h3 class="admin-panel-text">W budowie ;)</h3>
+            <h5 class="admin-panel-text">Wykresy, analizy danych</h5>
+            <h5 class="admin-panel-text">Jaki procent ukladow po osiagnieciu poziomu B osiąga poziom C i A?</h5>
+            <h5 class="admin-panel-text">Jakie uklady szybciej osiagaja poziom B C A?</h5>
+            <h5 class="admin-panel-text">W jakich godzinach i na jakich interwalach pojawia sie najwiecej ukladow?</h5>
+            <h5 class="admin-panel-text">W ktorych godzinach uklady sie najlepiej realizują?</h5>
+            <h5 class="admin-panel-text">itd...</h5>
         </div>
     </div>
 
 </div>
-}

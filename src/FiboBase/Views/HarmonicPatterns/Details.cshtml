@@ -143,25 +143,9 @@
 
                 <div class="col-md-1"></div>
 
+
                 <div class="col-md-5">
-                    <div class="row">
-                        <a asp-action="Edit" class="btn button-purple">@Model.HarmonicPattern.Instrument.Name</a>
-                        <a asp-action="Edit" class="btn button-green">@Model.HarmonicPattern.Interval.Name</a>
-                        <a asp-controller="Patterns" asp-action="Details" asp-route-id="@Model.HarmonicPattern.PatternType.Id" class="btn button-blue">@Model.HarmonicPattern.PatternType.Name</a>
-                        <a asp-action="Edit" class="btn button-pink">@Model.HarmonicPattern.PatternDirect.Name</a>
-                    </div>
-                    <div class="row" style="margin-top:20px;">
-                        <span>NA RYNKU:</span>
-                        <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
-                        @Html.DisplayFor(modelItem => Model.HarmonicPattern.Date)
-                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                        @Model.HarmonicPattern.Date.TimeOfDay
-                    </div>
-                    <div class="row">
-                        <span>DODANO:</span>
-                        <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
-                        @Html.DisplayFor(modelItem => Model.HarmonicPattern.AddDate)
-                    </div>
+
                 </div>
 
             </div>
@@ -181,54 +165,4 @@
 
     </div>
 
-    
-
-    @*
-        <div class="col-md-3" style="padding:0px">
-
-            <div class="content">
-
-                <div class="row text" style="margin-bottom:5px;">
-                    <div class="col-md-9">
-                        REAKCJA PO 5 SWIECACH: 
-                    </div>
-                    <div class="text-purple" style="font-size:15px; text-align:center">
-                        <strong> @Model.HarmonicPattern.ReactionAfter5Candles.Name </strong> 
-                    </div>      
-                </div>
-
-                <div class="row text" style="margin-bottom:5px;">
-                    <div class="col-md-9">
-                        REAKCJA PO 10 SWIECACH:
-                    </div>
-                    <div class="text-green" style="font-size:15px; text-align:center">
-                        <strong> @Model.HarmonicPattern.ReactionAfter10Candles.Name </strong>
-                    </div>
-                </div>
-
-                <div class="row text" style="margin-bottom:25px;">
-                    <div class="col-md-9">
-                        REAKCJA PO 20 SWIECACH:
-                    </div>
-                    <div class="text-blue" style="font-size:15px; text-align:center">
-                        <strong> @Model.HarmonicPattern.ReactionAfter20Candles.Name </strong>
-                    </div>              
-                </div>
-
-                <div class="row text" style="margin-bottom:20px;">
-                    <div class="col-md-12">
-                            NA RYNKU:
-                    </div>
-                    <div style="text-align:right">
-                        <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
-                        @Html.DisplayFor(modelItem => Model.HarmonicPattern.Date)
-                    </div>
-                    
-                </div>
-
-            </div>
-
-        </div>
-    *@
- 
-</div>
+   

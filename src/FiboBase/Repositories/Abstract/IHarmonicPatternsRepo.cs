@@ -10,6 +10,7 @@ namespace HarmonicPatternsBase.Repositories.Abstract
     public interface IHarmonicPatternsRepo
     {
         Task<HarmonicPattern> GetHarmonicPatternAsync(GetHarmonicPatternsMode mode, int? Id);
+
         Task<List<HarmonicPattern>> GetHarmonicPatternsAsync(
              GetHarmonicPatternsMode mode,
              int? IntervalId = null,
@@ -17,13 +18,27 @@ namespace HarmonicPatternsBase.Repositories.Abstract
              int? InstrumentId = null,
              int? PatternDirectId = null,
              int? HowMany = null);
-        Task<Interval> GetIntervalAsync(GetIntervalsMode mode, int? Id);
-        Task<List<Interval>> GetIntervalsAsync(GetIntervalsMode mode);
-        Task<Pattern> GetPatternTypeAsync(GetPatternTypesMode mode, int? Id);
-        Task<List<Pattern>> GetPatternTypesAsync(GetPatternTypesMode mode);
-        Task<Instrument> GetInstrumentAsync(GetInstrumentTypesMode mode, int? Id);
-        Task<List<Instrument>> GetInstrumentsAsync(GetInstrumentTypesMode mode);
-        Task<PatternDirect> GetPatternDirect(GetPatternDirectsMode mode, int? Id);
-        Task<List<PatternDirect>> GetPatternDirects(GetPatternDirectsMode mode);
+
+        IQueryable<HarmonicPattern> GetHarmonicPatternsQuery(
+            GetHarmonicPatternsMode mode,
+            int SortOrder,
+            int? IntervalId = null,
+            int? PatternTypeId = null,
+            int? InstrumentId = null,
+            int? PatternDirectId = null,
+            DateTime? dateSince = null,
+            DateTime? dateTo = null,
+            DateTime? addDateSince = null,
+            DateTime? addDateTo = null);
+
+        Task<Interval> GetIntervalAsync(int? Id);
+        Task<List<Interval>> GetIntervalsAsync();
+        Task<Pattern> GetPatternTypeAsync(int? Id);
+        Task<List<Pattern>> GetPatternTypesAsync();
+        Task<Instrument> GetInstrumentAsync(int? Id);
+        Task<List<Instrument>> GetInstrumentsAsync();
+        Task<PatternDirect> GetPatternDirectAsync(int? Id);
+        Task<List<PatternDirect>> GetPatternDirectsAsync();
+        Task<List<ReactionLvl>> GetReactionLvlsAsync();
     }
 }

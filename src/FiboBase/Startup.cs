@@ -14,6 +14,7 @@ using HarmonicPatternsBase.Models;
 using HarmonicPatternsBase.Services;
 using HarmonicPatternsBase.Repositories.Abstract;
 using HarmonicPatternsBase.Repositories;
+using Sakura.AspNetCore.Mvc;
 
 namespace HarmonicPatternsBase
 {
@@ -44,6 +45,12 @@ namespace HarmonicPatternsBase
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // pagination           
+            services.AddBootstrapPagerGenerator(options =>
+            {
+                options.ConfigureDefault();
+            });
+
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
@@ -105,7 +112,7 @@ namespace HarmonicPatternsBase
             SeedData.ReactionLvlsInit(app.ApplicationServices);
             SeedData.HarmonicPatternsInit(app.ApplicationServices);
            
-            //SeedData.AddHarmonicPatterns(app.ApplicationServices, 2000);
+            //SeedData.AddHarmonicPatterns(app.ApplicationServices, 5000);
         }
     }
 }

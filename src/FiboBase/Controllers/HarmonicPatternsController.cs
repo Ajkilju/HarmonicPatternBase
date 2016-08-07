@@ -11,6 +11,9 @@ using HarmonicPatternsBase.Repositories.Abstract;
 using HarmonicPatternsBase.Models.HarmonicPatternViewModels;
 using HarmonicPatternsBase.Repositories;
 using HarmonicPatternsBase.Models.StatisticModels;
+using Sakura.AspNetCore;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace HarmonicPatternsBase.Controllers
 {
@@ -32,35 +35,101 @@ namespace HarmonicPatternsBase.Controllers
 
         // GET: HarmonicPatterns
         public async Task<IActionResult> Index(
-            int? intervalId = null, int? patternTypeId = null, int? instrumentId = null, int? patternDirectId = null)
+            int pageSize = 20,
+            int page = 1,
+            int sortOrder = 0,
+            int? intervalId = null, 
+            int? patternTypeId = null, 
+            int? instrumentId = null, 
+            int? patternDirectId = null,
+            DateTime? dateSince = null,
+            DateTime? dateTo = null,
+            DateTime? addDateSince = null,
+            DateTime? addDateTo = null)
         {
             var statisticsData = await _statisticsRepo.GetHarmonicPatternStatisticisticDataAsync(
-                intervalId, patternTypeId, instrumentId, patternDirectId);
+                intervalId,
+                patternTypeId,
+                instrumentId,
+                patternDirectId,
+                dateSince,
+                dateTo,
+                addDateSince,
+                addDateTo);
 
             var model = new HarmonicPatternIndexViewModel
             {
                 HarmonicPatterns = await _harmonicPatternsRepo
-                      .GetHarmonicPatternsAsync(GetHarmonicPatternsMode.AsNoTracking, intervalId, patternTypeId, instrumentId, patternDirectId, 30),
-                Intervals = await _harmonicPatternsRepo.GetIntervalsAsync(GetIntervalsMode.AsNoTracking),
-                PatternTypes = await _harmonicPatternsRepo.GetPatternTypesAsync(GetPatternTypesMode.AsNoTracking),
-                Instruments = await _harmonicPatternsRepo.GetInstrumentsAsync(GetInstrumentTypesMode.AsNoTracking),
-                PatternDirects = await _harmonicPatternsRepo.GetPatternDirects(GetPatternDirectsMode.AsNoTracking),
+                      .GetHarmonicPatternsQuery(
+                    GetHarmonicPatternsMode.AsNoTracking,
+                    sortOrder,
+                    intervalId, 
+                    patternTypeId,
+                    instrumentId,
+                    patternDirectId,
+                    dateSince,
+                    dateTo,
+                    addDateSince,
+                    addDateTo)
+                    .ToPagedListAsync(pageSize, page),
 
-                SelectedInterval = await _harmonicPatternsRepo.GetIntervalAsync(GetIntervalsMode.AsNoTracking, intervalId),
-                SelectedPattern = await _harmonicPatternsRepo.GetPatternTypeAsync(GetPatternTypesMode.AsNoTracking, patternTypeId),
-                SelectedInstrument = await _harmonicPatternsRepo.GetInstrumentAsync(GetInstrumentTypesMode.AsNoTracking, instrumentId),
-                SelectedDirect = await _harmonicPatternsRepo.GetPatternDirect(GetPatternDirectsMode.AsNoTracking, patternDirectId),
+                DateSince = dateSince,
+                DateTo = dateTo,
+                AddDateSince = addDateSince,
+                AddDateTo = addDateTo,
+
+                Intervals = await _harmonicPatternsRepo.GetIntervalsAsync(),
+                PatternTypes = await _harmonicPatternsRepo.GetPatternTypesAsync(),
+                Instruments = await _harmonicPatternsRepo.GetInstrumentsAsync(),
+                PatternDirects = await _harmonicPatternsRepo.GetPatternDirectsAsync(),
+                ReactionLevels = await _harmonicPatternsRepo.GetReactionLvlsAsync(),
+
+                SelectedInterval = await _harmonicPatternsRepo.GetIntervalAsync(intervalId),
+                SelectedPattern = await _harmonicPatternsRepo.GetPatternTypeAsync(patternTypeId),
+                SelectedInstrument = await _harmonicPatternsRepo.GetInstrumentAsync(instrumentId),
+                SelectedDirect = await _harmonicPatternsRepo.GetPatternDirectAsync(patternDirectId),
 
                 SelectedPatternId = patternTypeId,
                 SelectedIntervalId = intervalId,
                 SelectedInstrumentId = instrumentId,
                 SelectedDirectId = patternDirectId,
 
-                Statistics = new HarmonicPatternsStatistic(statisticsData),
-                ReactionLevels = _context.ReactionLvls.ToList()         
+                Statistics = new HarmonicPatternsStatistic(statisticsData),  
+                
+                 SortOrder = sortOrder,
+                 SortOrdersList = new List<string> {
+                     "Data malejaco",
+                     "Data rosnaco",
+                     "Data dodania malejaco",
+                     "Data dodania rosnaco" }
             };
 
+            DateTime d = DateTime.Now;
 
+            if (dateSince != null)
+            {
+                d = (DateTime)dateSince;
+                model.DateSinceString = d.Year.ToString() + "-" + d.Month.ToString("00") + "-" + d.Day.ToString("00"); 
+            }
+
+            if (dateTo != null)
+            {
+                d = (DateTime)dateTo;
+                model.DateToString = d.Year.ToString() + "-" + d.Month.ToString("00") + "-" + d.Day.ToString("00");
+            }
+
+            if (addDateSince != null)
+            {
+                d = (DateTime)addDateSince;
+                model.AddDateSinceString = d.Year.ToString() + "-" + d.Month.ToString("00") + "-" + d.Day.ToString("00");
+            }
+
+            if (addDateTo != null)
+            {
+                d = (DateTime)addDateTo;
+                model.AddDateToString = d.Year.ToString() + "-" + d.Month.ToString("00") + "-" + d.Day.ToString("00");
+            }
+           
             return View(model);
         }
 
@@ -85,53 +154,15 @@ namespace HarmonicPatternsBase.Controllers
         // GET: HarmonicPatterns/Create
         public IActionResult Create()
         {          
-            var dayList = new List<int>();
-            for(int i=1; i<32; i++)
-            {
-                dayList.Add(i);
-            }
-
-            var monthList = new List<int>();
-            for(int i=1; i<13; i++)
-            {
-                monthList.Add(i);
-            }
-
-            var yearList = new List<int>();
-            for (int i = 2000; i < DateTime.Now.Year + 1; i++)
-            {
-                yearList.Add(i);
-            }
-
-            var hourList = new List<int>();
-            for (int i = 0; i < 24; i++)
-            {
-                hourList.Add(i);
-            }
-
-            var minuteList = new List<int>();
-            for (int i = 0; i < 60; i++)
-            {
-                minuteList.Add(i);
-            }
-
             var model = new HarmonicPatternCreateViewModel
             {
-                Day = DateTime.Now.Day,
-                Month = DateTime.Now.Month,
-                Year = DateTime.Now.Year,
-                Hour = DateTime.Now.Hour,
-                Minute = DateTime.Now.Minute,
-
-                DayList = new SelectList(dayList),
-                MonthList = new SelectList(monthList),
-                YearList = new SelectList(yearList),
-                HourList = new SelectList(hourList),
-                MinuteList = new SelectList(minuteList),
                 IntervalList = new SelectList(_context.Intervals, "Id", "Name"),
                 PatternTypeList = new SelectList(_context.Patterns, "Id", "Name"),
                 InstrumentList = new SelectList(_context.Instruments, "Id", "Name"),
                 PatternDirectList = new SelectList(_context.PatternDirects, "Id", "Name"),
+                ReactionLvlsList = new SelectList(_context.ReactionLvls, "Id", "Name"),
+                WaveRatioList = new SelectList(new List<double> { 0.000, 0.382, 0.500, 0.618, 0.786, 0.886, 1.000, 1.13, 1.227, 1.618, 2.000 }),
+                NumberOfWavesList = new SelectList(new List<int> { 3 , 4 }),
             };
 
             return View(model);
@@ -140,21 +171,43 @@ namespace HarmonicPatternsBase.Controllers
         // POST: HarmonicPatterns/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(HarmonicPatternCreateViewModel model)
+        public async Task<IActionResult> Create(HarmonicPatternCreateViewModel model, IFormFile image)
         {
             if (ModelState.IsValid)
             {
                 var harmonicPattern = new HarmonicPattern
                 {
-                    Date = new DateTime(model.Year, model.Month, model.Day, model.Hour, model.Minute, 0),
+                    Date = model.Date.Date + model.Time.TimeOfDay,
                     AddDate = DateTime.Now,
                     Discription = model.Discription,
-                    Image = new byte[1],
                     PatternTypeId = model.PatternTypeId,
                     IntervalId = model.IntervalId,
                     InstrumentId = model.InstrumentId,
-                    PatternDirectId = model.PatternDirectId                 
+                    PatternDirectId = model.PatternDirectId,
+                    ReactionAfter5CandlesId = model.ReactionAfter5CandlesId,
+                    ReactionAfter10CandlesId = model.ReactionAfter10CandlesId,
+                    ReactionAfter20CandlesId = model.ReactionAfter20CandlesId,
+                    NumberOfWaves = model.NumberOfWaves,
+                    ABtoXAratio = model.ABtoXAratio,
+                    ADtoXAratio = model.ADtoXAratio,
+                    BCtoABratio = model.BCtoABratio,
+                    CDtoBCratio = model.CDtoBCratio,
+                    CDtoABratio = model.CDtoABratio,
                 };
+
+                if(image == null)
+                {
+                    harmonicPattern.Image = new byte[1];
+                }
+                else
+                {
+                    using (var reader = new BinaryReader(image.OpenReadStream()))
+                    {
+                        var fileContent = reader.ReadBytes((int)image.Length);
+                        harmonicPattern.Image = fileContent;
+                    }
+                }
+
                 _context.Add(harmonicPattern);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");

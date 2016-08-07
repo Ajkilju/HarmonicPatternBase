@@ -21,6 +21,11 @@ namespace HarmonicPatternsBase.Models.StatisticModels
             ReactionAfter10Candles = new List<ReactionStatistic>();
             ReactionAfter20Candles = new List<ReactionStatistic>();
 
+            if (data.Count == 0)
+            {
+                return;
+            }
+
             foreach (var item in data)
             {
                 NumberOfWaves += item.NumberOfWaves;

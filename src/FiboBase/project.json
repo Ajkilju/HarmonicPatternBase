@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-HarmonicPatternsBase-dc0d89c5-2d6d-4122-b218-f0e187bd8201",
 
   "dependencies": {
@@ -40,10 +40,13 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc":  {
+    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Sakura.AspNetCore.PagedList.Async": "1.0.0",
+    "Sakura.AspNetCore.Mvc.PagedList": "2.0.6",
+    "Sakura.AspNetCore.PagedList": "2.0.0"
   },
 
   "tools": {
