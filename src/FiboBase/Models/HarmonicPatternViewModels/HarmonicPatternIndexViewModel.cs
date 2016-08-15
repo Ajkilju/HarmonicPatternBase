@@ -13,7 +13,7 @@ namespace HarmonicPatternsBase.Models.HarmonicPatternViewModels
         public IPagedList<HarmonicPattern> HarmonicPatterns { get; set; }
         public List<Interval> Intervals { get; set; }
         public List<Pattern> PatternTypes { get; set; }
-        public List<Instrument> Instruments { get; set; }
+        public List<InstrumentCategory> InstrumentsCategories { get; set; }
         public List<PatternDirect> PatternDirects { get; set; }
 
         public Pattern SelectedPattern { get; set; }
@@ -42,5 +42,36 @@ namespace HarmonicPatternsBase.Models.HarmonicPatternViewModels
 
         public int SortOrder { get; set; }
         public List<string> SortOrdersList { get; set; }
+        public int ViewOrder { get; set; }
+        public List<string> ViewOrdersList { get; set; }
+
+        public void SetInstruments(List<Instrument> instruments)
+        {
+            InstrumentsCategories = new List<InstrumentCategory>();
+            List<string> CategoriesJustIn = new List<string>();
+
+            foreach(var instrument in instruments)
+            {
+                if(CategoriesJustIn.Contains(instrument.Category) == true)
+                {
+                    InstrumentsCategories.Single(h => h.Name == instrument.Category).Instruments.Add(instrument);
+                }
+                else
+                {
+                    InstrumentsCategories.Add(new InstrumentCategory { Instruments = new List<Instrument>(), Name = instrument.Category });
+                    CategoriesJustIn.Add(instrument.Category);
+                    InstrumentsCategories.Single(h => h.Name == instrument.Category).Instruments.Add(instrument);
+                }
+            }
+
+        }
     }
+
+    public class InstrumentCategory
+    {
+        public List<Instrument> Instruments { get; set; }
+        public string Name { get; set; }
+    }
+
+
 }

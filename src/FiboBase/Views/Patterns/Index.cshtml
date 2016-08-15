@@ -1,119 +1,56 @@
 ﻿@model HarmonicPatternsBase.Models.PatternViewModels.PatternsIndexViewModel
 
-@*
+
 <div style="background-color:#36424a; height:80px;">
    
 </div>
 
-<div style="padding:30px; background-color:#d6d9dc; height:200px;">
-
+<div style="padding:30px; background-color:#d6d9dc;">
+    <div class="text container" style="font-size:15px;">
+        <a asp-controller="Info" asp-action="Patterns" class="btn button-blueframe">Czym sa uklady harmoniczne</a>
+    </div>
 </div>
-*@
-
 
 <div class="container" style="margin-top:30px">
-    <div class="masonry2columns">
+    <div class="masonry">
 
         @foreach (var item in Model.Patterns)
         {
 
-            <div class="item" style="text-align:center">
+            <div class="item">
 
-                <div class="text text-purple" style="font-size:18px">
-                    <strong>@item.Name</strong>
-                </div>
+                <a asp-controller="Patterns" asp-action="Details" asp-route-id="@item.Id" class="btn button-blue button-md">@item.Name</a>
+                <div style="text-align:center">
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <img src="~/images/patterns/uklad1.png" class="img-rounded" style="max-width:230px;" asp-append-version="true" />
+                    </a>
 
-                <a asp-action="Details" asp-route-id="@item.Id">
-
-                    <img src="~/images/harmonicPatterns/motylExample.png" style="max-width:530px;" class="img-rounded" asp-append-version="true" />
-
-                </a>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <p>
-                            AD:XA
-                        </p>
-                        <p>
-                            AB:XA
-                        </p>
-                    </div>
-                    <div class="col-md-6 text-green" style="font-size:15px;">
-                        <p>
-                            <strong>@item.ADtoXAratio</strong>
-                        </p>
-                        <p>
-                            <strong>@item.ABtoXAratio</strong>
-                        </p>
-                    </div>
-                </div>
-
-
-                <div style="margin-top:10px;">
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn button-blueframe" style="background-color:#ffffff;">Szczegoly</a>
-                </div>
-            </div>
-        }
-    </div>
-</div>
-
-
-@*
-<div class="container">
-
-    <div class="col-md-8 col-md-offset-2">
-
-        @foreach (var item in Model.Patterns)
-        {
-            <div style="margin-top:30px; background-color:#ffffff; padding:20px;">
-                <div class="text" style="font-size:22px; text-align:center;">
-                    <strong>@item.Name</strong>
-                </div>
-
-                <hr />
-
-                <div class="row">
-                    <div class="col-md-9">
-                        <a asp-action="Details" asp-route-id="@item.Id">
-
-                            <img src="~/images/harmonicPatterns/motylExample.png" style="max-width:500px;" class="img-rounded" asp-append-version="true" />
-
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p>
-                                    AD:XA
-                                </p>
-                                <p>
-                                    AB:XA
-                                </p>
-                            </div>
-                            <div class="col-md-6 text-green" style="font-size:15px;">
-                                <p>
-                                    <strong>@item.ADtoXAratio</strong> 
-                                </p>
-                                <p>
-                                    <strong>@item.ABtoXAratio</strong> 
-                                </p>
-                            </div>
+                    <div class="row" style="text-align:center">
+                        <div class="col-md-6">
+                            <p>
+                                AD:XA
+                            </p>
+                            <p>
+                                AB:XA
+                            </p>
+                        </div>
+                        <div class="col-md-6 text-green" style="font-size:15px;">
+                            <p>
+                                <strong>@item.ADtoXAratio</strong>
+                            </p>
+                            <p>
+                                <strong>@item.ABtoXAratio</strong>
+                            </p>
                         </div>
                     </div>
-                </div>
 
-                
 
-                <hr />
-
-                <div style="margin-top:10px; text-align:center;">
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn button-blueframe" style="background-color:#ffffff;">Wiecej</a>
+                    <div style="margin-top:10px;">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn button-blueframe" style="background-color:#ffffff;">Szczegoly</a>
+                    </div>
                 </div>
             </div>
-
         }
-
     </div>
-
 </div>
-*@
+

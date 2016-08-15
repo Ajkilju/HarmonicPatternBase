@@ -6,148 +6,151 @@
 
 <div class="container">
 
+    <div class="text" style="margin:25px;">
+        <p style="font-size:35px;"><strong>Dodaj uklad</strong></p>
+        <p style="font-size:20px;">Im dokladniej opiszesz uklad harmoniczny tym lepsze i wartosciowsze beda nasze analizy!</p>
+    </div>
+
     <div class="content">
         <form asp-action="Create" enctype="multipart/form-data">
             <div class="form-horizontal">
-                <h4>HarmonicPattern</h4>
-                <hr />
+                
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+                <div style="text-align:center;margin-bottom:50px; margin-top:30px;">
+                    <div id="image-holder"> </div>
+
+                    <label class="btn btn-default btn-file" for="image">
+                        <input id="harmonicPatternImage" type="file" name="image" />  Dodaj zdjecie
+                    </label>
+                </div>
+
                 <div class="form-group">
-                    <label asp-for="Date" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Date" type="date" class="form-control" value="@Model.DateNow" />
+                    <label class="col-md-3 control-label">Data wystapienia na rynku</label>
+                    <div class="col-md-9">
+                        <input asp-for="Date" type="date" class="form-control" value="@Model.Date" />
                         <span asp-validation-for="Date" class="text-danger" />
                     </div>
                 </div>          
                 
                 <div class="form-group">
-                    <label asp-for="Time" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Time" type="time" class="form-control" value="@Model.TimeNow" />
+                    <label class="col-md-3 control-label">Godzina wystapienia na rynku</label>
+                    <div class="col-md-9">
+                        <input asp-for="Time" type="time" class="form-control" value="@Model.Time" />
                         <span asp-validation-for="Time" class="text-danger" />
                     </div>
                 </div>     
 
                 <div class="form-group">
-                    <label asp-for="Discription" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Discription" class="form-control" />
-                        <span asp-validation-for="Discription" class="text-danger" />
+                    <label class="col-md-3 control-label">Krotki opis</label>
+                    <div class="col-md-9">
+                        <textarea asp-for="HarmonicPattern.Discription" class="form-control" style="height:150px;" ></textarea>
+                        <span asp-validation-for="HarmonicPattern.Discription" class="text-danger" />
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="InstrumentId" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="InstrumentId" class="form-control" asp-items="@Model.InstrumentList"></select>
+                    <label class="col-md-3 control-label">Instrument</label>
+                    <div class="col-md-9">
+                        <select asp-for="HarmonicPattern.InstrumentId" class="form-control" asp-items="@Model.InstrumentList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="IntervalId" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="IntervalId" class="form-control" asp-items="@Model.IntervalList"></select>
+                    <label class="col-md-3 control-label">Interwal</label>
+                    <div class="col-md-9">
+                        <select asp-for="HarmonicPattern.IntervalId" class="form-control" asp-items="@Model.IntervalList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="PatternTypeId" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="PatternTypeId" class="form-control" asp-items="@Model.PatternTypeList"></select>
+                    <label class="col-md-3 control-label">Typ ukladu</label>
+                    <div class="col-md-9">
+                        <select asp-for="HarmonicPattern.PatternTypeId" class="form-control" asp-items="@Model.PatternTypeList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="PatternDirectId" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="PatternDirectId" class="form-control" asp-items="@Model.PatternDirectList"></select>
+                    <label class="col-md-3 control-label">Kierunek ukladu</label>
+                    <div class="col-md-9">
+                        <select asp-for="HarmonicPattern.PatternDirectId" class="form-control" asp-items="@Model.PatternDirectList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="ReactionAfter5CandlesId" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="ReactionAfter5CandlesId" class="form-control" asp-items="@Model.ReactionLvlsList"></select>
+                    <label class="col-md-3 control-label">Reakcja po 5 swiecach</label>
+                    <div class="col-md-9">
+                        <select asp-for="HarmonicPattern.ReactionAfter5CandlesId" class="form-control" asp-items="@Model.ReactionLvlsList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="ReactionAfter10CandlesId" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="ReactionAfter10CandlesId" class="form-control" asp-items="@Model.ReactionLvlsList"></select>
+                    <label class="col-md-3 control-label">Reakcja po 10 swiecach</label>
+                    <div class="col-md-9">
+                        <select asp-for="HarmonicPattern.ReactionAfter10CandlesId" class="form-control" asp-items="@Model.ReactionLvlsList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="ReactionAfter20CandlesId" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="ReactionAfter20CandlesId" class="form-control" asp-items="@Model.ReactionLvlsList"></select>
+                    <label class="col-md-3 control-label">Reakcja po 20 swiecach</label>
+                    <div class="col-md-9">
+                        <select asp-for="HarmonicPattern.ReactionAfter20CandlesId" class="form-control" asp-items="@Model.ReactionLvlsList"></select>
                     </div>
                 </div>
 
+                @*
                 <div class="form-group">
-                    <label asp-for="NumberOfWaves" class="col-md-2 control-label"></label>
+                    <label asp-for="HarmonicPattern.NumberOfWaves" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <select asp-for="NumberOfWaves" class="form-control" asp-items="@Model.NumberOfWavesList"></select>
+                        <select asp-for="HarmonicPattern.NumberOfWaves" class="form-control" asp-items="@Model.NumberOfWavesList"></select>
                     </div>
                 </div>
+                    *@
 
                 @*---------------------------------------*@
 
                 <div class="form-group">
-                    <label asp-for="ABtoXAratio" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
+                    <label class="col-md-3 control-label">Storunek fali AB do XA</label>
+                    <div class="col-md-9">
                         <select asp-for="ABtoXAratio" class="form-control" asp-items="@Model.WaveRatioList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="ADtoXAratio" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
+                    <label  class="col-md-3 control-label">Stosunek fali AD do XA</label>
+                    <div class="col-md-9">
                         <select asp-for="ADtoXAratio" class="form-control" asp-items="@Model.WaveRatioList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="BCtoABratio" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
+                    <label class="col-md-3 control-label">Stosunek fali BC do AB</label>
+                    <div class="col-md-9">
                         <select asp-for="BCtoABratio" class="form-control" asp-items="@Model.WaveRatioList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="CDtoBCratio" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
+                    <label class="col-md-3 control-label">Stosunek fali CD do BC</label>
+                    <div class="col-md-9">
                         <select asp-for="CDtoBCratio" class="form-control" asp-items="@Model.WaveRatioList"></select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="CDtoABratio" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
+                    <label class="col-md-3 control-label">Stosunek fali CD do AB</label>
+                    <div class="col-md-9">
                         <select asp-for="CDtoABratio" class="form-control" asp-items="@Model.WaveRatioList"></select>
                     </div>
                 </div>
+                
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-5">
-                        <div class="input-group">
-                            <span class="input-group-btn">
-                                <label class="btn btn-default btn-file" for="multiple_input_group">
-                                    <input id="multiple_input_group" type="file" name="image" /> Dodaj zdjecia
-                                </label>
-                            </span>
-                            <span class="file-input-label"></span>
-                        </div>
-                    </div>
+                <div style="text-align:center; margin-top:40px; margin-bottom:10px;">
+
+                        <input type="submit" value="Dodaj do bazy danych" class="btn btn-default" />
+
                 </div>
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
-                    </div>
-                </div>
             </div>
         </form>
     </div>
@@ -157,4 +160,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/HarmonicPattern/Create.js"></script>
 }

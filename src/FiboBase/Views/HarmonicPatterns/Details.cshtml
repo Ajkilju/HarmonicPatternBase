@@ -47,33 +47,20 @@
 
         <div class="content">
 
-            <div style="margin-bottom:10px;">
-                <a asp-action="Edit" class="btn button-purple">@Model.HarmonicPattern.Instrument.Name</a>
-                <a asp-action="Edit" class="btn button-green">@Model.HarmonicPattern.Interval.Name</a>
-                <a asp-controller="Patterns" asp-action="Details" asp-route-id="@Model.HarmonicPattern.PatternType.Id" class="btn button-blue">@Model.HarmonicPattern.PatternType.Name</a>
-                <a asp-action="Edit" class="btn button-pink">@Model.HarmonicPattern.PatternDirect.Name</a>
-                <span class="text" style="margin-top:10px; font-size:12px;">
-                    <span style="margin-left:20px">NA RYNKU:</span>
-                    <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
-                    @Html.DisplayFor(modelItem => Model.HarmonicPattern.Date)
-                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                    @Model.HarmonicPattern.Date.TimeOfDay
-
-                    <span style="margin-left:30px">DODANO:</span>
-                    <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
-                    @Html.DisplayFor(modelItem => Model.HarmonicPattern.AddDate)
-
-                </span>
+            <div>
+                <a asp-action="Edit" class="btn button-purple button-md">@Model.HarmonicPattern.Instrument.Name</a>
+                <a asp-action="Edit" class="btn button-green button-md">@Model.HarmonicPattern.Interval.Name</a>
+                <a asp-controller="Patterns" asp-action="Details" asp-route-id="@Model.HarmonicPattern.PatternType.Id" class="btn button-blue button-md">@Model.HarmonicPattern.PatternType.Name</a>
+                <a asp-action="Edit" class="btn button-pink button-md">@Model.HarmonicPattern.PatternDirect.Name</a>
             </div>
 
-
-            <div style="text-align:center; margin-bottom:20px;">
+            <div style="text-align:center; margin-bottom:30px; margin-top:30px;">
                 <img src='@imageContent' class="img-rounded" style="max-width:700px;" asp-append-version="true" />
             </div>
 
             @if (Model.HarmonicPattern.Discription != null)
             {
-                <div class="text" style="margin-bottom:20px;">
+                <div class="text" style="margin:15px;">
                     @Model.HarmonicPattern.Discription
                 </div>
             }
@@ -102,12 +89,15 @@
 
                     <div style="height:20px"> </div>
 
+                    @*
                     <div class="col-md-9">
                         LICZBA FAL:
                     </div>
                     <div class="text-blue" style="font-size:15px; text-align:left">
                         <strong> @Model.HarmonicPattern.NumberOfWaves </strong>
                     </div>
+                    *@
+
                     <div class="col-md-9">
                         STOSUNEK AB DO XA:
                     </div>
@@ -141,11 +131,25 @@
 
                 </div>
 
-                <div class="col-md-1"></div>
 
 
-                <div class="col-md-5">
-
+                <div class="col-md-7">
+                    <div class="col-md-3">
+                        DODANO:
+                    </div>
+                    <div>
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
+                        @Html.DisplayFor(modelItem => Model.HarmonicPattern.AddDate)
+                    </div>
+                    <div class="col-md-3">
+                        NA RYNKU:
+                    </div>
+                    <div>
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-left:5px"></span>
+                        @Html.DisplayFor(modelItem => Model.HarmonicPattern.Date)
+                        <span style="margin-left:10px"  class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                        @Model.HarmonicPattern.Date.TimeOfDay
+                    </div>
                 </div>
 
             </div>

@@ -2,13 +2,52 @@
 
 @{
     ViewData["Title"] = "Index";
-    Random r = new Random();
-    ViewData["Messages"] = "lol";
 }
 
 
 <div style="background-color:#36424a">
     <div class="container" style="padding:20px;">
+
+        @*
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="menu-item dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Drop Down<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="menu-item dropdown dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Level 1</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="menu-item ">
+                                            <a href="#">Link 1</a>
+                                        </li>
+                                        <li class="menu-item dropdown dropdown-submenu">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Level 2</a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href="#">Link 3</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+            *@
+
 
         <div class="dropdown" style="display:inline-block;">
             <button class="btn button-purple dropdown-toggle button-nav" type="button" id="dropdownMenu"
@@ -27,6 +66,8 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
 
+                
+
                 <li>
                     <a asp-action="Index"
                        asp-route-datesince="@Model.DateSince"
@@ -37,29 +78,46 @@
                        asp-route-patterntypeid="@Model.SelectedPatternId"
                        asp-route-patterndirectid="@Model.SelectedDirectId"
                        asp-route-sortorder="@Model.SortOrder"
+                       asp-route-vieworder="@Model.ViewOrder"
                        asp-route-instrumentid="@null">
                     Wszystkie instrumenty</a>
                 </li>
 
+
                 <li class="divider"></li>
 
-                @foreach (var item in Model.Instruments)
-                {
-                    <li>
-                        <a asp-action="Index" 
-                           asp-route-datesince="@Model.DateSince"
-                           asp-route-dateto="@Model.DateTo"
-                           asp-route-adddatesince="@Model.AddDateSince"
-                           asp-route-adddateto="@Model.AddDateTo"
-                           asp-route-intervalid="@Model.SelectedIntervalId" 
-                           asp-route-patterntypeid="@Model.SelectedPatternId"
-                           asp-route-patterndirectid="@Model.SelectedDirectId"
-                           asp-route-sortorder="@Model.SortOrder"
-                           asp-route-instrumentid="@item.Id">
-                        @item.Name</a>
-                    </li>
+                @{foreach (var category in Model.InstrumentsCategories)
+                    {
+                        <li class="menu-item dropdown dropdown-submenu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@category.Name</a>
+                            <ul class="dropdown-menu">
+                                @foreach (var item in category.Instruments)
+                                {
+                                    <li>
+                                        <a asp-action="Index"
+                                           asp-route-datesince="@Model.DateSince"
+                                           asp-route-dateto="@Model.DateTo"
+                                           asp-route-adddatesince="@Model.AddDateSince"
+                                           asp-route-adddateto="@Model.AddDateTo"
+                                           asp-route-intervalid="@Model.SelectedIntervalId"
+                                           asp-route-patterntypeid="@Model.SelectedPatternId"
+                                           asp-route-patterndirectid="@Model.SelectedDirectId"
+                                           asp-route-sortorder="@Model.SortOrder"
+                                           asp-route-vieworder="@Model.ViewOrder"
+                                           asp-route-instrumentid="@item.Id">
+                                            @item.Name
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+
+
+                    }
+
                 }
             </ul>
+
         </div>
 
             <div class="dropdown" style="display:inline-block;">
@@ -89,6 +147,7 @@
                            asp-route-instrumentid="@Model.SelectedInstrumentId"
                            asp-route-patterndirectid="@Model.SelectedDirectId"
                            asp-route-sortorder="@Model.SortOrder"
+                           asp-route-vieworder="@Model.ViewOrder"
                            asp-route-patterntypeid="@null">
                         Wszystkie uklady</a>
                     </li>
@@ -107,6 +166,7 @@
                                asp-route-instrumentid="@Model.SelectedInstrumentId"
                                asp-route-patterndirectid="@Model.SelectedDirectId"
                                asp-route-sortorder="@Model.SortOrder"
+                               asp-route-vieworder="@Model.ViewOrder"
                                asp-route-patterntypeid="@item.Id">
                             @item.Name</a>
                         </li>
@@ -141,6 +201,7 @@
                            asp-route-instrumentid="@Model.SelectedInstrumentId" 
                            asp-route-patterndirectid="@Model.SelectedDirectId"
                            asp-route-sortorder="@Model.SortOrder"
+                           asp-route-vieworder="@Model.ViewOrder"
                            asp-route-intervalid="@null">
                         Wszystkie interwaly</a>
                     </li>
@@ -159,6 +220,7 @@
                                asp-route-instrumentid="@Model.SelectedInstrumentId"
                                asp-route-patterndirectid="@Model.SelectedDirectId"
                                asp-route-sortorder="@Model.SortOrder"
+                               asp-route-vieworder="@Model.ViewOrder"
                                asp-route-intervalid="@item.Id">
                             @item.Name</a>
                         </li>
@@ -193,6 +255,7 @@
                        asp-route-patterntypeid="@Model.SelectedPatternId"
                        asp-route-instrumentid="@Model.SelectedInstrumentId"
                        asp-route-sortorder="@Model.SortOrder"
+                       asp-route-vieworder="@Model.ViewOrder"
                        asp-route-patterndirectid="@null">
                         Wszystkie kierunki
                     </a>
@@ -212,6 +275,7 @@
                            asp-route-patterntypeid="@Model.SelectedPatternId"
                            asp-route-instrumentid="@Model.SelectedInstrumentId"
                            asp-route-sortorder="@Model.SortOrder"
+                           asp-route-vieworder="@Model.ViewOrder"
                            asp-route-patterndirectid="@item.Id">
                             @item.Name
                         </a>
@@ -237,6 +301,7 @@
               asp-route-patterntypeid="@Model.SelectedPatternId"
               asp-route-instrumentid="@Model.SelectedInstrumentId"
               asp-route-sortorder="@Model.SortOrder"
+              asp-route-vieworder="@Model.ViewOrder"
               asp-route-patterndirectid="@Model.SelectedDirectId" method="get">
 
             <div class="row">
@@ -407,70 +472,17 @@
 <div class="container" style="margin-top:10px">
 
 
-        <div class="dropdown" style="display:inline-block;">
-            <button class="dropdown-toggle btn button-blueframe" style="background-color:#eaecef; margin-top:10px; margin-right:10px;" type="button" id="dropdownMenu"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-
-                @Model.SortOrdersList[Model.SortOrder]
-
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-
-                @for(int i=0; i<Model.SortOrdersList.Count; i++)
-                {
-                    <li>
-                        <a asp-action="Index"
-                           asp-route-datesince="@Model.DateSince"
-                           asp-route-dateto="@Model.DateTo"
-                           asp-route-adddatesince="@Model.AddDateSince"
-                           asp-route-adddateto="@Model.AddDateTo"
-                           asp-route-intervalid="@Model.SelectedIntervalId"
-                           asp-route-patterntypeid="@Model.SelectedPatternId"
-                           asp-route-patterndirectid="@Model.SelectedDirectId"
-                           asp-route-instrumentid="@Model.SelectedInstrumentId"
-                           asp-route-sortorder="@i">
-                            @Model.SortOrdersList[i]
-                        </a>
-                    </li>
-                }
-            </ul>
-        </div>
-
     <div class="dropdown" style="display:inline-block;">
-        <button class="dropdown-toggle btn button-blueframe" style="background-color:#eaecef; margin-top:10px;" type="button" id="dropdownMenu"
+        <button class="dropdown-toggle btn button-blueframe" style="background-color:#eaecef; margin-top:10px; margin-right:10px;" type="button" id="dropdownMenu"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 
-            @if (Model.SelectedInstrument == null)
-            {
-                <span>Instrument</span>
-            }
-            else
-            {
-                @Model.SelectedInstrument.Name
-            }
+            @Model.SortOrdersList[Model.SortOrder]
 
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
 
-            <li>
-                <a asp-action="Index"
-                   asp-route-datesince="@Model.DateSince"
-                   asp-route-dateto="@Model.DateTo"
-                   asp-route-adddatesince="@Model.AddDateSince"
-                   asp-route-adddateto="@Model.AddDateTo"
-                   asp-route-intervalid="@Model.SelectedIntervalId"
-                   asp-route-patterntypeid="@Model.SelectedPatternId"
-                   asp-route-patterndirectid="@Model.SelectedDirectId"
-                   asp-route-instrumentid="@null">
-                    Wszystkie instrumenty
-                </a>
-            </li>
-
-            <li class="divider"></li>
-
-            @foreach (var item in Model.Instruments)
+            @for (int i = 0; i < Model.SortOrdersList.Count; i++)
             {
                 <li>
                     <a asp-action="Index"
@@ -481,11 +493,45 @@
                        asp-route-intervalid="@Model.SelectedIntervalId"
                        asp-route-patterntypeid="@Model.SelectedPatternId"
                        asp-route-patterndirectid="@Model.SelectedDirectId"
-                       asp-route-instrumentid="@item.Id">
-                        @item.Name
+                       asp-route-instrumentid="@Model.SelectedInstrumentId"
+                       asp-route-vieworder="@Model.ViewOrder"
+                       asp-route-sortorder="@i">
+                        @Model.SortOrdersList[i]
                     </a>
                 </li>
             }
+        </ul>
+    </div>
+
+    <div class="dropdown" style="display:inline-block;">
+        <button class="dropdown-toggle btn button-blueframe" style="background-color:#eaecef; margin-top:10px;" type="button" id="dropdownMenu"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+            @Model.ViewOrdersList[Model.ViewOrder]
+
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+
+            @for (int i = 0; i < Model.ViewOrdersList.Count; i++)
+            {
+                <li>
+                    <a asp-action="Index"
+                       asp-route-datesince="@Model.DateSince"
+                       asp-route-dateto="@Model.DateTo"
+                       asp-route-adddatesince="@Model.AddDateSince"
+                       asp-route-adddateto="@Model.AddDateTo"
+                       asp-route-intervalid="@Model.SelectedIntervalId"
+                       asp-route-patterntypeid="@Model.SelectedPatternId"
+                       asp-route-patterndirectid="@Model.SelectedDirectId"
+                       asp-route-instrumentid="@Model.SelectedInstrumentId"
+                       asp-route-sortorder="@Model.SortOrdersList[Model.SortOrder]"
+                       asp-route-vieworder="@i">
+                        @Model.ViewOrdersList[i]
+                    </a>
+                </li>
+            }
+
         </ul>
     </div>
 
@@ -493,143 +539,30 @@
 
     <div style="height:20px"></div>
 
-    
+    @if (Model.ViewOrder == 0)
+    {
+        <div class="masonry">
 
-    <div class="masonry">
-
-        @foreach (var item in Model.HarmonicPatterns)
-        {
-
-            string imageContent = "";
-
-            var i = r.Next(0, 5);
-            if(i == 0)
+            @foreach (var item in Model.HarmonicPatterns)
             {
-                imageContent = "~/images/patterns/uklad1.png";
-            }
-            else if (i == 1)
-            {
-                imageContent = "~/images/patterns/uklad2.png";
-            }
-            else if (i == 2)
-            {
-                imageContent = "~/images/patterns/uklad3.png";
-            }
-            else if (i == 3)
-            {
-                imageContent = "~/images/patterns/uklad4.png";
-            }
-            else
-            {
-                imageContent = "~/images/patterns/uklad5.png";
+                @await Html.PartialAsync("_HarmnonicPatternTile", item)
             }
 
-            <div class="item">
-
-                @if (item.Image.Length > 5)
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-10">
+                @foreach (var item in Model.HarmonicPatterns)
                 {
-                    var base64 = Convert.ToBase64String(item.Image);
-                    imageContent = String.Format("data:image/gif;base64,{0}", base64);
+                    @await Html.PartialAsync("_HarmonicPatternTableItem", item)
                 }
-
-                <div style="margin-bottom:10px;">
-                    <a asp-action="Edit" class="btn button-purple">@item.Instrument.Name</a>
-                    <a asp-action="Edit" class="btn button-green">@item.Interval.Name</a>
-                    <a asp-controller="Patterns" asp-action="Details" asp-route-id="@item.PatternType.Id" class="btn button-blue">@item.PatternType.Name</a>
-                    <a asp-action="Edit" class="btn button-pink">@item.PatternDirect.Name</a>
-                </div>
-
-                <div style="margin-bottom:10px;">
-                    @if(item.User == null)
-                    {
-                       <img src='~/images/DefaultUserPhoto.png' class="img-circle" style="height:50px; width:50px; display:inline-block;" />
-                    }
-                    else
-                    {
-
-                    }
-
-                        @if (item.User == null)
-                        {
-                            <a asp-action="Edit" class="text text-blue" style="margin-left:5px; display:inline-block; font-size:12px;">NIEZNANY UZYTKOWNIK</a>
-                        }
-                        else
-                        {
-
-                        }
-                   
-                     
-                </div>
-
-                <a asp-action="Details" asp-route-id="@item.Id">
-                    <div style="text-align:center">
-                        <img src='@imageContent' class="img-rounded" style="max-width:230px;" asp-append-version="true" />
-                    </div>
-                </a>
-
-                @*
-                <div class="text row" style="margin-top:10px; font-size:12px;">
-                    <div class="col-md-5">
-                        <p>
-                            NA RYNKU:
-                        </p>
-                        <p>
-                            DODANO:
-                        </p>
-                    </div>
-                    <div>
-                        <p>
-                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                            @Html.DisplayFor(modelItem => item.Date)
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                            @item.Date.TimeOfDay
-                        </p>
-                        <p>
-                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                            @Html.DisplayFor(modelItem => item.AddDate)
-                        </p>
-                    </div>
-
-                </div>
-                    *@
-
-                <div class="text row" style="margin-top:10px; font-size:12px;">
-                    <div class="col-md-5">
-                        <p>
-                            NA RYNKU:
-                        </p>
-                    </div>
-                    <div class="col-md-7">
-                        <p>
-                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                            @Html.DisplayFor(modelItem => item.Date)
-
-                        </p>
-                        <p>
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                            @item.Date.TimeOfDay
-                        </p>
-                    </div>
-                </div>
-                <div class="text row" style="margin-top:10px; font-size:12px;">
-                    <div class="col-md-5">
-                        <p>
-                            DODANO:
-                        </p>
-                    </div>
-                    <div class="col-md-7">
-                        <p>
-                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                            @Html.DisplayFor(modelItem => item.AddDate)
-
-                        </p>
-                    </div>
-                </div>
-
             </div>
-        }    
+            <div class="col-md-1"></div>
+        </div>
+    }
 
-    </div>
 
     <div style="text-align:center; margin-top:30px;">
         <pager source="Model.HarmonicPatterns" />

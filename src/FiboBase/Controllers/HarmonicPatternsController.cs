@@ -38,6 +38,7 @@ namespace HarmonicPatternsBase.Controllers
             int pageSize = 20,
             int page = 1,
             int sortOrder = 0,
+            int viewOrder = 0,
             int? intervalId = null, 
             int? patternTypeId = null, 
             int? instrumentId = null, 
@@ -80,7 +81,7 @@ namespace HarmonicPatternsBase.Controllers
 
                 Intervals = await _harmonicPatternsRepo.GetIntervalsAsync(),
                 PatternTypes = await _harmonicPatternsRepo.GetPatternTypesAsync(),
-                Instruments = await _harmonicPatternsRepo.GetInstrumentsAsync(),
+                //Instruments = await _harmonicPatternsRepo.GetInstrumentsAsync(),
                 PatternDirects = await _harmonicPatternsRepo.GetPatternDirectsAsync(),
                 ReactionLevels = await _harmonicPatternsRepo.GetReactionLvlsAsync(),
 
@@ -97,12 +98,22 @@ namespace HarmonicPatternsBase.Controllers
                 Statistics = new HarmonicPatternsStatistic(statisticsData),  
                 
                  SortOrder = sortOrder,
-                 SortOrdersList = new List<string> {
+                 SortOrdersList = new List<string>
+                 {
                      "Data malejaco",
                      "Data rosnaco",
                      "Data dodania malejaco",
-                     "Data dodania rosnaco" }
+                     "Data dodania rosnaco"
+                 },
+                 ViewOrder = viewOrder,
+                 ViewOrdersList = new List<string>
+                 {
+                     "Kafelki",
+                     "Lista"
+                 },
             };
+
+            model.SetInstruments(await _harmonicPatternsRepo.GetInstrumentsAsync());
 
             DateTime d = DateTime.Now;
 
@@ -151,6 +162,7 @@ namespace HarmonicPatternsBase.Controllers
             return View(model);
         }
 
+        /*
         // GET: HarmonicPatterns/Create
         public IActionResult Create()
         {          
@@ -209,6 +221,64 @@ namespace HarmonicPatternsBase.Controllers
                 }
 
                 _context.Add(harmonicPattern);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
+        */
+
+        // GET: HarmonicPatterns/Create
+        public IActionResult Create()
+        {
+            var waveRatioList = new List<string> { "0", "0.382", "0.5", "0.618", "0.786", "0.886", "1", "1.13", "1.227", "1.618", "2" };
+
+            var model = new HarmonicPatternCreateViewModel
+            {
+                HarmonicPattern = new HarmonicPattern(),
+                IntervalList = new SelectList(_context.Intervals, "Id", "Name"),
+                PatternTypeList = new SelectList(_context.Patterns, "Id", "Name"),
+                InstrumentList = new SelectList(_context.Instruments, "Id", "Name"),
+                PatternDirectList = new SelectList(_context.PatternDirects, "Id", "Name"),
+                ReactionLvlsList = new SelectList(_context.ReactionLvls, "Id", "Name"),
+                WaveRatioList = new SelectList(waveRatioList),
+                NumberOfWavesList = new SelectList(new List<int> { 3, 4 }),
+            };
+
+            return View(model);
+        }
+
+        // POST: HarmonicPatterns/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(HarmonicPatternCreateViewModel model, IFormFile image)
+        {
+            if (ModelState.IsValid)
+            {
+
+                if (image == null)
+                {
+                    model.HarmonicPattern.Image = new byte[1];
+                }
+                else
+                {
+                    using (var reader = new BinaryReader(image.OpenReadStream()))
+                    {
+                        var fileContent = reader.ReadBytes((int)image.Length);
+                        model.HarmonicPattern.Image = fileContent;
+                    }
+                }
+                model.HarmonicPattern.Date = model.Date.Date + model.Time.TimeOfDay;
+                model.HarmonicPattern.AddDate = DateTime.Now;
+
+                model.HarmonicPattern.ABtoXAratio = double.Parse(model.ABtoXAratio, System.Globalization.CultureInfo.InvariantCulture);
+                model.HarmonicPattern.ADtoXAratio = double.Parse(model.ADtoXAratio, System.Globalization.CultureInfo.InvariantCulture);
+                model.HarmonicPattern.BCtoABratio = double.Parse(model.BCtoABratio, System.Globalization.CultureInfo.InvariantCulture);
+                model.HarmonicPattern.CDtoBCratio = double.Parse(model.CDtoBCratio, System.Globalization.CultureInfo.InvariantCulture);
+                model.HarmonicPattern.CDtoABratio = double.Parse(model.CDtoABratio, System.Globalization.CultureInfo.InvariantCulture);
+
+                _context.Add(model.HarmonicPattern);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

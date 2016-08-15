@@ -1,0 +1,159 @@
+﻿@model HarmonicPatternsBase.Models.HarmonicPattern
+
+@{
+    string imageContent = "~/images/patterns/uklad1.png";
+}
+<div class="item" style="margin: 0 0 1em">
+
+    @if (Model.Image.Length > 5)
+    {
+        var base64 = Convert.ToBase64String(Model.Image);
+        imageContent = String.Format("data:image/gif;base64,{0}", base64);
+    }
+
+    <div class="row">
+        <div class="col-md-3">
+            <a asp-action="Details" asp-route-id="@Model.Id">
+                <div style="text-align:center">
+                    <img src='@imageContent' class="img-rounded" style="max-width:200px; max-height:200px;" asp-append-version="true" />
+                </div>
+            </a>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <a asp-action="Edit" class="btn button-purple">@Model.Instrument.Name</a>
+                <a asp-action="Edit" class="btn button-green">@Model.Interval.Name</a>
+                <a asp-controller="Patterns" asp-action="Details" asp-route-id="@Model.PatternType.Id" class="btn button-blue">@Model.PatternType.Name</a>
+                <a asp-action="Edit" class="btn button-pink">@Model.PatternDirect.Name</a>
+            </div>
+            <div class="row" style="margin-top:15px;">
+                <div class="col-md-6">
+
+                    @if (Model.User == null)
+                    {
+                        <img src='~/images/DefaultUserPhoto.png' class="img-circle" style="height:70px; width:70px; display:inline-block;" />
+                    }
+                    else
+                    {
+
+                    }
+
+                    @if (Model.User == null)
+                    {
+                        <a asp-action="Edit" class="text text-blue" style="margin-left:5px; display:inline-block; font-size:12px;">NIEZNANY UZYTKOWNIK</a>
+                    }
+                    else
+                    {
+
+                    }
+                </div>
+                <div class="col-md-6">
+                    <div class="text row" style="margin-top:10px; font-size:12px;">
+                        <div class="col-md-4">
+                            <p>
+                                NA RYNKU:
+                            </p>
+                        </div>
+                        <div class="col-md-8">
+                            <p>
+                                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                @Html.DisplayFor(modelItem => Model.Date)
+                                <span style="margin-left:7px;" class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                                @Model.Date.TimeOfDay
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text row" style="margin-top:10px; font-size:12px;">
+                        <div class="col-md-4">
+                            <p>
+                                DODANO:
+                            </p>
+                        </div>
+                        <div class="col-md-7">
+                            <p>
+                                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                @Html.DisplayFor(modelItem => Model.AddDate)
+
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text row" style="margin-top:10px; font-size:12px;">
+                        <a asp-action="Details" asp-route-id="@Model.Id" class="btn button-blueframe" style="background-color:#ffffff" >Szczegoly</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*
+    <div style="margin-bottom:10px;">
+        <a asp-action="Edit" class="btn button-purple">@Model.Instrument.Name</a>
+        <a asp-action="Edit" class="btn button-green">@Model.Interval.Name</a>
+        <a asp-controller="Patterns" asp-action="Details" asp-route-id="@Model.PatternType.Id" class="btn button-blue">@Model.PatternType.Name</a>
+        <a asp-action="Edit" class="btn button-pink">@Model.PatternDirect.Name</a>
+    </div>
+
+    <div style="margin-bottom:10px;">
+        @if (Model.User == null)
+        {
+            <img src='~/images/DefaultUserPhoto.png' class="img-circle" style="height:50px; width:50px; display:inline-block;" />
+        }
+        else
+        {
+
+        }
+
+        @if (Model.User == null)
+        {
+            <a asp-action="Edit" class="text text-blue" style="margin-left:5px; display:inline-block; font-size:12px;">NIEZNANY UZYTKOWNIK</a>
+        }
+        else
+        {
+
+        }
+
+
+    </div>
+
+    <a asp-action="Details" asp-route-id="@Model.Id">
+        <div style="text-align:center">
+            <img src='@imageContent' class="img-rounded" style="max-width:230px;" asp-append-version="true" />
+        </div>
+    </a>
+
+    <div class="text row" style="margin-top:10px; font-size:12px;">
+        <div class="col-md-5">
+            <p>
+                NA RYNKU:
+            </p>
+        </div>
+        <div class="col-md-7">
+            <p>
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                @Html.DisplayFor(modelItem => Model.Date)
+
+            </p>
+            <p>
+                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                @Model.Date.TimeOfDay
+            </p>
+        </div>
+    </div>
+    <div class="text row" style="margin-top:10px; font-size:12px;">
+        <div class="col-md-5">
+            <p>
+                DODANO:
+            </p>
+        </div>
+        <div class="col-md-7">
+            <p>
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                @Html.DisplayFor(modelItem => Model.AddDate)
+
+            </p>
+        </div>
+    </div>
+    *@
+
+</div>

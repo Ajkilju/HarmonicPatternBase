@@ -110,9 +110,8 @@ namespace HarmonicPatternsBase
             SeedData.InstrumentsInit(app.ApplicationServices);
             SeedData.PatternDirectInit(app.ApplicationServices);
             SeedData.ReactionLvlsInit(app.ApplicationServices);
-            SeedData.HarmonicPatternsInit(app.ApplicationServices);
-           
-            //SeedData.AddHarmonicPatterns(app.ApplicationServices, 5000);
+            SeedData.HarmonicPatternsInit(app.ApplicationServices);           
+            //SeedData.AddHarmonicPatterns(app.ApplicationServices, 1000);
         }
     }
 }

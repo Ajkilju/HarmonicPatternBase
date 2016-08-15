@@ -22,41 +22,113 @@ namespace HarmonicPatternsBase.Data
 
                 context.Instruments.AddRange
                 (
+                    //mayors
                      new Instrument
                      {
                          HarmonicPatterns = new List<HarmonicPattern>(),
-                         Name = "EUR/USD"
+                         Name = "EUR/USD",
+                         Category = "Majors"
                      },
                      new Instrument
                      {
                          HarmonicPatterns = new List<HarmonicPattern>(),
-                         Name = "GBP/USD"
+                         Name = "GBP/USD",
+                         Category = "Majors"
                      },
                      new Instrument
                      {
                          HarmonicPatterns = new List<HarmonicPattern>(),
-                         Name = "USD/JPN"
+                         Name = "USD/CAD",
+                         Category = "Majors"
                      },
                      new Instrument
                      {
                          HarmonicPatterns = new List<HarmonicPattern>(),
-                         Name = "USD/CHF"
+                         Name = "USD/CHF",
+                         Category = "Majors"
                      },
                      new Instrument
                      {
                          HarmonicPatterns = new List<HarmonicPattern>(),
-                         Name = "Zloto"
+                         Name = "USD/JPY",
+                         Category = "Majors"
                      },
                      new Instrument
                      {
                          HarmonicPatterns = new List<HarmonicPattern>(),
-                         Name = "Ropa"
+                         Name = "AUD/USD",
+                         Category = "Majors"
                      },
                      new Instrument
                      {
                          HarmonicPatterns = new List<HarmonicPattern>(),
-                         Name = "SP500"
+                         Name = "NZD/USD",
+                         Category = "Majors"
+                     },
+
+                     //second mayors
+
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "EUR/JPY",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "EUR/CHF",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "GBP/JPY",
+                         Category = "Second Majors"
+                     },
+
+                     //surowce
+
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "Złoto",
+                         Category = "Surowce"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "Ropa",
+                         Category = "Surowce"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "Miedź",
+                         Category = "Surowce"
+                     },
+
+                     //indeksy giełdowe
+
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "SP500",
+                         Category = "Indeksy"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "DAX",
+                         Category = "Indeksy"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "W20",
+                         Category = "Indeksy"
                      }
+
                 );
 
                 context.SaveChanges();
@@ -312,6 +384,7 @@ namespace HarmonicPatternsBase.Data
                 var intervalIdList = context.Intervals.Select(h => h.Id).ToList();
                 var instrumentIdList = context.Instruments.Select(h => h.Id).ToList();
                 var reactionLvlsList = context.ReactionLvls.Select(h => h.Id).ToList();
+                var patternDirectIdList = context.PatternDirects.Select(h => h.Id).ToList();
                 List<double> waveRatioList = new List<double> { 0.382, 0.5, 0.618, 0.786, 0.886, 1.0, 1.13, 1.227, 1.618, 2.0 };
                 var hpList = HarmonicPatternsGenerator(
                     20,
@@ -319,7 +392,8 @@ namespace HarmonicPatternsBase.Data
                     intervalIdList,
                     instrumentIdList,
                     reactionLvlsList,
-                    waveRatioList);
+                    waveRatioList,
+                    patternDirectIdList);
                 context.HarmonicPatterns.AddRange(hpList);
                 context.SaveChanges();
             }
@@ -334,6 +408,7 @@ namespace HarmonicPatternsBase.Data
                 var intervalIdList = context.Intervals.Select(h => h.Id).ToList();
                 var instrumentIdList = context.Instruments.Select(h => h.Id).ToList();
                 var reactionLvlsList = context.ReactionLvls.Select(h => h.Id).ToList();
+                var patternDirectIdList = context.PatternDirects.Select(h => h.Id).ToList();
                 List<double> waveRatioList = new List<double> {0.000, 0.382, 0.500, 0.618, 0.786, 0.886, 1.000, 1.13, 1.227, 1.618, 2.000 };
                 var hpList = HarmonicPatternsGenerator(
                     howMany, 
@@ -341,7 +416,8 @@ namespace HarmonicPatternsBase.Data
                     intervalIdList, 
                     instrumentIdList,
                     reactionLvlsList,
-                    waveRatioList);
+                    waveRatioList,
+                    patternDirectIdList);
                 context.HarmonicPatterns.AddRange(hpList);
                 context.SaveChanges();
             }              
@@ -353,7 +429,8 @@ namespace HarmonicPatternsBase.Data
             List<int> intervalIdList, 
             List<int> instrumentIdList,
             List<int> reactionLvlsList,
-            List<double> waveRatioList)
+            List<double> waveRatioList,
+            List<int> patternDirectIdList)
         {
             var hpList = new List<HarmonicPattern>();
             Random r = new Random();
@@ -379,7 +456,7 @@ namespace HarmonicPatternsBase.Data
                         ReactionAfter5CandlesId = reactionLvlsList[r.Next(0, reactionLvlsList.Count)],
                         ReactionAfter10CandlesId = reactionLvlsList[r.Next(0, reactionLvlsList.Count)],
                         ReactionAfter20CandlesId = reactionLvlsList[r.Next(0, reactionLvlsList.Count)],
-                        PatternDirectId = r.Next(1, 3)
+                        PatternDirectId = patternDirectIdList[r.Next(0, patternDirectIdList.Count)]
                     }
                     );
             }
