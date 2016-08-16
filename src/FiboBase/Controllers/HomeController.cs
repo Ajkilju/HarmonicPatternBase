@@ -10,7 +10,7 @@ namespace HarmonicPatternsBase.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "HarmonicPatterns");
         }
 
         public IActionResult Error()

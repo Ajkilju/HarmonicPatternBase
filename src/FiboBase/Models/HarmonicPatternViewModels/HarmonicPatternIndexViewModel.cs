@@ -72,6 +72,4 @@ namespace HarmonicPatternsBase.Models.HarmonicPatternViewModels
         public List<Instrument> Instruments { get; set; }
         public string Name { get; set; }
     }
-
-
 }

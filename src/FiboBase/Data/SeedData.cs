@@ -86,6 +86,117 @@ namespace HarmonicPatternsBase.Data
                          Name = "GBP/JPY",
                          Category = "Second Majors"
                      },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "EUR/GBP",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "GBP/CHF",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "EUR/CAD",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "GBP/CAD",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "NZD/JPY",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "NZD/CHF",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "EUR/AUD",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "AUD/JPY",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "AUD/CAD",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "AUD/CHF",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "CHF/JPY",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "CAD/JPY",
+                         Category = "Second Majors"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "CAD/CHF",
+                         Category = "Second Majors"
+                     },
+
+                     //Polskie
+
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "USD/PLN",
+                         Category = "Polskie"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "EUR/PLN",
+                         Category = "Polskie"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "GBP/PLN",
+                         Category = "Polskie"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "CHF/PLN",
+                         Category = "Polskie"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "JPY/PLN",
+                         Category = "Polskie"
+                     },
 
                      //surowce
 
@@ -107,25 +218,67 @@ namespace HarmonicPatternsBase.Data
                          Name = "Miedź",
                          Category = "Surowce"
                      },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "Kukurydza",
+                         Category = "Surowce"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "Ryż",
+                         Category = "Surowce"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "Cukier",
+                         Category = "Surowce"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "Kakao",
+                         Category = "Surowce"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "Bawełna",
+                         Category = "Surowce"
+                     },
 
                      //indeksy giełdowe
 
                      new Instrument
                      {
                          HarmonicPatterns = new List<HarmonicPattern>(),
-                         Name = "SP500",
+                         Name = "FUS500",
                          Category = "Indeksy"
                      },
                      new Instrument
                      {
                          HarmonicPatterns = new List<HarmonicPattern>(),
-                         Name = "DAX",
+                         Name = "FUS100",
                          Category = "Indeksy"
                      },
                      new Instrument
                      {
                          HarmonicPatterns = new List<HarmonicPattern>(),
-                         Name = "W20",
+                         Name = "FJP225",
+                         Category = "Indeksy"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "FDE30",
+                         Category = "Indeksy"
+                     },
+                     new Instrument
+                     {
+                         HarmonicPatterns = new List<HarmonicPattern>(),
+                         Name = "FPL20",
                          Category = "Indeksy"
                      }
 
