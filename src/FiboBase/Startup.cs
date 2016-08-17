@@ -15,6 +15,8 @@ using HarmonicPatternsBase.Services;
 using HarmonicPatternsBase.Repositories.Abstract;
 using HarmonicPatternsBase.Repositories;
 using Sakura.AspNetCore.Mvc;
+using HarmonicPatternBase.Repositories.Abstract;
+using HarmonicPatternBase.Repositories;
 
 namespace HarmonicPatternsBase
 {
@@ -69,6 +71,7 @@ namespace HarmonicPatternsBase
 
             services.AddScoped<IHarmonicPatternsRepo, HarmonicPatternsRepo>();
             services.AddScoped<IStatisticsRepo, StatisticsRepo>();
+            services.AddScoped<IUsersRepo, UsersRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

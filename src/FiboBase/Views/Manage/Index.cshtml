@@ -1,14 +1,57 @@
 ﻿@model IndexViewModel
 @{
     ViewData["Title"] = "Zarzadzaj kontem";
+
+    string imageString = "~/images/DefaultUserPhoto.png";
 }
 
 <p class="text-success">@ViewData["StatusMessage"]</p>
 
 <div class="container">
-    <div class="content-rounded" style="min-height:1000px;">
-        No elo
+
+    <div class="text" style="margin:25px;">
+        <p style="font-size:35px;"><strong>Moje konto</strong></p>
+        <p style="font-size:20px;">Zarządzaj ustawieniami konta</p>
     </div>
+
+    <div class="content-rounded" style="min-height:1000px;">
+
+        <form asp-action="Update" enctype="multipart/form-data">
+
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <div class="col-md-offset-1">
+                        @if (Model.User.Avatar.Length > 5)
+                        {
+
+                        }
+                        else
+                        {
+                            <img src="~/images/DefaultUserPhoto.png" class="img-circle" style="height:150px; width:150px;" />
+                        }
+                        <label class="btn btn-default btn-file" for="image">
+                            <input id="harmonicPatternImage" type="file" name="image" />  Dodaj zdjecie
+                        </label>
+                    </div>
+                    
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-1 control-label">Nick</label>
+                    <div class="col-md-11">
+                        <input asp-for="User.Nick" class="form-control" />
+                        <span asp-validation-for="User.Nick" class="text-danger" />
+                    </div>
+                </div>
+
+                
+
+            </div>
+
+
+        </form>
+    </div>  
 </div>
 
 

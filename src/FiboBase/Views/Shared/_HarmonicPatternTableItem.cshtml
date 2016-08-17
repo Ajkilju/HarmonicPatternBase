@@ -12,22 +12,22 @@
     }
 
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <a asp-action="Details" asp-route-id="@Model.Id">
                 <div style="text-align:center">
-                    <img src='@imageContent' class="img-rounded" style="max-width:200px; max-height:200px;" asp-append-version="true" />
+                    <img src='@imageContent' class="img-rounded" style="max-width:160px" asp-append-version="true" />
                 </div>
             </a>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="row">
-                <a asp-action="Edit" class="btn button-purple">@Model.Instrument.Name</a>
+                <a asp-action="Edit" class="btn button-purple" style="margin-left:25px;">@Model.Instrument.Name</a>
                 <a asp-action="Edit" class="btn button-green">@Model.Interval.Name</a>
                 <a asp-controller="Patterns" asp-action="Details" asp-route-id="@Model.PatternType.Id" class="btn button-blue">@Model.PatternType.Name</a>
                 <a asp-action="Edit" class="btn button-pink">@Model.PatternDirect.Name</a>
             </div>
-            <div class="row" style="margin-top:15px;">
-                <div class="col-md-6">
+            <div class="row" style="margin-top:20px;">
+                <div class="col-md-4">
 
                     @if (Model.User == null)
                     {
@@ -47,9 +47,9 @@
 
                     }
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="text row" style="margin-top:10px; font-size:12px;">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <p>
                                 NA RYNKU:
                             </p>
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div class="text row" style="margin-top:10px; font-size:12px;">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <p>
                                 DODANO:
                             </p>
@@ -81,79 +81,53 @@
                         <a asp-action="Details" asp-route-id="@Model.Id" class="btn button-blueframe" style="background-color:#ffffff" >Szczegoly</a>
                     </div>
                 </div>
+                <div class="col-md-3">
+
+                    <div class="col-md-6">
+                        <div class="text row" style="margin-top:10px; font-size:12px;">
+                            <div class="col-md-4">
+                                <p>
+                                    R5:
+                                </p>
+                            </div>
+                            <div class="col-md-7">
+                                <p>
+                                    <a asp-controller="Info" asp-action="Reactions" style="color:#920063"><strong>@Model.ReactionAfter5Candles.Name</strong></a>    
+                                </p>
+                            </div>
+                        </div>
+                        <div class="text row" style="margin-top:10px; font-size:12px;">
+                            <div class="col-md-4">
+                                <p>
+                                    R10:
+                                </p>
+                            </div>
+                            <div class="col-md-7">
+                                <p>
+                                    <a asp-controller="Info" asp-action="Reactions" style="color:#920063"><strong>@Model.ReactionAfter10Candles.Name</strong></a>  
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text row" style="margin-top:10px; font-size:12px;">
+                            <div class="col-md-4">
+                                <p>
+                                    R20:
+                                </p>
+                            </div>
+                            <div class="col-md-7">
+                                <p>
+                                    <a asp-controller="Info" asp-action="Reactions" style="color:#920063"><strong>@Model.ReactionAfter20Candles.Name</strong></a>  
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
             </div>
         </div>
     </div>
-
-
-    @*
-    <div style="margin-bottom:10px;">
-        <a asp-action="Edit" class="btn button-purple">@Model.Instrument.Name</a>
-        <a asp-action="Edit" class="btn button-green">@Model.Interval.Name</a>
-        <a asp-controller="Patterns" asp-action="Details" asp-route-id="@Model.PatternType.Id" class="btn button-blue">@Model.PatternType.Name</a>
-        <a asp-action="Edit" class="btn button-pink">@Model.PatternDirect.Name</a>
-    </div>
-
-    <div style="margin-bottom:10px;">
-        @if (Model.User == null)
-        {
-            <img src='~/images/DefaultUserPhoto.png' class="img-circle" style="height:50px; width:50px; display:inline-block;" />
-        }
-        else
-        {
-
-        }
-
-        @if (Model.User == null)
-        {
-            <a asp-action="Edit" class="text text-blue" style="margin-left:5px; display:inline-block; font-size:12px;">NIEZNANY UZYTKOWNIK</a>
-        }
-        else
-        {
-
-        }
-
-
-    </div>
-
-    <a asp-action="Details" asp-route-id="@Model.Id">
-        <div style="text-align:center">
-            <img src='@imageContent' class="img-rounded" style="max-width:230px;" asp-append-version="true" />
-        </div>
-    </a>
-
-    <div class="text row" style="margin-top:10px; font-size:12px;">
-        <div class="col-md-5">
-            <p>
-                NA RYNKU:
-            </p>
-        </div>
-        <div class="col-md-7">
-            <p>
-                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                @Html.DisplayFor(modelItem => Model.Date)
-
-            </p>
-            <p>
-                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                @Model.Date.TimeOfDay
-            </p>
-        </div>
-    </div>
-    <div class="text row" style="margin-top:10px; font-size:12px;">
-        <div class="col-md-5">
-            <p>
-                DODANO:
-            </p>
-        </div>
-        <div class="col-md-7">
-            <p>
-                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                @Html.DisplayFor(modelItem => Model.AddDate)
-
-            </p>
-        </div>
-    </div>
-    *@
 
 </div>

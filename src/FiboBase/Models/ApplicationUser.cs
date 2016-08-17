@@ -10,5 +10,6 @@ namespace HarmonicPatternsBase.Models
     {
         public List<HarmonicPattern> HarmonicPatterns { get; set; }
         public byte[] Avatar { get; set; }
+        public string Nick { get; set; }
     }
 }

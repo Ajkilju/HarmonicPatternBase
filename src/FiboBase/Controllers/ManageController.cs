@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using HarmonicPatternsBase.Models;
 using HarmonicPatternsBase.Models.ManageViewModels;
 using HarmonicPatternsBase.Services;
+using HarmonicPatternBase.Repositories.Abstract;
 
 namespace HarmonicPatternsBase.Controllers
 {
@@ -20,19 +21,22 @@ namespace HarmonicPatternsBase.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private IUsersRepo _usersRepo;
 
         public ManageController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IEmailSender emailSender,
         ISmsSender smsSender,
-        ILoggerFactory loggerFactory)
+        ILoggerFactory loggerFactory,
+        IUsersRepo usersRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
+            _usersRepo = usersRepo;
         }
 
         //
@@ -60,7 +64,10 @@ namespace HarmonicPatternsBase.Controllers
                 PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
-                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
+                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user),
+
+                //-----
+                User = await _usersRepo.GetUserAsync(user.Id)
             };
             return View(model);
         }

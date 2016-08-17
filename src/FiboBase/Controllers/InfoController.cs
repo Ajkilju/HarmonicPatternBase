@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FiboBase.Controllers
+namespace HarmonicPatternBase.Controllers
 {
     public class InfoController : Controller
     {
