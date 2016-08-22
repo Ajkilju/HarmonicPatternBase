@@ -17,6 +17,7 @@ using HarmonicPatternsBase.Repositories;
 using Sakura.AspNetCore.Mvc;
 using HarmonicPatternBase.Repositories.Abstract;
 using HarmonicPatternBase.Repositories;
+using HarmonicPatternBase.Services;
 
 namespace HarmonicPatternsBase
 {
@@ -108,13 +109,15 @@ namespace HarmonicPatternsBase
                     template: "{controller=HarmonicPatterns}/{action=Index}/{id?}");
             });
 
+            Pinger.StartPinging("http://ukladyharmoniczne.phdev.pl", 10);
+
             SeedData.IntervalsInit(app.ApplicationServices);
             SeedData.PatternsInit(app.ApplicationServices);
             SeedData.InstrumentsInit(app.ApplicationServices);
             SeedData.PatternDirectInit(app.ApplicationServices);
             SeedData.ReactionLvlsInit(app.ApplicationServices);
             SeedData.HarmonicPatternsInit(app.ApplicationServices);           
-            //SeedData.AddHarmonicPatterns(app.ApplicationServices, 1000);
+            //SeedData.AddHarmonicPatterns(app.ApplicationServices, 4980);
         }
     }
 }

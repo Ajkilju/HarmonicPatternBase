@@ -2,6 +2,25 @@
 
 @{ 
     string imageContent = "~/images/patterns/uklad1.png";
+
+    var r = new Random();
+    var i = r.Next(0, 5);
+    if (i == 0)
+    {
+        imageContent = "~/images/patterns/uklad1.png";
+    }
+    else if (i == 1)
+    {
+        imageContent = "~/images/patterns/uklad2.png";
+    }
+    else if (i == 2)
+    {
+        imageContent = "~/images/patterns/uklad3.png";
+    }
+    else if (i == 3)
+    {
+        imageContent = "~/images/patterns/uklad4.png";
+    }
 }
 <div class="item">
 

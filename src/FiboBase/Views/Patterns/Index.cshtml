@@ -1,18 +1,40 @@
 ﻿@model HarmonicPatternsBase.Models.PatternViewModels.PatternsIndexViewModel
 
 
-<div style="background-color:#36424a; height:80px;">
-   
-</div>
+<div class="container">
 
-<div style="padding:30px; background-color:#d6d9dc;">
-    <div class="text container" style="font-size:15px;">
-        <a asp-controller="Info" asp-action="Patterns" class="btn button-blueframe">Czym sa uklady harmoniczne</a>
+    <div style="margin-top:50px;">
+        <a asp-controller="Info" asp-action="Patterns"
+           class="btn button-menu"
+           style="margin-right:10px;
+           margin-bottom:20px">
+            O układach harmonicznych
+        </a>
+
+        <a asp-controller="Patterns" asp-action="Index"
+           class="btn button-menu-checked"
+           style="margin-right:10px;
+           margin-bottom:20px">
+            Typy ukladow
+        </a>
+
+        <a asp-controller="Info" asp-action="Reactions"
+           class="btn button-menu"
+           style="margin-right:10px;
+           margin-bottom:20px">
+            Poziomy reakcji
+        </a>
+
+        <a asp-controller="Info" asp-action="About"
+           class="btn button-menu"
+           style="margin-right:10px;
+           margin-bottom:20px">
+            O co tutaj chodzi?
+        </a>
     </div>
-</div>
 
-<div class="container" style="margin-top:30px">
-    <div class="masonry">
+
+    <div class="masonry" style="margin-top:40px;">
 
         @foreach (var item in Model.Patterns)
         {

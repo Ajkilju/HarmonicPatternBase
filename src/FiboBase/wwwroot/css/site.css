@@ -54,6 +54,8 @@ textarea {
 /*conteiners*/
 
 .masonry { /* Masonry container */
+    -webkit-column-count: 4; /* Chrome, Safari, Opera */
+    -moz-column-count: 4; /* Firefox */
     column-count: 4;
     column-gap: 2em;
 }
@@ -229,6 +231,50 @@ textarea {
 .button-blueframe:hover {
     color:#606060;
     border:2px solid #606060;
+}
+
+.button-menu-checked {
+	background-color:#296fdd;
+    border:2px solid #296fdd;
+	border-radius:3px;
+	cursor:pointer;
+	color:#fff;
+	font-family:Verdana;
+	font-size:15px;
+	padding:10px 10px;
+	text-decoration:solid;
+    font-weight:bold;
+}
+
+.button-menu-checked:hover {
+    background-color:#296fdd;
+    border:2px solid #296fdd;
+	color:#fff;
+}
+
+.button-menu {
+	background-color:#eaecef;
+    border:2px solid #296fdd;
+	border-radius:3px;
+	cursor:pointer;
+	color:#296fdd;
+	font-family:Verdana;
+	font-size:15px;
+	padding:10px 10px;
+	text-decoration:solid;
+    font-weight:bold;
+}
+
+.button-menu:hover {
+    color:#fff;
+    background:#296fdd;
+    border:2px solid #296fdd;
+
+    /*
+    background-color:#4a92fa;
+    color:#fff;
+    border:2px solid #4a92fa;
+        */
 }
 
 .button-blueframe-whitebck {

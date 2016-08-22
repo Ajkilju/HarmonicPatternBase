@@ -34,14 +34,14 @@
     </a>
 *@
 
-    <a asp-area="" asp-controller="HarmonicPatterns" asp-action="Index" class="navbar-brand">Strona główna</a> 
+    <a asp-area="" asp-controller="HarmonicPatterns" asp-action="Index" class="navbar-brand">Baza układów</a> 
 
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Patterns" asp-action="Index">Układy harmoniczne</a></li>
                     <li><a asp-area="" asp-controller="Statistics" asp-action="Index">Statystyki i analiza</a></li>
-                    <li><a asp-area="" asp-controller="Info" asp-action="Index">Info</a></li>
+                    <li><a asp-area="" asp-controller="Patterns" asp-action="Index">Układy harmoniczne</a></li>
+                    <li><a asp-area="" asp-controller="Info" asp-action="Patterns">Info</a></li>
                 </ul>
                 @*<a asp-area="" asp-controller="HarmonicPatterns" asp-action="Create" class="btn button-navframe" style="margin-top:10px;">Dodaj</a>*@
                 @await Html.PartialAsync("_LoginPartial")

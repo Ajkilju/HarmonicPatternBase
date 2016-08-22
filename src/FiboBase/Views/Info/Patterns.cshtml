@@ -1,15 +1,41 @@
-﻿<div style="background-color:#36424a; height:80px;">
-
-</div>
-
-<div style="padding:30px; background-color:#d6d9dc;">
-    <div class="text container" style="font-size:15px;">
-        <a asp-controller="Patterns" asp-action="Index" class="btn button-blueframe">Typy ukladow</a>
-    </div>
-</div>
+﻿@{
+    ViewData["Title"] = "O układach harmonicznych";
+}
 
 <div class="container">
+
+    <div style="margin-top:50px;">
+        <a asp-controller="Info" asp-action="Patterns"
+           class="btn button-menu-checked"
+           style="margin-right:10px;
+           margin-left:15px; 
+           margin-bottom:20px">
+            O układach harmonicznych
+        </a>
+
+        <a asp-controller="Patterns" asp-action="Index"
+           class="btn button-menu"
+           style="margin-right:10px;
+           margin-bottom:20px">
+            Typy ukladow
+        </a>
+
+        <a asp-controller="Info" asp-action="Reactions"
+           class="btn button-menu"
+           style="margin-right:10px;
+           margin-bottom:20px">
+            Poziomy reakcji
+        </a>
+
+        <a asp-controller="Info" asp-action="About"
+           class="btn button-menu"
+           style="margin-right:10px;     
+           margin-bottom:20px">
+            O co tutaj chodzi?
+        </a>
+    </div>
+
     <div class="content text" style="min-height:1000px">
-        Uklady harmoniczne to....
+        Uklady harmoniczne to.... strona w budowie ;)
     </div>
 </div>
