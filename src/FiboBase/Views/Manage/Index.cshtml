@@ -9,50 +9,56 @@
 
 <div class="container">
 
-    <div class="text" style="margin:25px;">
-        <p style="font-size:35px;"><strong>Moje konto</strong></p>
-        <p style="font-size:20px;">Zarządzaj ustawieniami konta</p>
+    <div class="text row" style="margin:25px;">
+        <div class="col-md-6">
+            <p style="font-size:35px;"><strong>Moje konto</strong></p>
+            <p style="font-size:20px;">Zarządzaj ustawieniami konta</p>
+        </div>
+        <div class="col-md-6" style="margin-top:65px;">
+            <a asp-controller="Manage" asp-action="Index" class="btn button-blueframe" style="background:#eaecef">Ustawienia</a>
+            <a asp-controller="Manage" asp-action="MyPatterns" asp-route-userid="@Model.User.Id" class="btn button-blueframe" style="background:#eaecef; margin-left:10px;">Dodane uklady</a>
+            <a asp-controller="Manage" asp-action="MyPatterns" asp-route-userid="@Model.User.Id" class="btn button-blueframe" style="background:#eaecef; margin-left:10px;">Obserwowane</a>
+        </div>                 
     </div>
 
-    <div class="content-rounded" style="min-height:1000px;">
+    <div class="content-rounded">
 
         <form asp-action="Update" enctype="multipart/form-data">
 
             <div class="form-horizontal">
 
-                <div class="form-group">
-                    <div class="col-md-offset-1">
+                <div class="form-group" style="margin-left:20px;">
+                    <div id="userAvatarHolder">
                         @if (Model.User.Avatar.Length > 5)
                         {
-
+                            var base64 = Convert.ToBase64String(Model.User.Avatar);
+                            imageString = String.Format("data:image/gif;base64,{0}", base64);
+                            <img src='@imageString' class="img-circle" style="height:150px; width:150px;" />
                         }
                         else
                         {
                             <img src="~/images/DefaultUserPhoto.png" class="img-circle" style="height:150px; width:150px;" />
                         }
-                        <label class="btn btn-default btn-file" for="image">
-                            <input id="harmonicPatternImage" type="file" name="image" />  Dodaj zdjecie
-                        </label>
                     </div>
-                    
+                    <div id="newUserAvatarHolder"></div>                  
                 </div>
-
-                <div class="form-group">
-                    <label class="col-md-1 control-label">Nick</label>
-                    <div class="col-md-11">
-                        <input asp-for="User.Nick" class="form-control" />
-                        <span asp-validation-for="User.Nick" class="text-danger" />
-                    </div>
-                </div>
-
-                
-
             </div>
 
+            <label class="btn btn-default btn-file" for="image">
+                <input id="userAvatar" type="file" name="userAvatar" />  Zmien zdjecie
+            </label>
+
+
+                <input type="submit" value="Zapisz" class="btn btn-default" />
+            
 
         </form>
     </div>  
 </div>
+
+@section Scripts {
+    <script src="~/js/Manage/Index.js"></script>  
+}
 
 
 @*

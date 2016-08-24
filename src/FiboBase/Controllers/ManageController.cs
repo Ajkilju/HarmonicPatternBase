@@ -10,6 +10,11 @@ using HarmonicPatternsBase.Models;
 using HarmonicPatternsBase.Models.ManageViewModels;
 using HarmonicPatternsBase.Services;
 using HarmonicPatternBase.Repositories.Abstract;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using HarmonicPatternsBase.Repositories.Abstract;
+using HarmonicPatternsBase.Repositories;
+using Sakura.AspNetCore;
 
 namespace HarmonicPatternsBase.Controllers
 {
@@ -22,6 +27,7 @@ namespace HarmonicPatternsBase.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private IUsersRepo _usersRepo;
+        private IHarmonicPatternsRepo _harmonicPatternsRepo;
 
         public ManageController(
         UserManager<ApplicationUser> userManager,
@@ -29,7 +35,8 @@ namespace HarmonicPatternsBase.Controllers
         IEmailSender emailSender,
         ISmsSender smsSender,
         ILoggerFactory loggerFactory,
-        IUsersRepo usersRepo)
+        IUsersRepo usersRepo,
+        IHarmonicPatternsRepo harmonicPatternsRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -37,6 +44,7 @@ namespace HarmonicPatternsBase.Controllers
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
             _usersRepo = usersRepo;
+            _harmonicPatternsRepo = harmonicPatternsRepo;
         }
 
         //
@@ -68,6 +76,41 @@ namespace HarmonicPatternsBase.Controllers
 
                 //-----
                 User = await _usersRepo.GetUserAsync(user.Id)
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(IndexViewModel model, IFormFile userAvatar)
+        {
+            var user = await GetCurrentUserAsync();
+            var userFullData = await _usersRepo.GetUserAsync(user.Id);
+
+            if (userAvatar == null)
+            {
+                userFullData.Avatar = new byte[1];
+            }
+            else
+            {
+                using (var reader = new BinaryReader(userAvatar.OpenReadStream()))
+                {
+                    var fileContent = reader.ReadBytes((int)userAvatar.Length);
+                    userFullData.Avatar = fileContent;
+                }
+            }
+            _usersRepo.UpdateUser(userFullData);
+            _usersRepo.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> MyPatterns (string userId, int pageSize = 20, int page = 1)
+        {
+            var model = new MyPatternsViewModel
+            {
+                HarmonicPatterns = await _harmonicPatternsRepo
+                      .GetHarmonicPatternsQuery(GetHarmonicPatternsMode.AsNoTracking, SortOrder: 0, userId: userId)
+                      .ToPagedListAsync(pageSize, page),
             };
             return View(model);
         }

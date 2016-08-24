@@ -24,11 +24,13 @@
             <div style="margin-bottom:10px;">
                 @if (Model.HarmonicPattern.User == null)
                 {
-                    <img src='~/images/DefaultUserPhoto.png' class="img-circle" style="height:65px; width:65px; display:inline-block;" />
+                    <img src='~/images/DefaultUserPhoto.png' class="img-circle" style="height:75px; width:75px; display:inline-block;" />
                 }
                 else
                 {
-
+                    var base64 = Convert.ToBase64String(Model.HarmonicPattern.User.Avatar);
+                    var userImageContent = String.Format("data:image/gif;base64,{0}", base64);
+                    <img src='@userImageContent' class="img-circle" style="height:75px; width:75px; display:inline-block;" />
                 }
 
                 @if (Model.HarmonicPattern.User == null)
@@ -37,7 +39,7 @@
                 }
                 else
                 {
-
+                    <a asp-action="Edit" class="text text-blue" style="margin-left:5px; display:inline-block; font-size:12px;">@Model.HarmonicPattern.User.Nick.ToUpper()</a>
                 }
 
 

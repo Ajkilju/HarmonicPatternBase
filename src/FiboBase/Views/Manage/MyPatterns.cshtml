@@ -1,0 +1,35 @@
+﻿@model MyPatternsViewModel
+
+@{
+    ViewData["Title"] = "Moje uklady";
+}
+
+<div class="container">
+
+    <div class="text row" style="margin:25px;">
+        <div class="col-md-6">
+            <p style="font-size:35px;"><strong>Dodane uklady</strong></p>
+            <p style="font-size:20px;">Zarządzaj ustawieniami konta</p>
+        </div>
+        <div class="col-md-6" style="margin-top:65px;">
+            <a asp-controller="Manage" asp-action="Index" class="btn button-blueframe" style="background:#eaecef">Ustawienia</a>
+            <a asp-controller="Manage" asp-action="Index" class="btn button-blueframe" style="background:#eaecef; margin-left:10px;">Dodane uklady</a>
+            <a asp-controller="Manage" asp-action="Index" class="btn button-blueframe" style="background:#eaecef; margin-left:10px;">Obserwowane</a>
+        </div>
+    </div>
+
+    <div class="masonry">
+
+        @foreach (var item in Model.HarmonicPatterns)
+            {
+            @await Html.PartialAsync("_HarmnonicPatternTile", item)
+        }
+
+    </div>
+
+    <div style="text-align:center; margin-top:30px;">
+        <pager source="Model.HarmonicPatterns" />
+    </div>
+
+
+</div>

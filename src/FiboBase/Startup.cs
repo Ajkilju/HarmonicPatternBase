@@ -109,7 +109,7 @@ namespace HarmonicPatternsBase
                     template: "{controller=HarmonicPatterns}/{action=Index}/{id?}");
             });
 
-            Pinger.StartPinging("http://ukladyharmoniczne.phdev.pl", 10);
+            Pinger.StartPinging("http://ukladyharmoniczne.phdev.pl/", 10);
 
             SeedData.IntervalsInit(app.ApplicationServices);
             SeedData.PatternsInit(app.ApplicationServices);

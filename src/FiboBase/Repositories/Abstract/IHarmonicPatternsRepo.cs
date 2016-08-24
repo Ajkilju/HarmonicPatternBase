@@ -29,7 +29,8 @@ namespace HarmonicPatternsBase.Repositories.Abstract
             DateTime? dateSince = null,
             DateTime? dateTo = null,
             DateTime? addDateSince = null,
-            DateTime? addDateTo = null);
+            DateTime? addDateTo = null,
+            string userId = null);
 
         Task<Interval> GetIntervalAsync(int? Id);
         Task<List<Interval>> GetIntervalsAsync();

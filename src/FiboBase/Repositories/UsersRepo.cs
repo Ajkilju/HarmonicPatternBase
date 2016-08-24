@@ -22,5 +22,15 @@ namespace HarmonicPatternBase.Repositories
         {
             return await _context.Users.SingleAsync(h => h.Id == Id);
         }
+
+        public void UpdateUser(ApplicationUser user)
+        {
+            _context.Users.Update(user);
+        }
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
+        }
     }
 }

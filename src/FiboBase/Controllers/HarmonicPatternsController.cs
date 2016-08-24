@@ -14,21 +14,25 @@ using HarmonicPatternsBase.Models.StatisticModels;
 using Sakura.AspNetCore;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Identity;
 
 namespace HarmonicPatternsBase.Controllers
 {
     public class HarmonicPatternsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHarmonicPatternsRepo _harmonicPatternsRepo;
         private readonly IStatisticsRepo _statisticsRepo;
 
         public HarmonicPatternsController(
-            ApplicationDbContext context, 
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
             IHarmonicPatternsRepo harmonicPatternsRepo,
             IStatisticsRepo statisticsRepo)
         {
             _context = context;
+            _userManager = userManager;
             _harmonicPatternsRepo = harmonicPatternsRepo;
             _statisticsRepo = statisticsRepo;
         }
@@ -254,9 +258,10 @@ namespace HarmonicPatternsBase.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(HarmonicPatternCreateViewModel model, IFormFile image)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
             if (ModelState.IsValid)
             {
-
                 if (image == null)
                 {
                     model.HarmonicPattern.Image = new byte[1];
@@ -277,6 +282,11 @@ namespace HarmonicPatternsBase.Controllers
                 model.HarmonicPattern.BCtoABratio = double.Parse(model.BCtoABratio, System.Globalization.CultureInfo.InvariantCulture);
                 model.HarmonicPattern.CDtoBCratio = double.Parse(model.CDtoBCratio, System.Globalization.CultureInfo.InvariantCulture);
                 model.HarmonicPattern.CDtoABratio = double.Parse(model.CDtoABratio, System.Globalization.CultureInfo.InvariantCulture);
+
+                if(user != null)
+                {
+                    model.HarmonicPattern.UserId = user.Id;
+                }
 
                 _context.Add(model.HarmonicPattern);
                 await _context.SaveChangesAsync();

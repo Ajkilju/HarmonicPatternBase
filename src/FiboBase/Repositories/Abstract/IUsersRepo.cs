@@ -9,5 +9,7 @@ namespace HarmonicPatternBase.Repositories.Abstract
     public interface IUsersRepo
     {
         Task<ApplicationUser> GetUserAsync(string Id);
+        void UpdateUser(ApplicationUser user);
+        void SaveChanges();
     }
 }

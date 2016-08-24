@@ -123,7 +123,8 @@ namespace HarmonicPatternsBase.Repositories
             DateTime? dateSince = null,
             DateTime? dateTo = null,
             DateTime? addDateSince = null,
-            DateTime? addDateTo = null)
+            DateTime? addDateTo = null,
+            string userId = null)
         {
             var data = (IQueryable<HarmonicPattern>)_context.HarmonicPatterns
                 .Include(h => h.Interval)
@@ -173,6 +174,11 @@ namespace HarmonicPatternsBase.Repositories
             if (addDateTo != null)
             {
                 data = data.Where(h => h.AddDate <= addDateTo);
+            }
+
+            if(userId != null)
+            {
+                data = data.Where(h => h.UserId == userId);
             }
 
             switch(SortOrder)
