@@ -54,11 +54,11 @@
 
         @if (Model.User == null)
         {
-            <a asp-action="Edit" class="text text-blue" style="margin-left:5px; display:inline-block; font-size:12px;">NIEZNANY UZYTKOWNIK</a>
+            <a asp-action="Index" asp-controller="User" asp-route-userid="@Model.UserId" class="text text-blue" style="margin-left:5px; display:inline-block; font-size:12px;">NIEZNANY UZYTKOWNIK</a>
         }
         else
         {
-            <a asp-action="Edit" class="text text-blue" style="margin-left:5px; display:inline-block; font-size:12px;">@Model.User.Nick.ToUpper()</a>
+            <a asp-action="Index" asp-controller="User" asp-route-userid="@Model.UserId" class="text text-blue" style="margin-left:5px; display:inline-block; font-size:12px;">@Model.User.Nick.ToUpper()</a>
         }
 
 

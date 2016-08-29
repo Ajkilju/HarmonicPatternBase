@@ -89,6 +89,14 @@ textarea {
     padding:30px;
 }
 
+.userHolder-rounded {
+    background-color:#dfe1e4;
+    border-radius: 8px;  
+    padding:1px;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.08), 0 0 20px 2px rgba(0, 0, 0, 0.05);
+    display:inline-block;
+}
+
 .admin-panel {
     background-color:#f2dede; 
     border-radius: 6px;

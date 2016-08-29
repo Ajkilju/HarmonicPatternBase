@@ -27,6 +27,7 @@
 
                 <li>
                     <a asp-action="Index"
+                       asp-route-userid="@Model.SelectedUserId"
                        asp-route-datesince="@Model.DateSince"
                        asp-route-dateto="@Model.DateTo"
                        asp-route-adddatesince="@Model.AddDateSince"
@@ -52,6 +53,7 @@
                                 {
                                     <li>
                                         <a asp-action="Index"
+                                           asp-route-userid="@Model.SelectedUserId"
                                            asp-route-datesince="@Model.DateSince"
                                            asp-route-dateto="@Model.DateTo"
                                            asp-route-adddatesince="@Model.AddDateSince"
@@ -93,6 +95,7 @@
 
                     <li>
                         <a asp-action="Index" 
+                           asp-route-userid="@Model.SelectedUserId"
                            asp-route-datesince="@Model.DateSince"
                            asp-route-dateto="@Model.DateTo"
                            asp-route-adddatesince="@Model.AddDateSince"
@@ -112,6 +115,7 @@
                     {
                         <li>
                             <a asp-action="Index" 
+                               asp-route-userid="@Model.SelectedUserId"
                                asp-route-datesince="@Model.DateSince"
                                asp-route-dateto="@Model.DateTo"
                                asp-route-adddatesince="@Model.AddDateSince"
@@ -147,6 +151,7 @@
 
                     <li>
                         <a asp-action="Index" 
+                           asp-route-userid="@Model.SelectedUserId"
                            asp-route-datesince="@Model.DateSince"
                            asp-route-dateto="@Model.DateTo"
                            asp-route-adddatesince="@Model.AddDateSince"
@@ -166,6 +171,7 @@
                     {
                         <li>
                             <a asp-action="Index" 
+                               asp-route-userid="@Model.SelectedUserId"
                                asp-route-datesince="@Model.DateSince"
                                asp-route-dateto="@Model.DateTo"
                                asp-route-adddatesince="@Model.AddDateSince"
@@ -201,6 +207,7 @@
 
                 <li>
                     <a asp-action="Index"
+                       asp-route-userid="@Model.SelectedUserId"
                        asp-route-datesince="@Model.DateSince"
                        asp-route-dateto="@Model.DateTo"
                        asp-route-adddatesince="@Model.AddDateSince"
@@ -221,6 +228,7 @@
                 {
                     <li>
                         <a asp-action="Index"
+                           asp-route-userid="@Model.SelectedUserId"
                            asp-route-datesince="@Model.DateSince"
                            asp-route-dateto="@Model.DateTo"
                            asp-route-adddatesince="@Model.AddDateSince"
@@ -251,6 +259,7 @@
 
         <form asp-controller="HarmonicPatterns"
               asp-action="index"
+              asp-route-userid="@Model.SelectedUserId"
               asp-route-intervalid="@Model.SelectedIntervalId"
               asp-route-patterntypeid="@Model.SelectedPatternId"
               asp-route-instrumentid="@Model.SelectedInstrumentId"
@@ -330,8 +339,37 @@
                     {
                         <a asp-action="Edit" class="btn button-pink">@Model.SelectedDirect.Name</a>
                     }
+                    @if (Model.SelectedUser != null)
+                    {
+                        <span>dodanych przez</span>
+                        <div class="userHolder-rounded">
+                            @if (Model.SelectedUser.Avatar.Length > 5)
+                            {
+                                var base64 = Convert.ToBase64String(Model.SelectedUser.Avatar);
+                                var userImageContent = String.Format("data:image/gif;base64,{0}", base64);
+                                <img src='@userImageContent' class="img-circle" style="height:40px; width:40px; display:inline-block;" />
+                                <a asp-action="Index" asp-controller="User" asp-route-userid="@Model.SelectedUserId" class="text text-blue" style="margin-left:5px; margin-right:10px; display:inline-block; font-size:12px;">@Model.SelectedUser.Nick.ToUpper()</a>
+                            }
+                        </div>
+                    }
 
                     w bazie danych
+
+                    @if (Model.SelectedInstrumentId != null ||
+                        Model.SelectedPatternId != null ||
+                        Model.SelectedIntervalId != null ||
+                        Model.SelectedDirectId != null ||
+                        Model.SelectedUser != null)
+                    {
+                        <a asp-controller="HarmonicPatterns"
+                           asp-action="Index"
+                           class="btn button-blueframe"
+                           style="margin-left:10px;">
+                            usun filtry
+                        </a>
+                    }
+
+                    
                 </div>
 
                 <div class="row" style="margin-top:30px;">
@@ -440,6 +478,7 @@
             {
                 <li>
                     <a asp-action="Index"
+                       asp-route-userid="@Model.SelectedUserId"
                        asp-route-datesince="@Model.DateSince"
                        asp-route-dateto="@Model.DateTo"
                        asp-route-adddatesince="@Model.AddDateSince"
@@ -471,6 +510,7 @@
             {
                 <li>
                     <a asp-action="Index"
+                       asp-route-userid="@Model.SelectedUserId"
                        asp-route-datesince="@Model.DateSince"
                        asp-route-dateto="@Model.DateTo"
                        asp-route-adddatesince="@Model.AddDateSince"

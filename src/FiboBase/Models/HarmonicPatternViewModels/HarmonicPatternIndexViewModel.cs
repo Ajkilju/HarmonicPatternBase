@@ -20,11 +20,13 @@ namespace HarmonicPatternsBase.Models.HarmonicPatternViewModels
         public Interval SelectedInterval { get; set; }
         public Instrument SelectedInstrument { get; set; }
         public PatternDirect SelectedDirect { get; set; }
+        public ApplicationUser SelectedUser { get; set; }
 
         public int? SelectedPatternId { get; set; }
         public int? SelectedIntervalId { get; set; }
         public int? SelectedInstrumentId { get; set; }
         public int? SelectedDirectId { get; set; }
+        public string SelectedUserId { get; set; }
         
         public HarmonicPatternsStatistic Statistics { get; set; }
 

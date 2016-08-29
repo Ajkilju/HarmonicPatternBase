@@ -15,6 +15,7 @@ using Sakura.AspNetCore;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
+using HarmonicPatternBase.Repositories.Abstract;
 
 namespace HarmonicPatternsBase.Controllers
 {
@@ -24,17 +25,20 @@ namespace HarmonicPatternsBase.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHarmonicPatternsRepo _harmonicPatternsRepo;
         private readonly IStatisticsRepo _statisticsRepo;
+        private readonly IUsersRepo _usersRepo;
 
         public HarmonicPatternsController(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             IHarmonicPatternsRepo harmonicPatternsRepo,
-            IStatisticsRepo statisticsRepo)
+            IStatisticsRepo statisticsRepo,
+            IUsersRepo usersRepo)
         {
             _context = context;
             _userManager = userManager;
             _harmonicPatternsRepo = harmonicPatternsRepo;
             _statisticsRepo = statisticsRepo;
+            _usersRepo = usersRepo;
         }
 
         // GET: HarmonicPatterns
@@ -50,7 +54,8 @@ namespace HarmonicPatternsBase.Controllers
             DateTime? dateSince = null,
             DateTime? dateTo = null,
             DateTime? addDateSince = null,
-            DateTime? addDateTo = null)
+            DateTime? addDateTo = null,
+            string userId = null)
         {
             var statisticsData = await _statisticsRepo.GetHarmonicPatternStatisticisticDataAsync(
                 intervalId,
@@ -75,7 +80,8 @@ namespace HarmonicPatternsBase.Controllers
                     dateSince,
                     dateTo,
                     addDateSince,
-                    addDateTo)
+                    addDateTo,
+                    userId)
                     .ToPagedListAsync(pageSize, page),
 
                 DateSince = dateSince,
@@ -98,6 +104,7 @@ namespace HarmonicPatternsBase.Controllers
                 SelectedIntervalId = intervalId,
                 SelectedInstrumentId = instrumentId,
                 SelectedDirectId = patternDirectId,
+                SelectedUserId = userId,
 
                 Statistics = new HarmonicPatternsStatistic(statisticsData),  
                 
@@ -116,6 +123,15 @@ namespace HarmonicPatternsBase.Controllers
                      "Lista"
                  },
             };
+
+            if(userId != null)
+            {
+                model.SelectedUser = await _usersRepo.GetUserAsync(userId);
+            }
+            else
+            {
+                model.SelectedUser = null;
+            }
 
             model.SetInstruments(await _harmonicPatternsRepo.GetInstrumentsAsync());
 

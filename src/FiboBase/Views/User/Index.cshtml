@@ -1,0 +1,60 @@
+﻿@model HarmonicPatternsBase.Models.UserViewModels.UserIndexViewModel
+
+@{
+    ViewData["Title"] = "Użytkownik";
+    string imageString = "~/images/DefaultUserPhoto.png";
+}
+
+<div class="container">
+
+@if (Model.User != null)
+{
+
+
+    <div class="text row" style="margin:25px;">
+        <div class="col-md-6">
+            <p style="font-size:35px;"><strong>@Model.User.Nick</strong></p>
+            <p style="font-size:20px;">Profil uzytkownika</p>
+        </div>
+        <div class="col-md-6" style="margin-top:65px;">
+            <a asp-controller="HarmonicPatterns" asp-action="Index" asp-route-userid="@Model.User.Id" class="btn button-blueframe" style="background:#eaecef; margin-left:10px;">Dodane uklady</a>           
+        </div>
+    </div>
+
+    <div class="content-rounded">
+
+        <div class="form-group" style="margin-left:20px;">
+
+                @if (Model.User.Avatar.Length > 5)
+                {
+                    var base64 = Convert.ToBase64String(Model.User.Avatar);
+                    imageString = String.Format("data:image/gif;base64,{0}", base64);
+                    <img src='@imageString' class="img-circle" style="height:150px; width:150px;" />
+                }
+                else
+                {
+                    <img src="~/images/DefaultUserPhoto.png" class="img-circle" style="height:150px; width:150px;" />
+                }
+         
+        </div>     
+
+    </div>
+}
+else
+{
+    <div class="text row" style="margin:25px;">
+        <div class="col-md-6">
+            <p style="font-size:35px;"><strong>Nieznany uzytkownik</strong></p>
+            <p style="font-size:20px;">Profil uzytkownika</p>
+        </div>
+        <div class="col-md-6" style="margin-top:65px;">
+           
+        </div>
+    </div>
+
+    <div class="content-rounded" style="min-height:300px;">
+
+    </div>
+}
+
+</div>
