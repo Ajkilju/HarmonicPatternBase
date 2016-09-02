@@ -17,5 +17,7 @@ namespace HarmonicPatternsBase.Repositories.Abstract
             DateTime? dateTo = null,
             DateTime? addDateSince = null,
             DateTime? addDateTo = null);
+
+        List<int> GetReactionIds();
     }
 }

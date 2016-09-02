@@ -1,7 +1,7 @@
 @model HarmonicPatternsBase.Models.HarmonicPatternViewModels.HarmonicPatternIndexViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Baza ukladow harmonicznych";
 }
 
 
@@ -380,12 +380,9 @@
                         </div>
                         @foreach (var item in Model.Statistics.ReactionAfter5Candles)
                         {
-                            double i = (double)item.ReactionCon / (double)Model.Statistics.Count * 100.0;
-                            
-
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-md-2">
-                                    <span style="color:#920063;"><strong>@i.ToString("#")%</strong> </span>
+                                    <span style="color:#920063;"><strong>@item.PercentOfAllData.ToString("#")%</strong> </span>
                                 </div>
                                 <div class="col-md-7">
                                     ukladow osiagnelo poziom
@@ -402,11 +399,9 @@
                         </div>
                         @foreach (var item in Model.Statistics.ReactionAfter10Candles)
                         {
-                            double i = (double)item.ReactionCon / (double)Model.Statistics.Count * 100.0;
-
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-md-2">
-                                    <span style="color:#920063;"><strong>@i.ToString("#")%</strong> </span>
+                                    <span style="color:#920063;"><strong>@item.PercentOfAllData.ToString("#")%</strong> </span>
                                 </div>
                                 <div class="col-md-7">
                                     ukladow osiagnelo poziom
@@ -423,11 +418,9 @@
                         </div>
                         @foreach (var item in Model.Statistics.ReactionAfter20Candles)
                         {
-                            double i = (double)item.ReactionCon / (double)Model.Statistics.Count * 100.0;
-
                             <div class="row" style="margin-bottom:5px;">
                                 <div class="col-md-2">
-                                    <span style="color:#920063;"><strong>@i.ToString("#")%</strong> </span>
+                                    <span style="color:#920063;"><strong>@item.PercentOfAllData.ToString("#")%</strong> </span>
                                 </div>
                                 <div class="col-md-7">
                                     ukladow osiagnelo poziom

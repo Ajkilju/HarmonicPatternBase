@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace HarmonicPatternsBase.Models.StatisticModels
 {
+    //HarmonicPatternStatistics - klasa, ktora okresla dane dla HarmonicPatternsStatistics
+    //HarmonicPatternsStatistics - klasa, w ktorej obliczane są statystyki
+
     public class HarmonicPatternStatistic
     {
         public int? NumberOfWaves { get; set; }

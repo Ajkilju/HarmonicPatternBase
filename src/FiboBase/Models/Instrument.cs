@@ -12,4 +12,10 @@ namespace HarmonicPatternsBase.Models
         public string Category { get; set; }
         public List<HarmonicPattern> HarmonicPatterns { get; set; }
     }
+
+    public class InstrumentCategory
+    {
+        public List<Instrument> Instruments { get; set; }
+        public string Name { get; set; }
+    }
 }

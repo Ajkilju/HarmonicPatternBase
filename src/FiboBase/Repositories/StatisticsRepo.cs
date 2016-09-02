@@ -94,5 +94,10 @@ namespace HarmonicPatternsBase.Repositories
 
             return await statisticsData.ToListAsync();
         }
+
+        public List<int> GetReactionIds()
+        {
+            return _context.ReactionLvls.Select(h => h.Id).ToList();
+        }
     }
 }

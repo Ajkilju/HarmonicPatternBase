@@ -6,113 +6,101 @@ using System.Threading.Tasks;
 
 namespace HarmonicPatternsBase.Models.StatisticModels
 {
+    public enum GetStatisticsMode {Basic, Full};
+
+    //HarmonicPatternStatistics - klasa, ktora okresla dane dla HarmonicPatternsStatistics
+    //HarmonicPatternsStatistics - klasa, w ktorej obliczane są statystyki
+
     public class HarmonicPatternsStatistic
     {
-        public HarmonicPatternsStatistic(List<HarmonicPatternStatistic> data)
+        public HarmonicPatternsStatistic(List<HarmonicPatternStatistic> data, List<int> reactionIds, GetStatisticsMode mode)
         {
-            NumberOfWaves = 0;
-            ABtoXAratio = 0;
-            ADtoXAratio = 0;
-            BCtoABratio = 0;
-            CDtoBCratio = 0;
-            CDtoABratio = 0;
-
             ReactionAfter5Candles = new List<ReactionStatistic>();
             ReactionAfter10Candles = new List<ReactionStatistic>();
             ReactionAfter20Candles = new List<ReactionStatistic>();
 
-            if (data.Count == 0)
+            Count = data.Count();
+
+            foreach (var reaction in reactionIds)
             {
-                return;
+                var reactionCon = data.Where(h => h.ReactionAfter5CandlesId == reaction).Count();
+                ReactionAfter5Candles.Add(
+                    new ReactionStatistic
+                    {
+                        ReactionId = reaction,
+                        Data = data.Where(h => h.ReactionAfter5CandlesId == reaction),
+                        ReactionCon = reactionCon,
+                        PercentOfAllData = (double)reactionCon / (double)Count * 100.0
+                    }
+                    );
+
+                reactionCon = data.Where(h => h.ReactionAfter10CandlesId == reaction).Count();
+                ReactionAfter10Candles.Add(
+                    new ReactionStatistic
+                    {
+                        ReactionId = reaction,
+                        Data = data.Where(h => h.ReactionAfter10CandlesId == reaction),
+                        ReactionCon = reactionCon,
+                        PercentOfAllData = (double)reactionCon / (double)Count * 100.0
+                    }
+                    );
+
+                reactionCon = data.Where(h => h.ReactionAfter20CandlesId == reaction).Count();
+                ReactionAfter20Candles.Add(
+                    new ReactionStatistic
+                    {
+                        ReactionId = reaction,
+                        Data = data.Where(h => h.ReactionAfter20CandlesId == reaction),
+                        ReactionCon = reactionCon,
+                        PercentOfAllData = (double)reactionCon / (double)Count * 100.0
+                    }
+                    );
             }
 
-            foreach (var item in data)
+            //full opcja, wszystkie statystyki
+            if(mode == GetStatisticsMode.Full)
             {
-                NumberOfWaves += item.NumberOfWaves;
-                ABtoXAratio += item.ABtoXAratio;
-                ADtoXAratio += item.ADtoXAratio;
-                BCtoABratio += item.BCtoABratio;
-                CDtoBCratio += item.CDtoBCratio;
-                CDtoABratio += item.CDtoABratio;
+                ReactionFrom5candlesTo10candles = new List<ReactionAfterReaction>();
+                ReactionFrom5candlesTo20candles = new List<ReactionAfterReaction>();
 
-                ReactionAfter5Found = false;
-                ReactionAfter10Found = false;
-                ReactionAfter20Found = false;
-
-                foreach (var reaction in ReactionAfter5Candles)
+                foreach(var reactionAfter5c in ReactionAfter5Candles)
                 {
-                    if(item.ReactionAfter5CandlesId == reaction.ReactionId && ReactionAfter5Found == false)
+                    foreach(var reaction in reactionIds)
                     {
-                        reaction.ReactionCon++;
-                        ReactionAfter5Found = true;
-                    }
-                }
+                        var reaction5to10Con = reactionAfter5c.Data.Where(h => h.ReactionAfter10CandlesId == reaction).Count();
+                        var reaction5to20Con = reactionAfter5c.Data.Where(h => h.ReactionAfter20CandlesId == reaction).Count();
 
-                foreach (var reaction in ReactionAfter10Candles)
-                {
-                    if (item.ReactionAfter10CandlesId == reaction.ReactionId && ReactionAfter10Found == false)
-                    {
-                        reaction.ReactionCon++;
-                        ReactionAfter10Found = true;
-                    }
-                }
+                        ReactionFrom5candlesTo10candles.Add
+                            (
+                            new ReactionAfterReaction
+                            {
+                                FirstReactionId = reactionAfter5c.ReactionId,
+                                SecondReactionId = reaction,
+                                Percent = (double)reaction5to10Con / (double)reactionAfter5c.ReactionCon * 100.0,
+                                PercentOfAllData = (double)reaction5to10Con / (double)Count * 100.0
+                            });
 
-                foreach (var reaction in ReactionAfter20Candles)
-                {
-                    if (item.ReactionAfter20CandlesId == reaction.ReactionId && ReactionAfter20Found == false)
-                    {
-                        reaction.ReactionCon++;
-                        ReactionAfter20Found = true;
+                        ReactionFrom5candlesTo20candles.Add
+                            (
+                            new ReactionAfterReaction
+                            {
+                                FirstReactionId = reactionAfter5c.ReactionId,
+                                SecondReactionId = reaction,
+                                Percent = (double)reaction5to20Con / (double)reactionAfter5c.ReactionCon * 100.0,
+                                PercentOfAllData = (double)reaction5to20Con / (double)Count * 100.0
+                            });
                     }
-                }
-
-                if(ReactionAfter5Found == false)
-                {
-                    ReactionAfter5Candles.Add(new ReactionStatistic { ReactionId = (int)item.ReactionAfter5CandlesId, ReactionCon = 1 });
-                }
-                if (ReactionAfter10Found == false)
-                {
-                    ReactionAfter10Candles.Add(new ReactionStatistic { ReactionId = (int)item.ReactionAfter10CandlesId, ReactionCon = 1 });
-                }
-                if (ReactionAfter20Found == false)
-                {
-                    ReactionAfter20Candles.Add(new ReactionStatistic { ReactionId = (int)item.ReactionAfter20CandlesId, ReactionCon = 1 });
                 }
             }
-
-            NumberOfWaves = NumberOfWaves / data.Count;
-            ABtoXAratio = ABtoXAratio / data.Count;
-            ADtoXAratio = ADtoXAratio / data.Count;
-            BCtoABratio = BCtoABratio / data.Count;
-            CDtoBCratio = CDtoBCratio / data.Count;
-            CDtoABratio = CDtoABratio / data.Count;
-            Count = data.Count;
-
-            ReactionAfter5Candles = ReactionAfter5Candles.OrderBy(h => h.ReactionId).ToList();
-            ReactionAfter10Candles = ReactionAfter10Candles.OrderBy(h => h.ReactionId).ToList();
-            ReactionAfter20Candles = ReactionAfter20Candles.OrderBy(h => h.ReactionId).ToList();
         }
 
         public int Count { get; set; }
-        public int? NumberOfWaves { get; set; }
-        public double? ABtoXAratio { get; set; }
-        public double? ADtoXAratio { get; set; }
-        public double? BCtoABratio { get; set; }
-        public double? CDtoBCratio { get; set; }
-        public double? CDtoABratio { get; set; }
 
         public List<ReactionStatistic> ReactionAfter5Candles { get; set; }
         public List<ReactionStatistic> ReactionAfter10Candles { get; set; }
         public List<ReactionStatistic> ReactionAfter20Candles { get; set; }
 
-        private bool ReactionAfter5Found;
-        private bool ReactionAfter10Found;
-        private bool ReactionAfter20Found;
-    }
-
-    public class ReactionStatistic
-    {
-        public int ReactionId { get; set; }
-        public int ReactionCon { get; set; }
-    }
+        public List<ReactionAfterReaction> ReactionFrom5candlesTo10candles { get; set; }
+        public List<ReactionAfterReaction> ReactionFrom5candlesTo20candles { get; set; }
+    }    
 }

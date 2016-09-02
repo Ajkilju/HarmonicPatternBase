@@ -1,7 +1,7 @@
 ﻿@model HarmonicPatternsBase.Models.StatisticsViewModels.StatisticsIndexViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Baza układów harmonicznych";
 }
 
 
@@ -27,6 +27,11 @@
 
                 <li>
                     <a asp-action="Index"
+                       asp-route-userid="@Model.SelectedUserId"
+                       asp-route-datesince="@Model.DateSince"
+                       asp-route-dateto="@Model.DateTo"
+                       asp-route-adddatesince="@Model.AddDateSince"
+                       asp-route-adddateto="@Model.AddDateTo"
                        asp-route-intervalid="@Model.SelectedIntervalId"
                        asp-route-patterntypeid="@Model.SelectedPatternId"
                        asp-route-patterndirectid="@Model.SelectedDirectId"
@@ -37,20 +42,35 @@
 
                 <li class="divider"></li>
 
-                @foreach (var item in Model.Instruments)
-                {
-                    <li>
-                        <a asp-action="Index"
-                           asp-route-intervalid="@Model.SelectedIntervalId"
-                           asp-route-patterntypeid="@Model.SelectedPatternId"
-                           asp-route-patterndirectid="@Model.SelectedDirectId"
-                           asp-route-instrumentid="@item.Id">
-                            @item.Name
-                        </a>
-                    </li>
+                @{foreach (var category in Model.InstrumentsCategories)
+                    {
+                        <li class="menu-item dropdown dropdown-submenu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@category.Name</a>
+                            <ul class="dropdown-menu">
+                                @foreach (var item in category.Instruments)
+                                {
+                                    <li>
+                                        <a asp-action="Index"
+                                           asp-route-userid="@Model.SelectedUserId"
+                                           asp-route-datesince="@Model.DateSince"
+                                           asp-route-dateto="@Model.DateTo"
+                                           asp-route-adddatesince="@Model.AddDateSince"
+                                           asp-route-adddateto="@Model.AddDateTo"
+                                           asp-route-intervalid="@Model.SelectedIntervalId"
+                                           asp-route-patterntypeid="@Model.SelectedPatternId"
+                                           asp-route-patterndirectid="@Model.SelectedDirectId"
+                                           asp-route-instrumentid="@item.Id">
+                                            @item.Name
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
                 }
             </ul>
         </div>
+
 
         <div class="dropdown" style="display:inline-block;">
             <button class="btn button-blue dropdown-toggle button-nav" type="button" id="dropdownMenu"
@@ -71,6 +91,11 @@
 
                 <li>
                     <a asp-action="Index"
+                       asp-route-userid="@Model.SelectedUserId"
+                       asp-route-datesince="@Model.DateSince"
+                       asp-route-dateto="@Model.DateTo"
+                       asp-route-adddatesince="@Model.AddDateSince"
+                       asp-route-adddateto="@Model.AddDateTo"
                        asp-route-intervalid="@Model.SelectedIntervalId"
                        asp-route-instrumentid="@Model.SelectedInstrumentId"
                        asp-route-patterndirectid="@Model.SelectedDirectId"
@@ -85,6 +110,11 @@
                 {
                     <li>
                         <a asp-action="Index"
+                           asp-route-userid="@Model.SelectedUserId"
+                           asp-route-datesince="@Model.DateSince"
+                           asp-route-dateto="@Model.DateTo"
+                           asp-route-adddatesince="@Model.AddDateSince"
+                           asp-route-adddateto="@Model.AddDateTo"
                            asp-route-intervalid="@Model.SelectedIntervalId"
                            asp-route-instrumentid="@Model.SelectedInstrumentId"
                            asp-route-patterndirectid="@Model.SelectedDirectId"
@@ -115,6 +145,11 @@
 
                 <li>
                     <a asp-action="Index"
+                       asp-route-userid="@Model.SelectedUserId"
+                       asp-route-datesince="@Model.DateSince"
+                       asp-route-dateto="@Model.DateTo"
+                       asp-route-adddatesince="@Model.AddDateSince"
+                       asp-route-adddateto="@Model.AddDateTo"
                        asp-route-patterntypeid="@Model.SelectedPatternId"
                        asp-route-instrumentid="@Model.SelectedInstrumentId"
                        asp-route-patterndirectid="@Model.SelectedDirectId"
@@ -129,6 +164,11 @@
                 {
                     <li>
                         <a asp-action="Index"
+                           asp-route-userid="@Model.SelectedUserId"
+                           asp-route-datesince="@Model.DateSince"
+                           asp-route-dateto="@Model.DateTo"
+                           asp-route-adddatesince="@Model.AddDateSince"
+                           asp-route-adddateto="@Model.AddDateTo"
                            asp-route-patterntypeid="@Model.SelectedPatternId"
                            asp-route-instrumentid="@Model.SelectedInstrumentId"
                            asp-route-patterndirectid="@Model.SelectedDirectId"
@@ -159,6 +199,11 @@
 
                 <li>
                     <a asp-action="Index"
+                       asp-route-userid="@Model.SelectedUserId"
+                       asp-route-datesince="@Model.DateSince"
+                       asp-route-dateto="@Model.DateTo"
+                       asp-route-adddatesince="@Model.AddDateSince"
+                       asp-route-adddateto="@Model.AddDateTo"
                        asp-route-intervalid="@Model.SelectedIntervalId"
                        asp-route-patterntypeid="@Model.SelectedPatternId"
                        asp-route-instrumentid="@Model.SelectedInstrumentId"
@@ -173,6 +218,11 @@
                 {
                     <li>
                         <a asp-action="Index"
+                           asp-route-userid="@Model.SelectedUserId"
+                           asp-route-datesince="@Model.DateSince"
+                           asp-route-dateto="@Model.DateTo"
+                           asp-route-adddatesince="@Model.AddDateSince"
+                           asp-route-adddateto="@Model.AddDateTo"
                            asp-route-intervalid="@Model.SelectedIntervalId"
                            asp-route-patterntypeid="@Model.SelectedPatternId"
                            asp-route-instrumentid="@Model.SelectedInstrumentId"
@@ -191,8 +241,66 @@
     </div>
 </div>
 
+<div style="padding-top:30px; padding-bottom:5px; background-color:#c1d0d3" id="advencedOptions" hidden>
 
+    <div class="container">
 
+        <form asp-controller="HarmonicPatterns"
+              asp-action="index"
+              asp-route-userid="@Model.SelectedUserId"
+              asp-route-intervalid="@Model.SelectedIntervalId"
+              asp-route-patterntypeid="@Model.SelectedPatternId"
+              asp-route-instrumentid="@Model.SelectedInstrumentId"
+              asp-route-patterndirectid="@Model.SelectedDirectId" method="get">
+
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="text" style="font-size:18px;">
+                            Data wystapienia na rynku:
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div>
+                            <input type="date" class="form-control" style="display:inline-block;" name="dateSince" value="@Model.DateSinceString">
+                            -
+                            <input type="date" class="form-control" style="display:inline-block;" name="dateTo" value="@Model.DateToString">
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-3">
+                        <div class="text" style="font-size:18px;">
+                            Data dodania do bazy:
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div>
+                            <input type="date" class="form-control" style="display:inline-block;" name="addDateSince" value="@Model.AddDateSinceString">
+                            -
+                            <input type="date" class="form-control" style="display:inline-block;" name="addDateTo" value="@Model.AddDateToString">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center; margin-top:30px; margin-bottom:10px;">
+                <input type="submit" class="btn btn button-blueframe" style="background-color:#c1d0d3; padding: 8px 25px; font-weight:bold" value="Szukaj ukladow">
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<div style="background-color:#c1d0d3; padding:0px; color:#167aa3; text-align:center">
+    <button id="advencedOptionsTriggerUp" class="btn button-chevron" style="display: none;">
+        <span class="glyphicon glyphicon-chevron-up"></span>
+    </button>
+    <button id="advencedOptionsTriggerDown" class="btn button-chevron">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+    </button>
+</div>
 
 <div style="padding:30px; background-color:#d6d9dc">
 
@@ -217,11 +325,40 @@
             {
                 <a asp-action="Edit" class="btn button-pink">@Model.SelectedDirect.Name</a>
             }
+            @if (Model.SelectedUser != null)
+            {
+                <span>dodanych przez</span>
+                        <div class="userHolder-rounded">
+                            @if (Model.SelectedUser.Avatar.Length > 5)
+                            {
+                                var base64 = Convert.ToBase64String(Model.SelectedUser.Avatar);
+                                var userImageContent = String.Format("data:image/gif;base64,{0}", base64);
+                                <img src='@userImageContent' class="img-circle" style="height:40px; width:40px; display:inline-block;" />
+                                <a asp-action="Index" asp-controller="User" asp-route-userid="@Model.SelectedUserId" class="text text-blue" style="margin-left:5px; margin-right:10px; display:inline-block; font-size:12px;">@Model.SelectedUser.Nick.ToUpper()</a>
+                            }
+                        </div>
+            }
 
             w bazie danych
+
+            @if (Model.SelectedInstrumentId != null ||
+                        Model.SelectedPatternId != null ||
+                        Model.SelectedIntervalId != null ||
+                        Model.SelectedDirectId != null ||
+                        Model.SelectedUser != null)
+            {
+                <a asp-controller="HarmonicPatterns"
+                   asp-action="Index"
+                   class="btn button-blueframe"
+                   style="margin-left:10px;">
+                    usun filtry
+                </a>
+            }
+
+
         </div>
 
-        <div class="row" style="margin-top:30px; margin-bottom:40px;">
+        <div class="row" style="margin-top:30px;">
 
             <div class="col-md-4">
                 <div style="margin-bottom:15px;">
@@ -229,18 +366,15 @@
                 </div>
                 @foreach (var item in Model.Statistics.ReactionAfter5Candles)
                 {
-                    double i = (double)item.ReactionCon / (double)Model.Statistics.Count * 100.0;
-
-
                     <div class="row" style="margin-bottom:5px;">
                         <div class="col-md-2">
-                            <span style="color:#920063;"><strong>@i.ToString("#")%</strong> </span>
+                            <span style="color:#920063;"><strong>@item.PercentOfAllData.ToString("#")%</strong> </span>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             ukladow osiagnelo poziom
                         </div>
                         <div class="col-md-2" style="text-align:center">
-                            <span style="color:#920063"> @Model.ReactionLevels.Find(h => h.Id == item.ReactionId).Name </span>
+                            <a asp-controller="Info" asp-action="Reactions" style="color:#920063">@Model.ReactionLevels.Find(h => h.Id == item.ReactionId).Name</a>
                         </div>
                     </div>
                 }
@@ -251,17 +385,15 @@
                 </div>
                 @foreach (var item in Model.Statistics.ReactionAfter10Candles)
                 {
-                    double i = (double)item.ReactionCon / (double)Model.Statistics.Count * 100.0;
-
                     <div class="row" style="margin-bottom:5px;">
                         <div class="col-md-2">
-                            <span style="color:#920063;"><strong>@i.ToString("#")%</strong> </span>
+                            <span style="color:#920063;"><strong>@item.PercentOfAllData.ToString("#")%</strong> </span>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             ukladow osiagnelo poziom
                         </div>
                         <div class="col-md-2" style="text-align:center">
-                            <span style="color:#920063"> @Model.ReactionLevels.Find(h => h.Id == item.ReactionId).Name </span>
+                            <a asp-controller="Info" asp-action="Reactions" style="color:#920063">@Model.ReactionLevels.Find(h => h.Id == item.ReactionId).Name</a>
                         </div>
                     </div>
                 }
@@ -272,28 +404,45 @@
                 </div>
                 @foreach (var item in Model.Statistics.ReactionAfter20Candles)
                 {
-                    double i = (double)item.ReactionCon / (double)Model.Statistics.Count * 100.0;
-
                     <div class="row" style="margin-bottom:5px;">
                         <div class="col-md-2">
-                            <span style="color:#920063;"><strong>@i.ToString("#")%</strong> </span>
+                            <span style="color:#920063;"><strong>@item.PercentOfAllData.ToString("#")%</strong> </span>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             ukladow osiagnelo poziom
                         </div>
                         <div class="col-md-2" style="text-align:center">
-                            <span style="color:#920063"> @Model.ReactionLevels.Find(h => h.Id == item.ReactionId).Name </span>
+                            <a asp-controller="Info" asp-action="Reactions" style="color:#920063">@Model.ReactionLevels.Find(h => h.Id == item.ReactionId).Name</a>
                         </div>
                     </div>
                 }
             </div>
         </div>
 
+
+        <div style="margin-top:40px;">
+            <a asp-controller="HarmonicPatterns"
+               asp-action="Index"
+               asp-route-intervalid="@Model.SelectedIntervalId"
+               asp-route-patterntypeid="@Model.SelectedPatternId"
+               asp-route-instrumentid="@Model.SelectedInstrumentId"
+               asp-route-patterndirectid="@Model.SelectedDirectId"
+               class="btn button-blueframe">
+                Pokaz uklady harmoniczne
+            </a>
+            <a asp-controller="Info" asp-action="Patterns" class="btn button-blueframe" style="margin-left:10px;">O ukladach harmonicznych</a>
+            <a asp-controller="Info" asp-action="Reactions" class="btn button-blueframe" style="margin-left:10px;">O poziomach reakcji</a>
+        </div>
+
+
+
     </div>
 </div>
 
-<div class="container">
-    
+
+<div class="container" style="margin-top:10px">
+
+
     <div class="row">
         <div class="row admin-panel">
             <h3 class="admin-panel-text">W budowie ;)</h3>
@@ -305,5 +454,60 @@
             <h5 class="admin-panel-text">itd...</h5>
         </div>
     </div>
+
+    <row>
+        <h3>ANALIZA REAKCJI</h3>
+        <h4 style="margin-bottom:30px;">ile ukladow osiagajacych dany poziom reakcji po 5 swiecach osiaga dany poziom reakcji po 10 swiecach</h4>
+
+        @{
+            foreach (var reaction5to10 in Model.Statistics.ReactionFrom5candlesTo10candles)
+            {
+                <div class="row" style="margin-bottom:5px;">
+                    <div class="col-md-1">
+                        <span style="color:#920063;"><strong>@reaction5to10.Percent.ToString("#")%</strong> </span>
+                    </div>
+                    <div class="col-md-3">
+                        ukladow osiagajacych poziom 
+                    </div>
+                    <div class="col-md-1" style="text-align:center">
+                        <a asp-controller="Info" asp-action="Reactions" style="color:#920063">@Model.ReactionLevels.Find(h => h.Id == reaction5to10.FirstReactionId).Name</a>
+                    </div>
+                    <div class="col-md-2">
+                        osiaga poziom
+                    </div>
+                    <div class="col-md-1" style="text-align:center">
+                        <a asp-controller="Info" asp-action="Reactions" style="color:#920063">@Model.ReactionLevels.Find(h => h.Id == reaction5to10.SecondReactionId).Name</a>
+                    </div>
+
+                </div>
+            }
+        }
+
+        <h4 style="margin-bottom:30px; margin-top:40px;">ile ukladow osiagajacych dany poziom reakcji po 5 swiecach osiaga dany poziom reakcji po 20 swiecach</h4>
+
+        @{
+            foreach (var reaction5to20 in Model.Statistics.ReactionFrom5candlesTo20candles)
+            {
+                <div class="row" style="margin-bottom:5px;">
+                    <div class="col-md-1">
+                        <span style="color:#920063;"><strong>@reaction5to20.Percent.ToString("#")%</strong> </span>
+                    </div>
+                    <div class="col-md-3">
+                        ukladow osiagajacych poziom
+                    </div>
+                    <div class="col-md-1" style="text-align:center">
+                        <a asp-controller="Info" asp-action="Reactions" style="color:#920063">@Model.ReactionLevels.Find(h => h.Id == reaction5to20.FirstReactionId).Name</a>
+                    </div>
+                    <div class="col-md-2">
+                        osiaga poziom
+                    </div>
+                    <div class="col-md-1" style="text-align:center">
+                        <a asp-controller="Info" asp-action="Reactions" style="color:#920063">@Model.ReactionLevels.Find(h => h.Id == reaction5to20.SecondReactionId).Name</a>
+                    </div>
+
+                </div>
+            }
+        }
+    </row>
 
 </div>

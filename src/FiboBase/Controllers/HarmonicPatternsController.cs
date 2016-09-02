@@ -66,6 +66,7 @@ namespace HarmonicPatternsBase.Controllers
                 dateTo,
                 addDateSince,
                 addDateTo);
+            var reactionIds = _statisticsRepo.GetReactionIds();
 
             var model = new HarmonicPatternIndexViewModel
             {
@@ -91,7 +92,6 @@ namespace HarmonicPatternsBase.Controllers
 
                 Intervals = await _harmonicPatternsRepo.GetIntervalsAsync(),
                 PatternTypes = await _harmonicPatternsRepo.GetPatternTypesAsync(),
-                //Instruments = await _harmonicPatternsRepo.GetInstrumentsAsync(),
                 PatternDirects = await _harmonicPatternsRepo.GetPatternDirectsAsync(),
                 ReactionLevels = await _harmonicPatternsRepo.GetReactionLvlsAsync(),
 
@@ -106,7 +106,7 @@ namespace HarmonicPatternsBase.Controllers
                 SelectedDirectId = patternDirectId,
                 SelectedUserId = userId,
 
-                Statistics = new HarmonicPatternsStatistic(statisticsData),  
+                Statistics = new HarmonicPatternsStatistic(statisticsData,reactionIds, GetStatisticsMode.Basic),  
                 
                  SortOrder = sortOrder,
                  SortOrdersList = new List<string>

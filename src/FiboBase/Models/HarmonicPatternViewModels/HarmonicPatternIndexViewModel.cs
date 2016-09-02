@@ -67,11 +67,5 @@ namespace HarmonicPatternsBase.Models.HarmonicPatternViewModels
             }
 
         }
-    }
-
-    public class InstrumentCategory
-    {
-        public List<Instrument> Instruments { get; set; }
-        public string Name { get; set; }
-    }
+    }  
 }
