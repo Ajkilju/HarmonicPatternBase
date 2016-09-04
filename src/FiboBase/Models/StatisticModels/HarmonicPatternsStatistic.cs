@@ -91,6 +91,9 @@ namespace HarmonicPatternsBase.Models.StatisticModels
                             });
                     }
                 }
+
+                ReactionFrom5candlesTo10candles = ReactionFrom5candlesTo10candles.OrderBy(h => h.FirstReactionId).ToList();
+                ReactionFrom5candlesTo20candles = ReactionFrom5candlesTo20candles.OrderBy(h => h.FirstReactionId).ToList();
             }
         }
 

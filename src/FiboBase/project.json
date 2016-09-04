@@ -46,7 +46,9 @@
     },
     "Sakura.AspNetCore.PagedList.Async": "1.0.0",
     "Sakura.AspNetCore.Mvc.PagedList": "2.0.6",
-    "Sakura.AspNetCore.PagedList": "2.0.0"
+    "Sakura.AspNetCore.PagedList": "2.0.0",
+    "Chart.js": "2.0.2",
+    "Newtonsoft.Json": "9.0.1"
   },
 
   "tools": {

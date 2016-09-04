@@ -1,7 +1,15 @@
 ﻿@model HarmonicPatternsBase.Models.StatisticsViewModels.StatisticsIndexViewModel
 
+
 @{
     ViewData["Title"] = "Baza układów harmonicznych";
+
+    List<List<int>> chartData10c = new List<List<int>>();
+    List<List<int>> chartData20c = new List<List<int>>();
+
+    List<int> chartDataReactionAfter5 = new List<int>();
+    List<int> chartDataReactionAfter10 = new List<int>();
+    List<int> chartDataReactionAfter20 = new List<int>();
 }
 
 
@@ -306,7 +314,7 @@
 
     <div class="text container">
 
-        <div class="text-blue" style="font-size:15px">
+        <div class="text-blue" style="font-size:15px; margin-left:40px;">
             <span style="color:#920063"><strong> @Model.Statistics.Count </strong></span>
             ukladow
             @if (Model.SelectedInstrumentId != null)
@@ -342,10 +350,10 @@
             w bazie danych
 
             @if (Model.SelectedInstrumentId != null ||
-                        Model.SelectedPatternId != null ||
-                        Model.SelectedIntervalId != null ||
-                        Model.SelectedDirectId != null ||
-                        Model.SelectedUser != null)
+            Model.SelectedPatternId != null ||
+            Model.SelectedIntervalId != null ||
+            Model.SelectedDirectId != null ||
+            Model.SelectedUser != null)
             {
                 <a asp-controller="HarmonicPatterns"
                    asp-action="Index"
@@ -358,9 +366,11 @@
 
         </div>
 
-        <div class="row" style="margin-top:30px;">
+
+        <div class="row" style="margin-top:55px;">
 
             <div class="col-md-4">
+                @*
                 <div style="margin-bottom:15px;">
                     POZIOM REAKCJI OSIAGNIETE PO 5 SWIECACH
                 </div>
@@ -378,8 +388,21 @@
                         </div>
                     </div>
                 }
+                *@
+
+                @foreach (var item in Model.Statistics.ReactionAfter5Candles)
+                {
+                    chartDataReactionAfter5.Add((int)item.PercentOfAllData);
+                }
+                <div style="margin-bottom:15px; text-align:center">
+                    POZIOM REAKCJI OSIAGNIETE PO 5 SWIECACH
+                </div>
+                <canvas id="reactionAfter5candles"></canvas>
+                <p style="text-align:center; font-size:14px; font-style:italic; color:#807e7e">% ukladów osiągający dany poziom reakcji 5 świec po punkcie D</p> 
+
             </div>
             <div class="col-md-4">
+                @*
                 <div style="margin-bottom:15px;">
                     POZIOM REAKCJI OSIAGNIETE PO 10 SWIECACH
                 </div>
@@ -397,8 +420,21 @@
                         </div>
                     </div>
                 }
+                *@
+
+                @foreach (var item in Model.Statistics.ReactionAfter10Candles)
+                {
+                    chartDataReactionAfter10.Add((int)item.PercentOfAllData);
+                }
+                <div style="margin-bottom:15px; text-align:center">
+                    POZIOM REAKCJI OSIAGNIETE PO 10 SWIECACH
+                </div>
+                <canvas id="reactionAfter10candles"></canvas>
+                <p style="text-align:center; font-size:14px; font-style:italic; color:#807e7e">% ukladów osiągający dany poziom reakcji 10 świec po punkcie D</p>   
+
             </div>
             <div class="col-md-4">
+                @*
                 <div style="margin-bottom:15px;">
                     POZIOM REAKCJI OSIAGNIETE PO 20 SWIECACH
                 </div>
@@ -416,6 +452,18 @@
                         </div>
                     </div>
                 }
+                *@
+
+                @foreach (var item in Model.Statistics.ReactionAfter20Candles)
+                {
+                    chartDataReactionAfter20.Add((int)item.PercentOfAllData);
+                }
+                <div style="margin-bottom:15px; text-align:center">
+                    POZIOM REAKCJI OSIAGNIETE PO 20 SWIECACH
+                </div>
+                <canvas id="reactionAfter20candles"></canvas>
+                <p style="text-align:center; font-size:14px; font-style:italic; color:#807e7e">% ukladów osiągający dany poziom reakcji 20 świec po punkcie D</p> 
+
             </div>
         </div>
 
@@ -442,7 +490,7 @@
 
 <div class="container" style="margin-top:10px">
 
-
+    @*
     <div class="row">
         <div class="row admin-panel">
             <h3 class="admin-panel-text">W budowie ;)</h3>
@@ -454,60 +502,514 @@
             <h5 class="admin-panel-text">itd...</h5>
         </div>
     </div>
+        *@
 
-    <row>
+    
+
+    @*
+    <row style="margin-top:50px; margin-bottom:100px;">
         <h3>ANALIZA REAKCJI</h3>
-        <h4 style="margin-bottom:30px;">ile ukladow osiagajacych dany poziom reakcji po 5 swiecach osiaga dany poziom reakcji po 10 swiecach</h4>
-
         @{
-            foreach (var reaction5to10 in Model.Statistics.ReactionFrom5candlesTo10candles)
+            foreach (var reaction in Model.ReactionLevels)
             {
-                <div class="row" style="margin-bottom:5px;">
-                    <div class="col-md-1">
-                        <span style="color:#920063;"><strong>@reaction5to10.Percent.ToString("#")%</strong> </span>
-                    </div>
-                    <div class="col-md-3">
-                        ukladow osiagajacych poziom 
-                    </div>
-                    <div class="col-md-1" style="text-align:center">
-                        <a asp-controller="Info" asp-action="Reactions" style="color:#920063">@Model.ReactionLevels.Find(h => h.Id == reaction5to10.FirstReactionId).Name</a>
-                    </div>
-                    <div class="col-md-2">
-                        osiaga poziom
-                    </div>
-                    <div class="col-md-1" style="text-align:center">
-                        <a asp-controller="Info" asp-action="Reactions" style="color:#920063">@Model.ReactionLevels.Find(h => h.Id == reaction5to10.SecondReactionId).Name</a>
-                    </div>
+                var statisticReactionList = Model.Statistics.ReactionFrom5candlesTo10candles.Where(h => h.FirstReactionId == reaction.Id);
+                <h4 style="margin-top:30px;">uklady, ktore po 5 świecach osiągnely poziom <span><a asp-controller="Info" asp-action="Reactions" style="color:#920063">@reaction.Name</a></span> </h4>
 
-                </div>
+                foreach (var reactionStat in statisticReactionList)
+                {
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-md-offset-1">
+                            <span style="color:#920063;"><strong>@reactionStat.Percent.ToString("#")%</strong> </span>
+                            osiaga poziom
+                            <a asp-controller="Info" asp-action="Reactions" style="color:#920063">@Model.ReactionLevels.Find(h => h.Id == reactionStat.SecondReactionId).Name</a>
+                             po 10 swiecach
+                        </div>
+
+                    </div>
+                }
             }
-        }
 
-        <h4 style="margin-bottom:30px; margin-top:40px;">ile ukladow osiagajacych dany poziom reakcji po 5 swiecach osiaga dany poziom reakcji po 20 swiecach</h4>
-
-        @{
-            foreach (var reaction5to20 in Model.Statistics.ReactionFrom5candlesTo20candles)
+            foreach (var reaction in Model.ReactionLevels)
             {
-                <div class="row" style="margin-bottom:5px;">
-                    <div class="col-md-1">
-                        <span style="color:#920063;"><strong>@reaction5to20.Percent.ToString("#")%</strong> </span>
-                    </div>
-                    <div class="col-md-3">
-                        ukladow osiagajacych poziom
-                    </div>
-                    <div class="col-md-1" style="text-align:center">
-                        <a asp-controller="Info" asp-action="Reactions" style="color:#920063">@Model.ReactionLevels.Find(h => h.Id == reaction5to20.FirstReactionId).Name</a>
-                    </div>
-                    <div class="col-md-2">
-                        osiaga poziom
-                    </div>
-                    <div class="col-md-1" style="text-align:center">
-                        <a asp-controller="Info" asp-action="Reactions" style="color:#920063">@Model.ReactionLevels.Find(h => h.Id == reaction5to20.SecondReactionId).Name</a>
-                    </div>
+                var statisticReactionList = Model.Statistics.ReactionFrom5candlesTo20candles.Where(h => h.FirstReactionId == reaction.Id);
+                <h4 style="margin-top:30px;">uklady, ktore po 5 świecach osiągnely poziom <span><a asp-controller="Info" asp-action="Reactions" style="color:#920063">@reaction.Name</a></span> </h4>
+                foreach (var reactionStat in statisticReactionList)
+                {
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-md-offset-1">
+                            <span style="color:#920063;"><strong>@reactionStat.Percent.ToString("#")%</strong> </span>
+                            osiaga poziom
+                            <a asp-controller="Info" asp-action="Reactions" style="color:#920063">@Model.ReactionLevels.Find(h => h.Id == reactionStat.SecondReactionId).Name</a>
+                             po 20 swiecach
+                        </div>
 
-                </div>
+                    </div>
+                }
             }
         }
     </row>
+    *@
+
+    <row style="margin-top:50px; margin-bottom:300px;">
+        <h1 style="text-align:center">ANALIZA REAKCJI</h1>
+
+        <div class="row">
+            <div class="row info-panel">
+                <h5 class="info-panel-text"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Jak czytać analizę reakcji</h5>
+                <p class="info-panel-text">
+                    Analiza reakcji składa sie z dwóch części. Pierwsza część dotyczy poziomów, w których znalazły się wykresy cenowe 10 świec po 
+                    zrealizowaniu się układu harmonicznego, tzn. 10 świec po punkcie D, naromiast część druga dotyczy poziomów, 
+                    do których doceira wykres po 20 świecach od punktu D.
+                </p>
+                <p class="info-panel-text">
+                    Analiza reakcji odpowiada na pytania typu: do jakich poziomów najczęściej dochodzi cena po 10 świecach
+                    w sytuacji gdy po 5 świecach od punktu D cena znajdowała się w okolicach poziomu B? 
+                </p>
+
+            </div>
+        </div>
+
+        <h2 style="text-align:center">poziomy osiągane przez uklady po <strong>10</strong> swiecach w zaleznosci od poziomu osiagnietego po 5 swiecach</h2>
+
+        <div class="col-md-6">
+            <h5 style="margin-top:60px; text-align:center">poziom osiagany przez uklady po 10 swiecach w sytuacji gdy po 5 swiecach osiagnieto poziom <span><a asp-controller="Info" asp-action="Reactions" style="color:#920063">-D</a></span></h5>
+            <canvas id="reaction_Bafter10candles"></canvas>  
+            <p style="text-align:center; font-size:14px; font-style:italic; color:#807e7e">dane w %</p>         
+        </div>
+        <div class="col-md-6">
+            <h5 style="margin-top:60px; text-align:center">poziom osiagany przez uklady po 10 swiecach w sytuacji gdy po 5 swiecach osiagnieto poziom <span><a asp-controller="Info" asp-action="Reactions" style="color:#920063">DB</a></span></h5>
+            <canvas id="reactionAafter10candles"></canvas>
+            <p style="text-align:center; font-size:14px; font-style:italic; color:#807e7e">dane w %</p>
+        </div>
+        <div class="col-md-6">
+            <h5 style="margin-top:80px; text-align:center">poziom osiagany przez uklady po 10 swiecach w sytuacji gdy po 5 swiecach osiagnieto poziom <span><a asp-controller="Info" asp-action="Reactions" style="color:#920063">BC</a></span></h5>
+            <canvas id="reactionBafter10candles"></canvas>
+            <p style="text-align:center; font-size:14px; font-style:italic; color:#807e7e">dane w %</p>
+        </div>
+        <div class="col-md-6">
+            <h5 style="margin-top:80px; text-align:center">poziom osiagany przez uklady po 10 swiecach w sytuacji gdy po 5 swiecach osiagnieto poziom <span><a asp-controller="Info" asp-action="Reactions" style="color:#920063">CA</a></span></h5>
+            <canvas id="reactionCafter10candles"></canvas>
+            <p style="text-align:center; font-size:14px; font-style:italic; color:#807e7e">dane w %</p>
+        </div>
+
+
+        <div class="col-md-6 col-md-offset-3">
+            <h5 style="margin-top:80px; text-align:center">poziom osiagany przez uklady po 10 swiecach w sytuacji gdy po 5 swiecach osiagnieto poziom <span><a asp-controller="Info" asp-action="Reactions" style="color:#920063">A+</a></span></h5>
+            <canvas id="reactionA_after10candles"></canvas>
+            <p style="text-align:center; font-size:14px; font-style:italic; color:#807e7e">dane w %</p>
+        </div>
+
+
+
+        @*20 candles*@
+        <div class="col-md-12" style="margin-top:100px;">
+            <h2 style="text-align:center">poziomy osiągane przez uklady po <strong>20</strong> swiecach w zaleznosci od poziomu osiagnietego po 5 swiecach</h2>
+        </div>
+        
+
+        <div class="col-md-6">
+            <h5 style="margin-top:60px; text-align:center">poziom osiagany przez uklady po 20 swiecach w sytuacji gdy po 5 swiecach osiagnieto poziom <span><a asp-controller="Info" asp-action="Reactions" style="color:#920063">-D</a></span></h5>
+            <canvas id="reaction_Bafter20candles"></canvas>
+            <p style="text-align:center; font-size:14px; font-style:italic; color:#807e7e">dane w %</p>
+        </div>
+        <div class="col-md-6">
+            <h5 style="margin-top:60px; text-align:center">poziom osiagany przez uklady po 20 swiecach w sytuacji gdy po 5 swiecach osiagnieto poziom <span><a asp-controller="Info" asp-action="Reactions" style="color:#920063">DB</a></span></h5>
+            <canvas id="reactionAafter20candles"></canvas>
+            <p style="text-align:center; font-size:14px; font-style:italic; color:#807e7e">dane w %</p>
+        </div>
+        <div class="col-md-6">
+            <h5 style="margin-top:80px; text-align:center">poziom osiagany przez uklady po 20 swiecach w sytuacji gdy po 5 swiecach osiagnieto poziom <span><a asp-controller="Info" asp-action="Reactions" style="color:#920063">BC</a></span></h5>
+            <canvas id="reactionBafter20candles"></canvas>
+            <p style="text-align:center; font-size:14px; font-style:italic; color:#807e7e">dane w %</p>
+        </div>
+        <div class="col-md-6">
+            <h5 style="margin-top:80px; text-align:center">poziom osiagany przez uklady po 20 swiecach w sytuacji gdy po 5 swiecach osiagnieto poziom <span><a asp-controller="Info" asp-action="Reactions" style="color:#920063">CA</a></span></h5>
+            <canvas id="reactionCafter20candles"></canvas>
+            <p style="text-align:center; font-size:14px; font-style:italic; color:#807e7e">dane w %</p>
+        </div>
+        <div class="col-md-6 col-md-offset-3">
+            <h5 style="margin-top:80px; text-align:center">poziom osiagany przez uklady po 20 swiecach w sytuacji gdy po 5 swiecach osiagnieto poziom <span><a asp-controller="Info" asp-action="Reactions" style="color:#920063">A+</a></span></h5>
+            <canvas id="reactionA_after20candles"></canvas>
+            <p style="text-align:center; font-size:14px; font-style:italic; color:#807e7e">dane w %</p>
+        </div>
+
+            @foreach (var reaction in Model.ReactionLevels)
+            {
+                var statisticReactionList10c = Model.Statistics.ReactionFrom5candlesTo10candles.Where(h => h.FirstReactionId == reaction.Id);
+                var list10c = new List<int>();
+
+                foreach (var reactionStat in statisticReactionList10c)
+                {
+                    list10c.Add((int)reactionStat.Percent);
+                }
+                chartData10c.Add(list10c);
+
+                var statisticReactionList20c = Model.Statistics.ReactionFrom5candlesTo20candles.Where(h => h.FirstReactionId == reaction.Id);
+                var list20c = new List<int>();
+
+                foreach (var reactionStat in statisticReactionList20c)
+                {
+                    list20c.Add((int)reactionStat.Percent);
+                }
+                chartData20c.Add(list20c);
+            }
+
+    </row>
+
+
+    <div style="background-color:#ff6a00"></div>
+    
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/Chart.js/dist/Chart.js"></script>
+    <script>
+
+        var data = @Newtonsoft.Json.JsonConvert.SerializeObject(chartDataReactionAfter5);
+        var ctx = document.getElementById("reactionAfter5candles");
+        var reactionAfter5candles = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["-D", "DB", "BC", "CA", "A+"],
+                datasets: [{
+                    label: '% układów',
+                    data: data,
+                    backgroundColor: [
+                        "#167aa3",
+                        "#920063",
+                        "#3cbc98",
+                        "#ef9845",
+                        "#ef4569"
+                    ],
+                    borderColor: [
+                        "#d6d9dc",
+                        "#d6d9dc",
+                        "#d6d9dc",
+                        "#d6d9dc",
+                        "#d6d9dc"
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+
+        data = @Newtonsoft.Json.JsonConvert.SerializeObject(chartDataReactionAfter10);
+        ctx = document.getElementById("reactionAfter10candles");
+        var reactionAfter10candles = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["-D", "DB", "BC", "CA", "A+"],
+                datasets: [{
+                    label: '% układów',
+                    data: data,
+                    backgroundColor: [
+                        "#167aa3",
+                        "#920063",
+                        "#3cbc98",
+                        "#ef9845",
+                        "#ef4569"
+                    ],
+                    borderColor: [
+                        "#d6d9dc",
+                        "#d6d9dc",
+                        "#d6d9dc",
+                        "#d6d9dc",
+                        "#d6d9dc"
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+
+        data = @Newtonsoft.Json.JsonConvert.SerializeObject(chartDataReactionAfter20);
+        ctx = document.getElementById("reactionAfter20candles");
+        var reactionAfter20candles = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["-D", "DB", "BC", "CA", "A+"],
+                datasets: [{
+                    label: '% układów',
+                    data: data,
+                    backgroundColor: [
+                        "#167aa3",
+                        "#920063",
+                        "#3cbc98",
+                        "#ef9845",
+                        "#ef4569"
+                    ],
+                    borderColor: [
+                        "#d6d9dc",
+                        "#d6d9dc",
+                        "#d6d9dc",
+                        "#d6d9dc",
+                        "#d6d9dc"
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+
+        @*10 candles*@
+        data = @Newtonsoft.Json.JsonConvert.SerializeObject(chartData10c[0]);
+        ctx = document.getElementById("reaction_Bafter10candles");
+        var reaction_Bafter10candles = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["-D", "DB", "BC", "CA", "A+"],
+            datasets: [{
+                data: data,
+                backgroundColor: [
+                    "#FF6384",
+                    "#36A2EB",
+                    "#FFCE56",
+                    "#4bc0c0",
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderColor: [
+                    'rgba(255,255,255,255)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        });
+
+        data = @Newtonsoft.Json.JsonConvert.SerializeObject(chartData10c[1]);
+        ctx = document.getElementById("reactionAafter10candles");
+        var reactionAafter10candles = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["-D", "DB", "BC", "CA", "A+"],
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56",
+                        "#4bc0c0",
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255,255,255,255)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+        });
+
+        data = @Newtonsoft.Json.JsonConvert.SerializeObject(chartData10c[2]);
+        ctx = document.getElementById("reactionBafter10candles");
+        var reactionBafter10candles = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["-D", "DB", "BC", "CA", "A+"],
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56",
+                        "#4bc0c0",
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255,255,255,255)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+        });
+
+        data = @Newtonsoft.Json.JsonConvert.SerializeObject(chartData10c[3]);
+        ctx = document.getElementById("reactionCafter10candles");
+        var reactionCafter10candles = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["-D", "DB", "BC", "CA", "A+"],
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56",
+                        "#4bc0c0",
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255,255,255,255)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+        });
+
+        data = @Newtonsoft.Json.JsonConvert.SerializeObject(chartData10c[4]);
+        ctx = document.getElementById("reactionA_after10candles");
+        var reactionA_after10candles = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["-D", "DB", "BC", "CA", "A+"],
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56",
+                        "#4bc0c0",
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255,255,255,255)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+        });
+
+        /*20 candles*/
+
+        data = @Newtonsoft.Json.JsonConvert.SerializeObject(chartData20c[0]);
+        ctx = document.getElementById("reaction_Bafter20candles");
+        var reaction_Bafter20candles = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["-D", "DB", "BC", "CA", "A+"],
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56",
+                        "#4bc0c0",
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255,255,255,255)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+        });
+
+        data = @Newtonsoft.Json.JsonConvert.SerializeObject(chartData20c[1]);
+        ctx = document.getElementById("reactionAafter20candles");
+        var reactionAafter20candles = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["-D", "DB", "BC", "CA", "A+"],
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56",
+                        "#4bc0c0",
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255,255,255,255)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+        });
+
+        data = @Newtonsoft.Json.JsonConvert.SerializeObject(chartData20c[2]);
+        ctx = document.getElementById("reactionBafter20candles");
+        var reactionBafter20candles = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["-D", "DB", "BC", "CA", "A+"],
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56",
+                        "#4bc0c0",
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255,255,255,255)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+        });
+
+        data = @Newtonsoft.Json.JsonConvert.SerializeObject(chartData20c[3]);
+        ctx = document.getElementById("reactionCafter20candles");
+        var reactionCafter20candles = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["-D", "DB", "BC", "CA", "A+"],
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56",
+                        "#4bc0c0",
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255,255,255,255)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+        });
+
+        data = @Newtonsoft.Json.JsonConvert.SerializeObject(chartData20c[4]);
+        ctx = document.getElementById("reactionA_after20candles");
+        var reactionA_after20candles = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["-D", "DB", "BC", "CA", "A+"],
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#FFCE56",
+                        "#4bc0c0",
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255,255,255,255)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+        });
+
+    </script>
+}
 
 </div>

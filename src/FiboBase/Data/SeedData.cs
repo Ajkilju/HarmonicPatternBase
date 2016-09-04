@@ -499,19 +499,19 @@ namespace HarmonicPatternsBase.Data
                 (
                      new ReactionLvl
                      {
-                         Name = "-B"
+                         Name = "-D"
                      },
                      new ReactionLvl
                      {
-                         Name = "A"
+                         Name = "DB"
                      },
                      new ReactionLvl
                      {
-                         Name = "B"
+                         Name = "BC"
                      },
                      new ReactionLvl
                      {
-                         Name = "C"
+                         Name = "CA"
                      },
                      new ReactionLvl
                      {
