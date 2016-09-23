@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HarmonicPatternsBase.Models
 {
-    public class Interval
+    public class Interval 
     {
         public int Id { get; set; }
         public string Name { get; set; }

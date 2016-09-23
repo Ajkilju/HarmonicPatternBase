@@ -41,6 +41,8 @@ namespace HarmonicPatternsBase.Controllers
             _usersRepo = usersRepo;
         }
 
+        
+
         // GET: HarmonicPatterns
         public async Task<IActionResult> Index(
             int pageSize = 20,
