@@ -32,6 +32,10 @@ namespace HarmonicPatternsBase.Repositories.Abstract
             DateTime? addDateTo = null,
             string userId = null);
 
+        void AddHarmonicPattern(HarmonicPattern hp);
+        Task<int> SaveChangesAsync();
+        int SaveChanges();
+
         Task<Interval> GetIntervalAsync(int? Id);
         Task<List<Interval>> GetIntervalsAsync();
         Task<Pattern> GetPatternTypeAsync(int? Id);

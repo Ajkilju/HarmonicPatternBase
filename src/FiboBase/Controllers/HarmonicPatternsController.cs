@@ -41,8 +41,7 @@ namespace HarmonicPatternsBase.Controllers
             _usersRepo = usersRepo;
         }
 
-        
-
+       
         // GET: HarmonicPatterns
         public async Task<IActionResult> Index(
             int pageSize = 20,
@@ -166,8 +165,6 @@ namespace HarmonicPatternsBase.Controllers
             return View(model);
         }
 
-
-
         // GET: HarmonicPatterns/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -183,73 +180,6 @@ namespace HarmonicPatternsBase.Controllers
 
             return View(model);
         }
-
-        /*
-        // GET: HarmonicPatterns/Create
-        public IActionResult Create()
-        {          
-            var model = new HarmonicPatternCreateViewModel
-            {
-                IntervalList = new SelectList(_context.Intervals, "Id", "Name"),
-                PatternTypeList = new SelectList(_context.Patterns, "Id", "Name"),
-                InstrumentList = new SelectList(_context.Instruments, "Id", "Name"),
-                PatternDirectList = new SelectList(_context.PatternDirects, "Id", "Name"),
-                ReactionLvlsList = new SelectList(_context.ReactionLvls, "Id", "Name"),
-                WaveRatioList = new SelectList(new List<double> { 0.000, 0.382, 0.500, 0.618, 0.786, 0.886, 1.000, 1.13, 1.227, 1.618, 2.000 }),
-                NumberOfWavesList = new SelectList(new List<int> { 3 , 4 }),
-            };
-
-            return View(model);
-        }
-
-        // POST: HarmonicPatterns/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(HarmonicPatternCreateViewModel model, IFormFile image)
-        {
-            if (ModelState.IsValid)
-            {
-                var harmonicPattern = new HarmonicPattern
-                {
-                    Date = model.Date.Date + model.Time.TimeOfDay,
-                    AddDate = DateTime.Now,
-                    Discription = model.Discription,
-                    PatternTypeId = model.PatternTypeId,
-                    IntervalId = model.IntervalId,
-                    InstrumentId = model.InstrumentId,
-                    PatternDirectId = model.PatternDirectId,
-                    ReactionAfter5CandlesId = model.ReactionAfter5CandlesId,
-                    ReactionAfter10CandlesId = model.ReactionAfter10CandlesId,
-                    ReactionAfter20CandlesId = model.ReactionAfter20CandlesId,
-                    NumberOfWaves = model.NumberOfWaves,
-                    ABtoXAratio = model.ABtoXAratio,
-                    ADtoXAratio = model.ADtoXAratio,
-                    BCtoABratio = model.BCtoABratio,
-                    CDtoBCratio = model.CDtoBCratio,
-                    CDtoABratio = model.CDtoABratio,
-                };
-
-                if(image == null)
-                {
-                    harmonicPattern.Image = new byte[1];
-                }
-                else
-                {
-                    using (var reader = new BinaryReader(image.OpenReadStream()))
-                    {
-                        var fileContent = reader.ReadBytes((int)image.Length);
-                        harmonicPattern.Image = fileContent;
-                    }
-                }
-
-                _context.Add(harmonicPattern);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
-            return View(model);
-        }
-        */
 
         // GET: HarmonicPatterns/Create
         public IActionResult Create()
@@ -306,8 +236,8 @@ namespace HarmonicPatternsBase.Controllers
                     model.HarmonicPattern.UserId = user.Id;
                 }
 
-                _context.Add(model.HarmonicPattern);
-                await _context.SaveChangesAsync();
+                _harmonicPatternsRepo.AddHarmonicPattern(model.HarmonicPattern);
+                await _harmonicPatternsRepo.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 

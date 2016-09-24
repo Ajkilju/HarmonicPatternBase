@@ -208,6 +208,21 @@ namespace HarmonicPatternsBase.Repositories
             return data;
         }
 
+        public void AddHarmonicPattern(HarmonicPattern hp)
+        {
+            _context.HarmonicPatterns.Add(hp);
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
+
+        public int SaveChanges()
+        {
+            return _context.SaveChanges();
+        }
+
         public async Task<Interval> GetIntervalAsync(int? Id)
         {
             if(Id == null)
