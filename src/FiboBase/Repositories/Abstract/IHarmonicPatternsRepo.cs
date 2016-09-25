@@ -33,6 +33,8 @@ namespace HarmonicPatternsBase.Repositories.Abstract
             string userId = null);
 
         void AddHarmonicPattern(HarmonicPattern hp);
+        void UpdateHarmonicPattern(HarmonicPattern hp);
+        void RemoveHarmonicPattern(HarmonicPattern hp);
         Task<int> SaveChangesAsync();
         int SaveChanges();
 

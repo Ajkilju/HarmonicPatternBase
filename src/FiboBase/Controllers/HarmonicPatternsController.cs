@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using HarmonicPatternsBase.Data;
 using HarmonicPatternsBase.Models;
 using HarmonicPatternsBase.Repositories.Abstract;
 using HarmonicPatternsBase.Models.HarmonicPatternViewModels;
@@ -21,20 +18,17 @@ namespace HarmonicPatternsBase.Controllers
 {
     public class HarmonicPatternsController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHarmonicPatternsRepo _harmonicPatternsRepo;
         private readonly IStatisticsRepo _statisticsRepo;
         private readonly IUsersRepo _usersRepo;
 
         public HarmonicPatternsController(
-            ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             IHarmonicPatternsRepo harmonicPatternsRepo,
             IStatisticsRepo statisticsRepo,
             IUsersRepo usersRepo)
         {
-            _context = context;
             _userManager = userManager;
             _harmonicPatternsRepo = harmonicPatternsRepo;
             _statisticsRepo = statisticsRepo;
@@ -182,18 +176,18 @@ namespace HarmonicPatternsBase.Controllers
         }
 
         // GET: HarmonicPatterns/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var waveRatioList = new List<string> { "0", "0.382", "0.5", "0.618", "0.786", "0.886", "1", "1.13", "1.227", "1.618", "2" };
 
             var model = new HarmonicPatternCreateViewModel
             {
                 HarmonicPattern = new HarmonicPattern(),
-                IntervalList = new SelectList(_context.Intervals, "Id", "Name"),
-                PatternTypeList = new SelectList(_context.Patterns, "Id", "Name"),
-                InstrumentList = new SelectList(_context.Instruments, "Id", "Name"),
-                PatternDirectList = new SelectList(_context.PatternDirects, "Id", "Name"),
-                ReactionLvlsList = new SelectList(_context.ReactionLvls, "Id", "Name"),
+                IntervalList = new SelectList(await _harmonicPatternsRepo.GetIntervalsAsync(), "Id", "Name"),
+                PatternTypeList = new SelectList(await _harmonicPatternsRepo.GetPatternTypesAsync(), "Id", "Name"),
+                InstrumentList = new SelectList(await _harmonicPatternsRepo.GetInstrumentsAsync(), "Id", "Name"),
+                PatternDirectList = new SelectList(await _harmonicPatternsRepo.GetPatternDirectsAsync() , "Id", "Name"),
+                ReactionLvlsList = new SelectList(await _harmonicPatternsRepo.GetReactionLvlsAsync(), "Id", "Name"),
                 WaveRatioList = new SelectList(waveRatioList),
                 NumberOfWavesList = new SelectList(new List<int> { 3, 4 }),
             };
@@ -247,19 +241,24 @@ namespace HarmonicPatternsBase.Controllers
         // GET: HarmonicPatterns/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // TODO: add new view file, add view model and delete ViewData
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var harmonicPattern = await _context.HarmonicPatterns.SingleOrDefaultAsync(m => m.Id == id);
+            var harmonicPattern = await _harmonicPatternsRepo.GetHarmonicPatternAsync(GetHarmonicPatternsMode.Tracking, id);
             if (harmonicPattern == null)
             {
                 return NotFound();
             }
-            ViewData["IntervalId"] = new SelectList(_context.Intervals, "Id", "Id", harmonicPattern.IntervalId);
-            ViewData["PatternTypeId"] = new SelectList(_context.Patterns, "Id", "Id", harmonicPattern.PatternTypeId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", harmonicPattern.UserId);
+
+            // TODO: add view model and delete ViewData
+
+            ViewData["IntervalId"] = new SelectList(await _harmonicPatternsRepo.GetIntervalsAsync(), "Id", "Id", harmonicPattern.IntervalId);
+            ViewData["PatternTypeId"] = new SelectList(await _harmonicPatternsRepo.GetPatternTypesAsync(), "Id", "Id", harmonicPattern.PatternTypeId);
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", harmonicPattern.UserId);
             return View(harmonicPattern);
         }
 
@@ -270,6 +269,8 @@ namespace HarmonicPatternsBase.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,AddDate,AvaragePrecisionRating,AvarageReactionRating,Date,Discription,Image,Instrument,IntervalId,NumberOfPrecisionRatings,NumgerOfReactionRatings,PatternTypeId,UserId")] HarmonicPattern harmonicPattern)
         {
+            // TODO: add new view file, add view model and delete ViewData
+
             if (id != harmonicPattern.Id)
             {
                 return NotFound();
@@ -279,25 +280,21 @@ namespace HarmonicPatternsBase.Controllers
             {
                 try
                 {
-                    _context.Update(harmonicPattern);
-                    await _context.SaveChangesAsync();
+                    _harmonicPatternsRepo.UpdateHarmonicPattern(harmonicPattern);
+                    await _harmonicPatternsRepo.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch
                 {
-                    if (!HarmonicPatternExists(harmonicPattern.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["IntervalId"] = new SelectList(_context.Intervals, "Id", "Id", harmonicPattern.IntervalId);
-            ViewData["PatternTypeId"] = new SelectList(_context.Patterns, "Id", "Id", harmonicPattern.PatternTypeId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", harmonicPattern.UserId);
+
+            // TODO: add view model and delete ViewData
+
+            ViewData["IntervalId"] = new SelectList(await _harmonicPatternsRepo.GetIntervalsAsync(), "Id", "Id", harmonicPattern.IntervalId);
+            ViewData["PatternTypeId"] = new SelectList(await _harmonicPatternsRepo.GetPatternTypesAsync(), "Id", "Id", harmonicPattern.PatternTypeId);
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", harmonicPattern.UserId);
             return View(harmonicPattern);
         }
 
@@ -309,7 +306,7 @@ namespace HarmonicPatternsBase.Controllers
                 return NotFound();
             }
 
-            var harmonicPattern = await _context.HarmonicPatterns.SingleOrDefaultAsync(m => m.Id == id);
+            var harmonicPattern = await _harmonicPatternsRepo.GetHarmonicPatternAsync(GetHarmonicPatternsMode.Tracking, id);
             if (harmonicPattern == null)
             {
                 return NotFound();
@@ -323,15 +320,10 @@ namespace HarmonicPatternsBase.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var harmonicPattern = await _context.HarmonicPatterns.SingleOrDefaultAsync(m => m.Id == id);
-            _context.HarmonicPatterns.Remove(harmonicPattern);
-            await _context.SaveChangesAsync();
+            var harmonicPattern = await _harmonicPatternsRepo.GetHarmonicPatternAsync(GetHarmonicPatternsMode.Tracking, id);
+            _harmonicPatternsRepo.RemoveHarmonicPattern(harmonicPattern);
+            await _harmonicPatternsRepo.SaveChangesAsync();
             return RedirectToAction("Index");
-        }
-
-        private bool HarmonicPatternExists(int id)
-        {
-            return _context.HarmonicPatterns.Any(e => e.Id == id);
         }
     }
 }

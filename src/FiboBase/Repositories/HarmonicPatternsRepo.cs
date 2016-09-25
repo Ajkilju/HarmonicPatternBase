@@ -213,6 +213,16 @@ namespace HarmonicPatternsBase.Repositories
             _context.HarmonicPatterns.Add(hp);
         }
 
+        public void UpdateHarmonicPattern(HarmonicPattern hp)
+        {
+            _context.HarmonicPatterns.Update(hp);
+        }
+
+        public void RemoveHarmonicPattern(HarmonicPattern hp)
+        {
+            _context.HarmonicPatterns.Remove(hp);
+        }
+
         public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();

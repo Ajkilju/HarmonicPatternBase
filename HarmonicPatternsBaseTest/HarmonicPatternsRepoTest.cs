@@ -3,6 +3,7 @@ using HarmonicPatternsBase.Models;
 using HarmonicPatternsBase.Repositories;
 using HarmonicPatternsBase.Repositories.Abstract;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace HarmonicPatternsBaseTest
 {
     public class HarmonicPatternsRepoTest
     {
-        private HarmonicPatternsRepo _harmonicPatternsRepo;
-        private ApplicationDbContext _context;
+        private readonly HarmonicPatternsRepo _harmonicPatternsRepo;
+        private readonly ApplicationDbContext _context;
 
         public HarmonicPatternsRepoTest()
         {
@@ -23,30 +24,29 @@ namespace HarmonicPatternsBaseTest
             _harmonicPatternsRepo = new HarmonicPatternsRepo(_context);
         }
 
+
         [Fact]
-        public async void AddHarmonicPatternToBaseTest()
+        public async void AddHarmonicPatternTest()
         {
-            HarmonicPattern hp = new HarmonicPattern
-            {
-                ABtoXAratio = 0,
-                ADtoXAratio = 0,
-                BCtoABratio = 0,
-                CDtoABratio = 0,
-                CDtoBCratio = 0,
-                AddDate = DateTime.Now,
-                Date = DateTime.Now,
-                Discription = "test hp",
-                Id = 1,
-                Image = new byte[1],
-                InstrumentId = 0,
-                IntervalId = 0,
-            };
+            var hpList = await _harmonicPatternsRepo.GetHarmonicPatternsAsync(GetHarmonicPatternsMode.AsNoTracking);
+            var count = hpList.Count;
+            HarmonicPattern hp = new HarmonicPattern {  Discription = "test hp" };
 
             _harmonicPatternsRepo.AddHarmonicPattern(hp);
             _harmonicPatternsRepo.SaveChanges();
-            var _hp = await _harmonicPatternsRepo.GetHarmonicPatternAsync(GetHarmonicPatternsMode.AsNoTracking, 1);
-            Assert.Same(_hp.Discription, "test hp");
+
+            var hpListAfterAdd = await _harmonicPatternsRepo.GetHarmonicPatternsAsync(GetHarmonicPatternsMode.AsNoTracking);
+            var countAfterAdd = hpListAfterAdd.Count;
+
+            Assert.Equal(count + 1, countAfterAdd);
         }
 
+        [Fact]
+        public async void GetHarmonicPatternsAsyncCountTest()
+        {
+            var hpList = await _harmonicPatternsRepo.GetHarmonicPatternsAsync(GetHarmonicPatternsMode.AsNoTracking, HowMany: 10);
+
+            Assert.Equal(hpList.Count, 10);
+        }
     }
 }

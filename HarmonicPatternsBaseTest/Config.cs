@@ -21,6 +21,13 @@ namespace HarmonicPatternsBaseTest
                 .AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase());
 
             ServiceProvider = services.BuildServiceProvider();
+
+            SeedData.IntervalsInit(ServiceProvider);
+            SeedData.PatternsInit(ServiceProvider);
+            SeedData.InstrumentsInit(ServiceProvider);
+            SeedData.PatternDirectInit(ServiceProvider);
+            SeedData.ReactionLvlsInit(ServiceProvider);
+            SeedData.HarmonicPatternsInit(ServiceProvider);
         }
     }
 }
